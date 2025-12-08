@@ -24,7 +24,6 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
         states[typeof(StartMainState_Menu)] = new StartMainState_Menu(this, firebaseDatabasePresenter, firebaseAuthenticationPresenter);
 
         states[typeof(MainState_Menu)] = new MainState_Menu(this, sceneRoot);
-        states[typeof(LeaderboardState_Menu)] = new LeaderboardState_Menu(this, sceneRoot);
         states[typeof(ProfileState_Menu)] = new ProfileState_Menu(this, sceneRoot);
         states[typeof(ShopState_Menu)] = new ShopState_Menu(this, sceneRoot);
     }

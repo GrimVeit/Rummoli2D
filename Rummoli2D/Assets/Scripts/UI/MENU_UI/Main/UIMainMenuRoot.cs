@@ -4,11 +4,8 @@ using UnityEngine;
 public class UIMainMenuRoot : UIRoot
 {
     [SerializeField] private MainPanel_Menu mainPanel;
-    [SerializeField] private LeaderboardPanel_Menu leaderboardPanel;
     [SerializeField] private ProfilePanel_Menu profilePanel;
     [SerializeField] private ShopPanel_Game shopPanel;
-    [SerializeField] private MovePanel backgroundPanelMain;
-    [SerializeField] private MovePanel backgroundPanelSecond;
 
     [Header("Registration")]
     [SerializeField] private RegistrationPanel_Menu registrationPanel;
@@ -24,7 +21,6 @@ public class UIMainMenuRoot : UIRoot
     public void Initialize()
     {
         mainPanel.Initialize();
-        leaderboardPanel.Initialize();
         profilePanel.Initialize();
         shopPanel.Initialize();
 
@@ -36,14 +32,15 @@ public class UIMainMenuRoot : UIRoot
     {
         registrationPanel.OnClickToRegistrate += HandleClickToRegistrate_Registration;
 
-        leaderboardPanel.OnClickToBack += HandleClickToBack_Leaderboard;
-        profilePanel.OnClickToBack += HandleClickToBack_Profile;
-        shopPanel.OnClickToBack += HandleClickToBack_Shop;
-
-        mainPanel.OnClickToLeaderboard += HandleClickToLeaderboard_Main;
+        mainPanel.OnClickToRules += HandleClickToRules_Main;
+        mainPanel.OnClickToProfile += HandleClickToProfile_Main;
+        mainPanel.OnClickToBalance += HandleClickToBalance_Main;
+        mainPanel.OnClickToSettings += HandleClickToSettings_Main;
         mainPanel.OnClickToShop += HandleClickToShop_Main;
         mainPanel.OnClickToPlay += HandleClickToPlay_Main;
-        mainPanel.OnClickToProfile += HandleClickToProfile_Main;
+
+        profilePanel.OnClickToBack += HandleClickToBack_Profile;
+        shopPanel.OnClickToBack += HandleClickToBack_Shop;
     }
 
 
@@ -51,32 +48,23 @@ public class UIMainMenuRoot : UIRoot
     {
         registrationPanel.OnClickToRegistrate -= HandleClickToRegistrate_Registration;
 
-        leaderboardPanel.OnClickToBack -= HandleClickToBack_Leaderboard;
         profilePanel.OnClickToBack -= HandleClickToBack_Profile;
         shopPanel.OnClickToBack -= HandleClickToBack_Shop;
 
-        mainPanel.OnClickToLeaderboard -= HandleClickToLeaderboard_Main;
+        mainPanel.OnClickToRules -= HandleClickToRules_Main;
+        mainPanel.OnClickToProfile -= HandleClickToProfile_Main;
+        mainPanel.OnClickToBalance -= HandleClickToBalance_Main;
+        mainPanel.OnClickToSettings -= HandleClickToSettings_Main;
         mainPanel.OnClickToShop -= HandleClickToShop_Main;
         mainPanel.OnClickToPlay -= HandleClickToPlay_Main;
-        mainPanel.OnClickToProfile -= HandleClickToProfile_Main;
 
         if (currentPanel != null)
             CloseOtherPanel(currentPanel);
-
-        CloseBackgroundMainPanel();
-        CloseBackgroundSecondPanel();
-        CloseLeaderboardPanel();
-        CloseShopPanel();
-        CloseProfilePanel();
-        CloseLoadRegistrationPanel();
-        CloseMainPanel();
-        CloseRegistrationPanel();
     }
 
     public void Dispose()
     {
         mainPanel.Dispose();
-        leaderboardPanel.Dispose();
         profilePanel.Dispose();
         shopPanel.Dispose();
 
@@ -98,53 +86,6 @@ public class UIMainMenuRoot : UIRoot
         if (!mainPanel.IsActive) return;
 
         CloseOtherPanel(mainPanel);
-    }
-
-
-    public void OpenBackgroundMainPanel()
-    {
-        if (backgroundPanelMain.IsActive) return;
-
-        OpenOtherPanel(backgroundPanelMain);
-    }
-
-    public void CloseBackgroundMainPanel()
-    {
-        if (!backgroundPanelMain.IsActive) return;
-
-        CloseOtherPanel(backgroundPanelMain);
-    }
-
-
-    public void OpenBackgroundSecondPanel()
-    {
-        if (backgroundPanelSecond.IsActive) return;
-
-        OpenOtherPanel(backgroundPanelSecond);
-    }
-
-    public void CloseBackgroundSecondPanel()
-    {
-        if (!backgroundPanelSecond.IsActive) return;
-
-        CloseOtherPanel(backgroundPanelSecond);
-    }
-
-
-
-
-    public void OpenLeaderboardPanel()
-    {
-        if (leaderboardPanel.IsActive) return;
-
-        OpenOtherPanel(leaderboardPanel);
-    }
-
-    public void CloseLeaderboardPanel()
-    {
-        if (!leaderboardPanel.IsActive) return;
-
-        CloseOtherPanel(leaderboardPanel);
     }
 
 
@@ -229,16 +170,39 @@ public class UIMainMenuRoot : UIRoot
 
     #region MainPanel
 
-    public event Action OnClickToLeaderboard_Main;
+    public event Action OnClickToRules_Main;
+    public event Action OnClickToProfile_Main;
+    public event Action OnClickToBalance_Main;
+    public event Action OnClickToSettings_Main;
     public event Action OnClickToShop_Main;
     public event Action OnClickToPlay_Main;
-    public event Action OnClickToProfile_Main;
 
-    private void HandleClickToLeaderboard_Main()
+    private void HandleClickToRules_Main()
     {
         _soundProvider.PlayOneShot("Click");
 
-        OnClickToLeaderboard_Main?.Invoke();
+        OnClickToRules_Main?.Invoke();
+    }
+
+    private void HandleClickToProfile_Main()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToProfile_Main?.Invoke();
+    }
+
+    private void HandleClickToBalance_Main()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBalance_Main?.Invoke();
+    }
+
+    private void HandleClickToSettings_Main()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToSettings_Main?.Invoke();
     }
 
     private void HandleClickToShop_Main()
@@ -253,26 +217,6 @@ public class UIMainMenuRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToPlay_Main?.Invoke();
-    }
-
-    private void HandleClickToProfile_Main()
-    {
-        _soundProvider.PlayOneShot("Click");
-
-        OnClickToProfile_Main?.Invoke();
-    }
-
-    #endregion
-
-    #region LeaderboardPanel
-
-    public event Action OnClickToBack_Leaderboard;
-
-    private void HandleClickToBack_Leaderboard()
-    {
-        _soundProvider.PlayOneShot("Click");
-
-        OnClickToBack_Leaderboard?.Invoke();
     }
 
     #endregion
@@ -290,7 +234,7 @@ public class UIMainMenuRoot : UIRoot
 
     #endregion
 
-    #region ProfilePanel
+    #region ShopPanel
 
     public event Action OnClickToBack_Shop;
 

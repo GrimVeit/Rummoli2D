@@ -48,8 +48,6 @@ public class RegistrationState_Menu : IState
 
     private void ChangeStateToStartMainMenu()
     {
-        _sceneRoot.CloseBackgroundSecondPanel();
-
         _globalStateMachineProvider.SetState(_globalStateMachineProvider.GetState<StartMainState_Menu>());
     }
 }

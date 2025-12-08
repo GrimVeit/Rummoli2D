@@ -31,7 +31,6 @@ public class NameAndAvatarInputState_Menu : IState
 
         _sceneRoot.OnClickToRegistrate_Registration += ChangeStateToRegistration;
 
-        _sceneRoot.OpenBackgroundSecondPanel();
         _sceneRoot.OpenRegistrationPanel();
     }
 

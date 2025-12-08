@@ -19,7 +19,6 @@ public class ShopState_Menu : IState
 
         _sceneRoot.OnClickToBack_Shop += ChangeStateToMain;
 
-        _sceneRoot.OpenBackgroundSecondPanel();
         _sceneRoot.OpenShopPanel();
     }
 
@@ -27,7 +26,6 @@ public class ShopState_Menu : IState
     {
         _sceneRoot.OnClickToBack_Shop -= ChangeStateToMain;
 
-        _sceneRoot.CloseBackgroundSecondPanel();
         _sceneRoot.CloseShopPanel();
     }
 

@@ -17,32 +17,44 @@ public class MainState_Menu : IState
     {
         Debug.Log("<color=red>ACTIVATE STATE - MAIN STATE / MENU</color>");
 
-        _sceneRoot.OnClickToLeaderboard_Main += ChangeStateToLeaderboard;
+        _sceneRoot.OnClickToRules_Main += ChangeStateToRules;
         _sceneRoot.OnClickToProfile_Main += ChangeStateToProfile;
+        _sceneRoot.OnClickToBalance_Main += ChangeStateToBalance;
+        _sceneRoot.OnClickToSettings_Main += ChangeStateToSettings;
         _sceneRoot.OnClickToShop_Main += ChangeStateToShop;
 
-        _sceneRoot.OpenBackgroundMainPanel();
         _sceneRoot.OpenMainPanel();
     }
 
     public void ExitState()
     {
-        _sceneRoot.OnClickToLeaderboard_Main -= ChangeStateToLeaderboard;
+        _sceneRoot.OnClickToRules_Main -= ChangeStateToRules;
         _sceneRoot.OnClickToProfile_Main -= ChangeStateToProfile;
-        _sceneRoot.OnClickToShop_Main -= ChangeStateToShop;
+        _sceneRoot.OnClickToBalance_Main -= ChangeStateToBalance;
+        _sceneRoot.OnClickToSettings_Main -= ChangeStateToSettings;
+        _sceneRoot.OnClickToShop_Main += ChangeStateToShop;
 
-        _sceneRoot.CloseBackgroundMainPanel();
         _sceneRoot.CloseMainPanel();
     }
 
-    private void ChangeStateToLeaderboard()
+    private void ChangeStateToRules()
     {
-        _machineProvider.SetState(_machineProvider.GetState<LeaderboardState_Menu>());
+
     }
 
     private void ChangeStateToProfile()
     {
         _machineProvider.SetState(_machineProvider.GetState<ProfileState_Menu>());
+    }
+
+    private void ChangeStateToBalance()
+    {
+
+    }
+
+    private void ChangeStateToSettings()
+    {
+
     }
 
     private void ChangeStateToShop()

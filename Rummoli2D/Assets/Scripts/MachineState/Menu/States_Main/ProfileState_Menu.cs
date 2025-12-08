@@ -19,7 +19,6 @@ public class ProfileState_Menu : IState
 
         _sceneRoot.OnClickToBack_Profile += ChangeStateToMain;
 
-        _sceneRoot.OpenBackgroundSecondPanel();
         _sceneRoot.OpenProfilePanel();
     }
 
@@ -27,7 +26,6 @@ public class ProfileState_Menu : IState
     {
         _sceneRoot.OnClickToBack_Profile -= ChangeStateToMain;
 
-        _sceneRoot.CloseBackgroundSecondPanel();
         _sceneRoot.CloseProfilePanel();
     }
 
