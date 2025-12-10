@@ -4,6 +4,7 @@ using UnityEngine;
 public class UIMainMenuRoot : UIRoot
 {
     [SerializeField] private MainPanel_Menu mainPanel;
+    [SerializeField] private RulesPanel_Menu rulesPanel;
     [SerializeField] private ProfilePanel_Menu profilePanel;
     [SerializeField] private ShopPanel_Game shopPanel;
 
@@ -21,6 +22,7 @@ public class UIMainMenuRoot : UIRoot
     public void Initialize()
     {
         mainPanel.Initialize();
+        rulesPanel.Initialize();
         profilePanel.Initialize();
         shopPanel.Initialize();
 
@@ -39,6 +41,7 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.OnClickToShop += HandleClickToShop_Main;
         mainPanel.OnClickToPlay += HandleClickToPlay_Main;
 
+        rulesPanel.OnClickToBack += HandleClickToBack_Rules;
         profilePanel.OnClickToBack += HandleClickToBack_Profile;
         shopPanel.OnClickToBack += HandleClickToBack_Shop;
     }
@@ -48,8 +51,6 @@ public class UIMainMenuRoot : UIRoot
     {
         registrationPanel.OnClickToRegistrate -= HandleClickToRegistrate_Registration;
 
-        profilePanel.OnClickToBack -= HandleClickToBack_Profile;
-        shopPanel.OnClickToBack -= HandleClickToBack_Shop;
 
         mainPanel.OnClickToRules -= HandleClickToRules_Main;
         mainPanel.OnClickToProfile -= HandleClickToProfile_Main;
@@ -58,6 +59,10 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.OnClickToShop -= HandleClickToShop_Main;
         mainPanel.OnClickToPlay -= HandleClickToPlay_Main;
 
+        rulesPanel.OnClickToBack -= HandleClickToBack_Rules;
+        profilePanel.OnClickToBack -= HandleClickToBack_Profile;
+        shopPanel.OnClickToBack -= HandleClickToBack_Shop;
+
         if (currentPanel != null)
             CloseOtherPanel(currentPanel);
     }
@@ -65,6 +70,7 @@ public class UIMainMenuRoot : UIRoot
     public void Dispose()
     {
         mainPanel.Dispose();
+        rulesPanel.Dispose();
         profilePanel.Dispose();
         shopPanel.Dispose();
 
@@ -89,6 +95,25 @@ public class UIMainMenuRoot : UIRoot
     }
 
 
+
+
+    public void OpenRulesPanel()
+    {
+        if(rulesPanel.IsActive) return;
+
+        OpenOtherPanel(rulesPanel);
+    }
+
+    public void CloseRulesPanel()
+    {
+        if(!rulesPanel.IsActive) return;
+
+        CloseOtherPanel(rulesPanel);
+    }
+
+
+
+
     public void OpenProfilePanel()
     {
         if (profilePanel.IsActive) return;
@@ -102,6 +127,8 @@ public class UIMainMenuRoot : UIRoot
 
         CloseOtherPanel(profilePanel);
     }
+
+
 
 
     public void OpenShopPanel()
@@ -217,6 +244,19 @@ public class UIMainMenuRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToPlay_Main?.Invoke();
+    }
+
+    #endregion
+
+    #region RulesPanel
+
+    public event Action OnClickToBack_Rules;
+
+    private void HandleClickToBack_Rules()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBack_Rules?.Invoke();
     }
 
     #endregion

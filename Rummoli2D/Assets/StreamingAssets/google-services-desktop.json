@@ -1,0 +1,32 @@
+{
+  "project_info": {
+    "project_number": "258716779776",
+    "firebase_url": "https://indiana-fa353-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "indiana-fa353",
+    "storage_bucket": "indiana-fa353.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258716779776:ios:2950b0f499381a61231fe5",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.Indiana"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8Vsevwc3BcbeHFnNalh_M_SCCVVfGbHg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 0
+        },
+        "appinvite_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

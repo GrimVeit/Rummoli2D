@@ -20,7 +20,7 @@ public class GameEntryPoint
         Object.DontDestroyOnLoad(rootView.gameObject);
     }
 
-    //[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void Autorun()
     {
         SetupGlobalSettings();
@@ -37,7 +37,7 @@ public class GameEntryPoint
 
     private void Run()
     {
-        coroutines.StartCoroutine(LoadAndStartCheck());
+        coroutines.StartCoroutine(LoadAndStartMainMenu());
     }
 
 

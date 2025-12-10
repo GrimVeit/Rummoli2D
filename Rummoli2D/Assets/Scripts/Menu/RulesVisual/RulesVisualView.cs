@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,6 +35,12 @@ public class RulesVisualView : View
         scaleEffect_Right.Dispose();
     }
 
+    public void ResetPage()
+    {
+        _currentPage = 0;
+        UpdatePage();
+    }
+
     private void Left()
     {
         if (_currentPage > 0)
@@ -61,12 +68,22 @@ public class RulesVisualView : View
         if (rulesVisuals.Count == 0) return;
 
         int startIndex = _currentPage;
-        int endIndex = Mathf.Min(startIndex, rulesVisuals.Count);
+        int endIndex = _currentPage;
 
         for (int i = 0; i < rulesVisuals.Count; i++)
         {
-            if (i >= startIndex && i < endIndex)
+            if(_currentPage == i)
             {
+                fontAsset.SetFloat("_FaceDilate", -0.4f);
+
+                float currentDilate = fontAsset.GetFloat("_FaceDilate");
+
+                DOTween.To(
+                    () => currentDilate,
+                    x => { currentDilate = x; fontAsset.SetFloat("_FaceDilate", x); },
+                    0f,
+                    0.5f);
+
                 rulesVisuals[i].Show();
             }
             else

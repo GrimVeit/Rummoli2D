@@ -23,9 +23,11 @@ public class MenuEntryPoint : MonoBehaviour
     private AvatarPresenter avatarPresenter;
     private FirebaseAuthenticationPresenter firebaseAuthenticationPresenter;
     private FirebaseDatabasePresenter firebaseDatabasePresenter;
-
     private AvatarVisualPresenter avatarVisualPresenter_Main;
     private AvatarVisualPresenter avatarVisualPresenter_Update;
+
+
+    private RulesVisualPresenter rulesVisualPresenter;
 
     private StateMachine_Menu stateMachine;
 
@@ -62,36 +64,36 @@ public class MenuEntryPoint : MonoBehaviour
 
                 nicknamePresenter = new NicknamePresenter(new NicknameModel(PlayerPrefsKeys.NICKNAME, soundPresenter), viewContainer.GetView<NicknameView>());
                 avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
-                firebaseAuthenticationPresenter = new FirebaseAuthenticationPresenter(new FirebaseAuthenticationModel(firebaseAuth, soundPresenter), viewContainer.GetView<FirebaseAuthenticationView>());
-
-                firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
+                //firebaseAuthenticationPresenter = new FirebaseAuthenticationPresenter(new FirebaseAuthenticationModel(firebaseAuth, soundPresenter), viewContainer.GetView<FirebaseAuthenticationView>());
+                //firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
                 
+                rulesVisualPresenter = new RulesVisualPresenter(new RulesVisualModel(), viewContainer.GetView<RulesVisualView>());
+
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,
                 nicknamePresenter,
                 avatarPresenter,
                 firebaseAuthenticationPresenter,
-                firebaseDatabasePresenter);
+                firebaseDatabasePresenter,
+                rulesVisualPresenter);
 
                 sceneRoot.SetSoundProvider(soundPresenter);
                 sceneRoot.Activate();
 
                 ActivateEvents();
 
+                Debug.Log("1");
+
                 soundPresenter.Initialize();
                 particleEffectPresenter.Initialize();
                 particleEffectMaterialPresenter.Initialize();
                 particleEffectMaterialPresenter.Activate();
+
                 sceneRoot.Initialize();
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
-                firebaseAuthenticationPresenter.Initialize();
-                firebaseDatabasePresenter.Initialize();
-
-                avatarVisualPresenter_Main.Initialize();
-                avatarVisualPresenter_Update.Initialize();
                 avatarPresenter.Initialize();
-
+                rulesVisualPresenter.Initialize();
                 stateMachine.Initialize();
             }
             else
@@ -150,12 +152,14 @@ public class MenuEntryPoint : MonoBehaviour
         bankPresenter?.Dispose();
 
         nicknamePresenter?.Dispose();
-        firebaseAuthenticationPresenter?.Dispose();
-        firebaseDatabasePresenter?.Dispose();
+        //firebaseAuthenticationPresenter?.Dispose();
+        //firebaseDatabasePresenter?.Dispose();
 
         avatarVisualPresenter_Main?.Dispose();
         avatarVisualPresenter_Update?.Dispose();
         avatarPresenter?.Dispose();
+
+        rulesVisualPresenter?.Dispose();
 
         stateMachine?.Dispose();
     }

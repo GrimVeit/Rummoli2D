@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RulesVisualPresenter
+public class RulesVisualPresenter : IRulesVisualProvider
 {
     private readonly RulesVisualModel _model;
     private readonly RulesVisualView _view;
@@ -15,12 +15,16 @@ public class RulesVisualPresenter
 
     public void Initialize()
     {
+        ActivateEvents();
 
+        _view.Initialize();
     }
 
     public void Dispose()
     {
+        DeactivateEvents();
 
+        _view.Dispose();
     }
 
     private void ActivateEvents()
@@ -32,4 +36,15 @@ public class RulesVisualPresenter
     {
 
     }
+
+    #region Input
+
+    public void ResetPage() => _view.ResetPage();
+
+    #endregion
+}
+
+public interface IRulesVisualProvider
+{
+    void ResetPage();
 }

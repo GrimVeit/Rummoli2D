@@ -39,7 +39,7 @@ public class MainState_Menu : IState
 
     private void ChangeStateToRules()
     {
-
+        _machineProvider.SetState(_machineProvider.GetState<RulesState_Menu>());
     }
 
     private void ChangeStateToProfile()
