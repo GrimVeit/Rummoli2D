@@ -4,27 +4,44 @@ using UnityEngine;
 
 public class SoundModel
 {
+    public float VolumeSound => volumeSound;
+    public float VolumeMusic => volumeMusic;
+
     public event Action OnMuteSounds;
     public event Action OnUnmuteSounds;
 
     public Dictionary<string, Sound> sounds = new Dictionary<string, Sound>();
 
-    private string KEY;
+    private string KEY_MUTE;
+    private string KEY_VOLUME_SOUND;
+    private string KEY_VOLUME_MUSIC;
+
     private bool isMute = false;
 
-    public SoundModel(List<Sound> sounds, string key)
-    {
-        KEY = key;
+    private float volumeSound;
+    private float volumeMusic;
 
+    public SoundModel(List<Sound> sounds, string KEY_MUTE, string KEY_VOLUME_SOUND, string KEY_VOLUME_MUSIC)
+    {
         for (int i = 0; i < sounds.Count; i++)
         {
             this.sounds[sounds[i].ID] = sounds[i];
         }
+
+        this.KEY_MUTE = KEY_MUTE;
+        this.KEY_VOLUME_SOUND = KEY_VOLUME_SOUND;
+        this.KEY_VOLUME_MUSIC = KEY_VOLUME_MUSIC;
     }
 
     public void Initialize()
     {
-        isMute = PlayerPrefs.GetInt(KEY, 1) == 0;
+        isMute = PlayerPrefs.GetInt(KEY_MUTE, 1) == 0;
+
+        volumeSound = PlayerPrefs.GetFloat(KEY_VOLUME_SOUND, 0.5f);
+        volumeMusic = PlayerPrefs.GetFloat(KEY_VOLUME_MUSIC, 0.7f);
+
+        SetVolume(volumeSound, AudioType.Sound);
+        SetVolume(volumeMusic, AudioType.Music);
 
         foreach (var sound in sounds.Values)
         {
@@ -41,7 +58,9 @@ public class SoundModel
         if (isMute) value = 0;
         else value = 1;
 
-        PlayerPrefs.SetInt(KEY, value);
+        PlayerPrefs.SetInt(KEY_MUTE, value);
+        PlayerPrefs.SetFloat(KEY_VOLUME_SOUND, volumeSound);
+        PlayerPrefs.SetFloat(KEY_VOLUME_MUSIC, volumeMusic);
 
         foreach (var sound in sounds.Values)
         {
@@ -117,4 +136,38 @@ public class SoundModel
 
         Debug.LogError("Нет звукового файла с идентификатором " + id);
     }
+
+    #region Output
+
+    public event Action<float> OnChangeVolumeSound;
+    public event Action<float> OnChangeVolumeMusic;
+
+    #endregion
+
+    #region Input
+
+    public void SetVolume(float value, AudioType type)
+    {
+        foreach (var sound in sounds.Values)
+        {
+            if (sound.AudioType == type)
+            {
+                sound.SetNormalVolume(value);
+                sound.SetVolume(value);
+            }
+        }
+
+        if (type == AudioType.Sound)
+        {
+            OnChangeVolumeSound?.Invoke(value);
+            volumeSound = value;
+        }
+        else
+        {
+            volumeMusic = value;
+            OnChangeVolumeMusic?.Invoke(value);
+        }
+    }
+
+    #endregion
 }

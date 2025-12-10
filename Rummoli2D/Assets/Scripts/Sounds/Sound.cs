@@ -6,6 +6,7 @@ using UnityEngine;
 [Serializable]
 public class Sound : ISound
 {
+    public AudioType AudioType => audioType;
     public string ID => id;
 
     public float Volume => audioSource.volume;
@@ -17,9 +18,10 @@ public class Sound : ISound
     [SerializeField] private float pitch;
     [SerializeField] private bool isLoop;
     [SerializeField] private bool isPlayAwake;
+    [SerializeField] private AudioType audioType;
 
     private float normalVolume;
-    private float durationChangeVolume = 0.2f;
+    private float durationChangeVolume = 0.4f;
 
     private bool isMainControl;
 
@@ -27,10 +29,7 @@ public class Sound : ISound
 
     public void Initialize()
     {
-        normalVolume = volume;
-
         audioSource.clip = audioClip;
-        audioSource.volume = volume;
         audioSource.pitch = pitch;
         audioSource.loop = isLoop;
 
@@ -77,6 +76,12 @@ public class Sound : ISound
         audioSource.pitch = pitch;
     }
 
+
+    public void SetNormalVolume(float volume)
+    {
+        normalVolume = volume;
+    }
+
     public void SetVolume(float volume)
     {
         audioSource.volume = volume;
@@ -89,7 +94,6 @@ public class Sound : ISound
 
     public void PlayOneShot()
     {
-        audioSource.volume = volume;
         audioSource.pitch = pitch;
         audioSource.PlayOneShot(audioClip);
     }
@@ -101,7 +105,7 @@ public class Sound : ISound
 
     public void Dispose()
     {
-        SetVolume(normalVolume, 0, ()=> Coroutines.Stop(setVolume_Coroutine));
+        SetVolume(normalVolume, 0, () => Coroutines.Stop(setVolume_Coroutine));
     }
 
     public void SetVolume(float startVolume, float endVolume, Action action = null)
@@ -110,6 +114,15 @@ public class Sound : ISound
             Coroutines.Stop(setVolume_Coroutine);
 
         setVolume_Coroutine = ChangeVolume_Coroutine(startVolume, endVolume, durationChangeVolume, action);
+        Coroutines.Start(setVolume_Coroutine);
+    }
+
+    public void SetVolume_End(float endVolume, float time, Action action = null)
+    {
+        if (setVolume_Coroutine != null)
+            Coroutines.Stop(setVolume_Coroutine);
+
+        setVolume_Coroutine = ChangeVolume_Coroutine(normalVolume, endVolume, time, action);
         Coroutines.Start(setVolume_Coroutine);
     }
 
@@ -126,7 +139,7 @@ public class Sound : ISound
     {
         if (audioSource == null) yield break;
 
-        if(audioSource.volume == endVolume) yield break;
+        if (audioSource.volume == endVolume) yield break;
 
         audioSource.volume = startVolume;
         float elapsedTime = 0f;
@@ -143,14 +156,20 @@ public class Sound : ISound
     }
 }
 
+public enum AudioType
+{
+    Sound, Music
+}
+
 public interface ISound
 {
-    public float Volume { get;  }
+    public float Volume { get; }
     public void Play();
     public void PlayOneShot();
     public void Stop();
     public void SetVolume(float vol);
     public void SetVolume(float startVolume, float endVolume, Action action = null);
     public void SetVolume(float startVolume, float endVolume, float time, Action action = null);
+    public void SetVolume_End(float endVolume, float time, Action action = null);
     public void SetPitch(float pitch);
 }

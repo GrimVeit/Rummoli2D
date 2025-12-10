@@ -13,6 +13,7 @@ public class RulesVisualView : View
     [SerializeField] private ScaleEffect scaleEffect_Left;
     [SerializeField] private ScaleEffect scaleEffect_Right;
     [SerializeField] private Material fontAsset;
+    [SerializeField] private TextMeshProUGUI textPage;
 
     [SerializeField] private List<RulesVisual> rulesVisuals = new List<RulesVisual>();
     private int _currentPage = 0;
@@ -67,8 +68,7 @@ public class RulesVisualView : View
     {
         if (rulesVisuals.Count == 0) return;
 
-        int startIndex = _currentPage;
-        int endIndex = _currentPage;
+        textPage.text = $"{_currentPage + 1}/{rulesVisuals.Count}";
 
         for (int i = 0; i < rulesVisuals.Count; i++)
         {

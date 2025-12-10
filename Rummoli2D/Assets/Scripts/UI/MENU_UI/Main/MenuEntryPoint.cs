@@ -26,8 +26,11 @@ public class MenuEntryPoint : MonoBehaviour
     private AvatarVisualPresenter avatarVisualPresenter_Main;
     private AvatarVisualPresenter avatarVisualPresenter_Update;
 
-
     private RulesVisualPresenter rulesVisualPresenter;
+
+    private CustomSliderPresenter customSliderPresenter_Sound;
+    private CustomSliderPresenter customSliderPresenter_Music;
+    private VolumeSettingsPresenter volumeSettingsPresenter;
 
     private StateMachine_Menu stateMachine;
 
@@ -51,7 +54,7 @@ public class MenuEntryPoint : MonoBehaviour
                 DatabaseReference databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
 
                 soundPresenter = new SoundPresenter
-                    (new SoundModel(sounds.sounds, PlayerPrefsKeys.IS_MUTE_SOUNDS),
+                    (new SoundModel(sounds.sounds, PlayerPrefsKeys.IS_MUTE_SOUNDS, PlayerPrefsKeys.KEY_VOLUME_SOUND, PlayerPrefsKeys.KEY_VOLUME_MUSIC),
                     viewContainer.GetView<SoundView>());
 
                 particleEffectPresenter = new ParticleEffectPresenter
@@ -68,6 +71,10 @@ public class MenuEntryPoint : MonoBehaviour
                 //firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
                 
                 rulesVisualPresenter = new RulesVisualPresenter(new RulesVisualModel(), viewContainer.GetView<RulesVisualView>());
+
+                customSliderPresenter_Music = new CustomSliderPresenter(new CustomSliderModel(soundPresenter), viewContainer.GetView<CustomSliderView>("Music"));
+                customSliderPresenter_Sound = new CustomSliderPresenter(new CustomSliderModel(soundPresenter), viewContainer.GetView<CustomSliderView>("Sound"));
+                volumeSettingsPresenter = new VolumeSettingsPresenter(new VolumeSettingsModel(soundPresenter, customSliderPresenter_Sound, customSliderPresenter_Music));
 
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,
@@ -93,7 +100,14 @@ public class MenuEntryPoint : MonoBehaviour
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
                 avatarPresenter.Initialize();
+
+
                 rulesVisualPresenter.Initialize();
+
+                customSliderPresenter_Music.Initialize();
+                customSliderPresenter_Sound.Initialize();
+                volumeSettingsPresenter.Initialize();
+
                 stateMachine.Initialize();
             }
             else
@@ -160,6 +174,11 @@ public class MenuEntryPoint : MonoBehaviour
         avatarPresenter?.Dispose();
 
         rulesVisualPresenter?.Dispose();
+
+
+        customSliderPresenter_Music?.Dispose();
+        customSliderPresenter_Sound?.Dispose();
+        volumeSettingsPresenter?.Dispose();
 
         stateMachine?.Dispose();
     }

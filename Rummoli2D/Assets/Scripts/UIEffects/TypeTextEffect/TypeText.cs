@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TypeText : UIEffect
+[System.Serializable]
+public class TypeText
 {
     [SerializeField] private TextMeshProUGUI textComponent;
     [SerializeField] private string textDescription;

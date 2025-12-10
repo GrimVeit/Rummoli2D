@@ -6,6 +6,7 @@ public class UIMainMenuRoot : UIRoot
     [SerializeField] private MainPanel_Menu mainPanel;
     [SerializeField] private RulesPanel_Menu rulesPanel;
     [SerializeField] private ProfilePanel_Menu profilePanel;
+    [SerializeField] private SettingsPanel_Menu settingsPanel;
     [SerializeField] private ShopPanel_Game shopPanel;
 
     [Header("Registration")]
@@ -24,6 +25,7 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.Initialize();
         rulesPanel.Initialize();
         profilePanel.Initialize();
+        settingsPanel.Initialize();
         shopPanel.Initialize();
 
         registrationPanel.Initialize();
@@ -43,6 +45,7 @@ public class UIMainMenuRoot : UIRoot
 
         rulesPanel.OnClickToBack += HandleClickToBack_Rules;
         profilePanel.OnClickToBack += HandleClickToBack_Profile;
+        settingsPanel.OnClickToBack += HandleClickToBack_Settings;
         shopPanel.OnClickToBack += HandleClickToBack_Shop;
     }
 
@@ -61,6 +64,7 @@ public class UIMainMenuRoot : UIRoot
 
         rulesPanel.OnClickToBack -= HandleClickToBack_Rules;
         profilePanel.OnClickToBack -= HandleClickToBack_Profile;
+        settingsPanel.OnClickToBack -= HandleClickToBack_Settings;
         shopPanel.OnClickToBack -= HandleClickToBack_Shop;
 
         if (currentPanel != null)
@@ -72,6 +76,7 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.Dispose();
         rulesPanel.Dispose();
         profilePanel.Dispose();
+        settingsPanel.Dispose();
         shopPanel.Dispose();
 
         registrationPanel.Dispose();
@@ -126,6 +131,24 @@ public class UIMainMenuRoot : UIRoot
         if(!profilePanel.IsActive) return;
 
         CloseOtherPanel(profilePanel);
+    }
+
+
+
+
+
+    public void OpenSettingsPanel()
+    {
+        if (settingsPanel.IsActive) return;
+
+        OpenOtherPanel(settingsPanel);
+    }
+
+    public void CloseSettingsPanel()
+    {
+        if (!settingsPanel.IsActive) return;
+
+        CloseOtherPanel(settingsPanel);
     }
 
 
@@ -270,6 +293,19 @@ public class UIMainMenuRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToBack_Profile?.Invoke();
+    }
+
+    #endregion
+
+    #region SettingsPanel
+
+    public event Action OnClickToBack_Settings;
+
+    private void HandleClickToBack_Settings()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBack_Settings?.Invoke();
     }
 
     #endregion

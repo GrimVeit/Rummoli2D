@@ -9,13 +9,18 @@ public class TypeTextEffect : MonoBehaviour
     public string GetID() => ID;
 
     [SerializeField] private string ID;
-    [SerializeField] private List<TypeText> tutorialTexts = new List<TypeText>();
+    [SerializeField] private TypeText typeText;
     [SerializeField] private float speedType;
 
     private IEnumerator typingText;
     private IEnumerator cleaningText;
 
     private bool isActive;
+
+    public void SetText(string text)
+    {
+        typeText.SetTextDescription(text);
+    }
 
     public void Activate()
     {
@@ -35,16 +40,6 @@ public class TypeTextEffect : MonoBehaviour
         Coroutines.Start(cleaningText);
     }
 
-    public void ClearText()
-    {
-        //tutorialTexts.ForEach(data => data.TextComponent.text = "");
-
-        for (int i = 0; i < tutorialTexts.Count; i++)
-        {
-            tutorialTexts[i].TextComponent.text = "";
-        }
-    }
-
     public void ClearAllCoroutines()
     {
         if (typingText != null)
@@ -55,19 +50,12 @@ public class TypeTextEffect : MonoBehaviour
 
     private IEnumerator DisplayTypingText()
     {
-        for (int i = 0; i < tutorialTexts.Count; i++)
-        {
-            yield return StartTyping(tutorialTexts[i].TextComponent, tutorialTexts[i].TextDescription, tutorialTexts[i].TimePause);
-        }
+        yield return StartTyping(typeText.TextComponent, typeText.TextDescription, typeText.TimePause);
     }
 
     private IEnumerator DisplayCleaningText()
     {
-        for (int i = tutorialTexts.Count - 1; i >= 0; i--)
-        {
-            Debug.Log("пгирто");
-            yield return StartCleaning(tutorialTexts[i].TextComponent, tutorialTexts[i].TextDescription, tutorialTexts[i].TimePause);
-        }
+        yield return StartCleaning(typeText.TextComponent, typeText.TextDescription, typeText.TimePause);
     }
 
     private IEnumerator StartTyping(TextMeshProUGUI textComponent, string text, float timePause)

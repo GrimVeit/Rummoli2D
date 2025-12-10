@@ -39,7 +39,7 @@ public class CountryCheckerSceneEntryPoint : MonoBehaviour
 
             if (dependencyStatus == DependencyStatus.Available)
             {
-                soundPresenter = new SoundPresenter(new SoundModel(sounds.sounds, PlayerPrefsKeys.IS_MUTE_SOUNDS), viewContainer.GetView<SoundView>());
+                soundPresenter = new SoundPresenter(new SoundModel(sounds.sounds, PlayerPrefsKeys.IS_MUTE_SOUNDS, PlayerPrefsKeys.KEY_VOLUME_SOUND, PlayerPrefsKeys.KEY_VOLUME_MUSIC), viewContainer.GetView<SoundView>());
                 soundPresenter.Initialize();
 
                 bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());

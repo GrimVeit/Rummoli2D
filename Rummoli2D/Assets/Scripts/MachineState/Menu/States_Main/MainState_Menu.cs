@@ -54,7 +54,7 @@ public class MainState_Menu : IState
 
     private void ChangeStateToSettings()
     {
-
+        _machineProvider.SetState(_machineProvider.GetState<SettingsState_Menu>());
     }
 
     private void ChangeStateToShop()
