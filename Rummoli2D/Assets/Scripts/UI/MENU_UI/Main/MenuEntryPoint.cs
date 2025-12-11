@@ -32,6 +32,10 @@ public class MenuEntryPoint : MonoBehaviour
     private CustomSliderPresenter customSliderPresenter_Music;
     private VolumeSettingsPresenter volumeSettingsPresenter;
 
+    private StoreTextTranslatePresenter storeTextTranslatePresenter;
+    private TextTranslateChangePresenter textTranslateChangePresenter;
+    private TextTranslatePresenter textTranslatePresenter;
+
     private StateMachine_Menu stateMachine;
 
     public void Run(UIRootView uIRootView)
@@ -76,6 +80,10 @@ public class MenuEntryPoint : MonoBehaviour
                 customSliderPresenter_Sound = new CustomSliderPresenter(new CustomSliderModel(soundPresenter), viewContainer.GetView<CustomSliderView>("Sound"));
                 volumeSettingsPresenter = new VolumeSettingsPresenter(new VolumeSettingsModel(soundPresenter, customSliderPresenter_Sound, customSliderPresenter_Music));
 
+                storeTextTranslatePresenter = new StoreTextTranslatePresenter(new StoreTextTranslateModel(PlayerPrefsKeys.LANGUAGE));
+                textTranslateChangePresenter = new TextTranslateChangePresenter(new TextTranslateChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateChangeView>());
+                textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateView>());
+
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,
                 nicknamePresenter,
@@ -107,6 +115,10 @@ public class MenuEntryPoint : MonoBehaviour
                 customSliderPresenter_Music.Initialize();
                 customSliderPresenter_Sound.Initialize();
                 volumeSettingsPresenter.Initialize();
+
+                storeTextTranslatePresenter.Initialize();
+                textTranslateChangePresenter.Initialize();
+                textTranslatePresenter.Initialize();
 
                 stateMachine.Initialize();
             }
@@ -179,6 +191,10 @@ public class MenuEntryPoint : MonoBehaviour
         customSliderPresenter_Music?.Dispose();
         customSliderPresenter_Sound?.Dispose();
         volumeSettingsPresenter?.Dispose();
+
+        storeTextTranslatePresenter?.Dispose();
+        textTranslateChangePresenter?.Dispose();
+        textTranslatePresenter?.Dispose();
 
         stateMachine?.Dispose();
     }

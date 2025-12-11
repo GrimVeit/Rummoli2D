@@ -13,5 +13,5 @@ public static class PlayerPrefsKeys
     public const string AVATAR = "AVATAR";
     public const string NICKNAME = "NICKNAME";
 
-
+    public const string LANGUAGE = "LANGUAGE";
 }

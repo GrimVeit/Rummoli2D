@@ -1,28 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TypeTextEffect : MonoBehaviour
+public class TypeTextEffect : UIEffect
 {
-    public bool IsActive() => isActive;
-    public string GetID() => ID;
-
-    [SerializeField] private string ID;
     [SerializeField] private TypeText typeText;
     [SerializeField] private float speedType;
 
     private IEnumerator typingText;
     private IEnumerator cleaningText;
 
-    private bool isActive;
-
     public void SetText(string text)
     {
         typeText.SetTextDescription(text);
     }
 
-    public void Activate()
+    public override void ActivateEffect(Action OnComplete = null)
     {
         ClearAllCoroutines();
         isActive = true;
@@ -30,7 +25,7 @@ public class TypeTextEffect : MonoBehaviour
         Coroutines.Start(typingText);
     }
 
-    public void Deactivate()
+    public override void DeactivateEffect(Action OnComplete = null)
     {
         ClearAllCoroutines();
         isActive = false;
@@ -38,6 +33,13 @@ public class TypeTextEffect : MonoBehaviour
 
         cleaningText = DisplayCleaningText();
         Coroutines.Start(cleaningText);
+    }
+
+    public override void ResetEffect()
+    {
+        ClearAllCoroutines();
+
+        typeText.TextComponent.text = "";
     }
 
     public void ClearAllCoroutines()
