@@ -49,7 +49,7 @@ public class MainState_Menu : IState
 
     private void ChangeStateToBalance()
     {
-
+        _machineProvider.SetState(_machineProvider.GetState<BalanceState_Menu>());
     }
 
     private void ChangeStateToSettings()

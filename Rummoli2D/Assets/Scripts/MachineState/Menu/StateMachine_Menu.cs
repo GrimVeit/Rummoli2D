@@ -27,6 +27,7 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
 
         states[typeof(RulesState_Menu)] = new RulesState_Menu(this, sceneRoot, rulesVisualProvider);
         states[typeof(ProfileState_Menu)] = new ProfileState_Menu(this, sceneRoot);
+        states[typeof(BalanceState_Menu)] = new BalanceState_Menu(this, sceneRoot);
         states[typeof(SettingsState_Menu)] = new SettingsState_Menu(this, sceneRoot);
         states[typeof(ShopState_Menu)] = new ShopState_Menu(this, sceneRoot);
     }

@@ -143,11 +143,13 @@ public class MenuEntryPoint : MonoBehaviour
     private void ActivateTransitions()
     {
         sceneRoot.OnClickToPlay_Main += HandleClickToGame;
+        sceneRoot.OnClickToPlay_Balance += HandleClickToGame;
     }
 
     private void DeactivateTransitions()
     {
         sceneRoot.OnClickToPlay_Main -= HandleClickToGame;
+        sceneRoot.OnClickToPlay_Balance -= HandleClickToGame;
     }
 
     private void Deactivate()

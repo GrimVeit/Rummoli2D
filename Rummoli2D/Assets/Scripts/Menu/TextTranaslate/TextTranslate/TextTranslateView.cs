@@ -5,6 +5,18 @@ using UnityEngine;
 
 public class TextTranslateView : View
 {
+    [SerializeField] private List<TextTranslateGroup> textTranslateGroups;
+
+    public void SetLanguage(Language language, bool animate)
+    {
+        textTranslateGroups.ForEach(data => data.SetLanguage(language, animate));
+    }
+}
+
+[System.Serializable]
+public class TextTranslateGroup
+{
+    [SerializeField] private string name;
     [SerializeField] private List<TextTranslate> textTranslates = new List<TextTranslate>();
 
     public void SetLanguage(Language language, bool animate)
@@ -16,6 +28,8 @@ public class TextTranslateView : View
 [System.Serializable]
 public class TextTranslate
 {
+    [SerializeField] private string name;
+
     [Header("Texts")]
     [SerializeField] private List<TextLanguage> textLanguages = new();
 

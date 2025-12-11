@@ -23,7 +23,7 @@ public class RulesState_Menu : IState
 
         _sceneRoot.OpenRulesPanel();
         _rulesVisualProvider.ResetPage();
-    }
+    } 
 
     public void ExitState()
     {
