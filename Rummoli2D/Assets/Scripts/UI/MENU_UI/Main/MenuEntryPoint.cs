@@ -9,6 +9,7 @@ using UnityEngine;
 public class MenuEntryPoint : MonoBehaviour
 {
     [SerializeField] private Sounds sounds;
+    [SerializeField] private ChipGroup chipGroup;
     [SerializeField] private UIMainMenuRoot menuRootPrefab;
 
     private UIMainMenuRoot sceneRoot;
@@ -36,6 +37,17 @@ public class MenuEntryPoint : MonoBehaviour
     private TextTranslateChangePresenter textTranslateChangePresenter;
     private TextTranslatePresenter textTranslatePresenter;
 
+    //------Shop------//
+
+    private StoreChipPresenter storeChipPresenter;
+    private ChipBuyPresenter chipBuyPresenter;
+    private ChipCountVisualPresenter chipCountVisualPresenter;
+
+    private StoreBackgroundPresenter storeBackgroundPresenter;
+    private BackgroundBuyVisualPresenter backgroundBuyVisualPresenter;
+    private BackgroundVisualPresenter backgroundVisualPresenter;
+
+    //----------------//
     private StateMachine_Menu stateMachine;
 
     public void Run(UIRootView uIRootView)
@@ -84,6 +96,14 @@ public class MenuEntryPoint : MonoBehaviour
                 textTranslateChangePresenter = new TextTranslateChangePresenter(new TextTranslateChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateChangeView>());
                 textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateView>());
 
+                storeChipPresenter = new StoreChipPresenter(new StoreChipModel(chipGroup));
+                chipBuyPresenter = new ChipBuyPresenter(new ChipBuyModel(chipGroup, storeChipPresenter, bankPresenter, soundPresenter), viewContainer.GetView<ChipBuyView>());
+                chipCountVisualPresenter = new ChipCountVisualPresenter(new ChipCountVisualModel(storeChipPresenter), viewContainer.GetView<ChipCountVisualView>());
+
+                storeBackgroundPresenter = new StoreBackgroundPresenter(new StoreBackgroundModel());
+                backgroundBuyVisualPresenter = new BackgroundBuyVisualPresenter(new BackgroundBuyVisualModel(storeBackgroundPresenter, storeBackgroundPresenter, storeBackgroundPresenter, bankPresenter), viewContainer.GetView<BackgroundBuyVisualView>());
+                backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
+
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,
                 nicknamePresenter,
@@ -119,6 +139,14 @@ public class MenuEntryPoint : MonoBehaviour
                 storeTextTranslatePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
                 textTranslatePresenter.Initialize();
+
+                chipBuyPresenter.Initialize();
+                chipCountVisualPresenter.Initialize();
+                storeChipPresenter.Initialize();
+
+                backgroundBuyVisualPresenter.Initialize();
+                storeBackgroundPresenter.Initialize();
+                backgroundVisualPresenter.Initialize();
 
                 stateMachine.Initialize();
             }
@@ -197,6 +225,14 @@ public class MenuEntryPoint : MonoBehaviour
         storeTextTranslatePresenter?.Dispose();
         textTranslateChangePresenter?.Dispose();
         textTranslatePresenter?.Dispose();
+
+        chipBuyPresenter.Dispose();
+        chipCountVisualPresenter.Dispose();
+        storeChipPresenter.Dispose();
+
+        backgroundBuyVisualPresenter?.Dispose();
+        storeBackgroundPresenter?.Dispose();
+        backgroundVisualPresenter?.Dispose();
 
         stateMachine?.Dispose();
     }
