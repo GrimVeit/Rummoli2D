@@ -8,7 +8,12 @@ public class UIMainMenuRoot : UIRoot
     [SerializeField] private ProfilePanel_Menu profilePanel;
     [SerializeField] private BalancePanel_Menu balancePanel;
     [SerializeField] private SettingsPanel_Menu settingsPanel;
+
+    [Header("Shop")]
     [SerializeField] private ShopPanel_Game shopPanel;
+    [SerializeField] private ShopBackgroundPanel_Menu shopBackgroundPanel;
+    [SerializeField] private ShopCardsPanel_Menu shopCardsPanel;
+    [SerializeField] private ShopChipsPanel_Menu shopChipsPanel;
 
     [Header("Registration")]
     [SerializeField] private RegistrationPanel_Menu registrationPanel;
@@ -28,7 +33,11 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Initialize();
         balancePanel.Initialize();
         settingsPanel.Initialize();
+
         shopPanel.Initialize();
+        shopBackgroundPanel.Initialize();
+        shopCardsPanel.Initialize();
+        shopChipsPanel.Initialize();
 
         registrationPanel.Initialize();
         loadRegistrationPanel.Initialize();
@@ -86,7 +95,11 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Dispose();
         balancePanel.Dispose();
         settingsPanel.Dispose();
+
         shopPanel.Dispose();
+        shopBackgroundPanel.Dispose();
+        shopCardsPanel.Dispose();
+        shopChipsPanel.Dispose();
 
         registrationPanel.Dispose();
         loadRegistrationPanel.Dispose();

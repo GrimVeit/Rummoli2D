@@ -15,7 +15,8 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
         AvatarPresenter avatarPresenter,
         FirebaseAuthenticationPresenter firebaseAuthenticationPresenter,
         FirebaseDatabasePresenter firebaseDatabasePresenter,
-        IRulesVisualProvider rulesVisualProvider)
+        IRulesVisualProvider rulesVisualProvider,
+        IShopScrollProvider shopScrollProvider)
     {
         states[typeof(CheckAuthorizationState_Menu)] = new CheckAuthorizationState_Menu(this, firebaseAuthenticationPresenter);
         states[typeof(NameAndAvatarInputState_Menu)] = new NameAndAvatarInputState_Menu(this, sceneRoot, nicknamePresenter, firebaseAuthenticationPresenter, firebaseDatabasePresenter, avatarPresenter);
@@ -29,7 +30,7 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
         states[typeof(ProfileState_Menu)] = new ProfileState_Menu(this, sceneRoot);
         states[typeof(BalanceState_Menu)] = new BalanceState_Menu(this, sceneRoot);
         states[typeof(SettingsState_Menu)] = new SettingsState_Menu(this, sceneRoot);
-        states[typeof(ShopState_Menu)] = new ShopState_Menu(this, sceneRoot);
+        states[typeof(ShopState_Menu)] = new ShopState_Menu(this, sceneRoot, shopScrollProvider);
     }
 
     public void Initialize()

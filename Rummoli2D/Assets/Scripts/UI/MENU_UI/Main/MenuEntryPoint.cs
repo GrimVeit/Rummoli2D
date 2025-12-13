@@ -38,6 +38,7 @@ public class MenuEntryPoint : MonoBehaviour
     private TextTranslatePresenter textTranslatePresenter;
 
     //------Shop------//
+    private ShopScrollPresenter shopScrollPresenter;
 
     private StoreChipPresenter storeChipPresenter;
     private ChipBuyPresenter chipBuyPresenter;
@@ -96,6 +97,9 @@ public class MenuEntryPoint : MonoBehaviour
                 textTranslateChangePresenter = new TextTranslateChangePresenter(new TextTranslateChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateChangeView>());
                 textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateView>());
 
+
+                shopScrollPresenter = new ShopScrollPresenter(new ShopScrollModel(), viewContainer.GetView<ShopScrollView>());
+
                 storeChipPresenter = new StoreChipPresenter(new StoreChipModel(chipGroup));
                 chipBuyPresenter = new ChipBuyPresenter(new ChipBuyModel(chipGroup, storeChipPresenter, bankPresenter, soundPresenter), viewContainer.GetView<ChipBuyView>());
                 chipCountVisualPresenter = new ChipCountVisualPresenter(new ChipCountVisualModel(storeChipPresenter), viewContainer.GetView<ChipCountVisualView>());
@@ -110,7 +114,8 @@ public class MenuEntryPoint : MonoBehaviour
                 avatarPresenter,
                 firebaseAuthenticationPresenter,
                 firebaseDatabasePresenter,
-                rulesVisualPresenter);
+                rulesVisualPresenter,
+                shopScrollPresenter);
 
                 sceneRoot.SetSoundProvider(soundPresenter);
                 sceneRoot.Activate();
@@ -139,6 +144,8 @@ public class MenuEntryPoint : MonoBehaviour
                 storeTextTranslatePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
                 textTranslatePresenter.Initialize();
+
+                shopScrollPresenter.Initialize();
 
                 chipBuyPresenter.Initialize();
                 chipCountVisualPresenter.Initialize();
@@ -225,6 +232,8 @@ public class MenuEntryPoint : MonoBehaviour
         storeTextTranslatePresenter?.Dispose();
         textTranslateChangePresenter?.Dispose();
         textTranslatePresenter?.Dispose();
+
+        shopScrollPresenter?.Dispose();
 
         chipBuyPresenter.Dispose();
         chipCountVisualPresenter.Dispose();

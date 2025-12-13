@@ -6,11 +6,13 @@ public class ShopState_Menu : IState
 {
     private readonly IGlobalStateMachineProvider _machineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
+    private readonly IShopScrollProvider _shopScrollProvider;
 
-    public ShopState_Menu(IGlobalStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot)
+    public ShopState_Menu(IGlobalStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot, IShopScrollProvider shopScrollProvider)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
+        _shopScrollProvider = shopScrollProvider;
     }
 
     public void EnterState()
@@ -20,6 +22,8 @@ public class ShopState_Menu : IState
         _sceneRoot.OnClickToBack_Shop += ChangeStateToMain;
 
         _sceneRoot.OpenShopPanel();
+
+        _shopScrollProvider.ResetPage();
     }
 
     public void ExitState()
@@ -27,6 +31,8 @@ public class ShopState_Menu : IState
         _sceneRoot.OnClickToBack_Shop -= ChangeStateToMain;
 
         _sceneRoot.CloseShopPanel();
+
+        _shopScrollProvider.CloseAllPage();
     }
 
     private void ChangeStateToMain()

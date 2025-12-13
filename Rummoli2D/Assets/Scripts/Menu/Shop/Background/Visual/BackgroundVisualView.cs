@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class BackgroundVisualView : View
 {
+    [SerializeField] private Transform parentBackground;
     [SerializeField] private Image image;
     [SerializeField] private float timeScale;
     [SerializeField] private BackgroundSprites backgroundSprites;
@@ -14,8 +15,6 @@ public class BackgroundVisualView : View
 
     public void SetBackground(int id, bool animate)
     {
-        tweenScale?.Kill();
-
         var background = backgroundSprites.GetSprite(id);
 
         if(background == null)
@@ -24,16 +23,25 @@ public class BackgroundVisualView : View
             return;
         }
 
-        image.sprite = background;
-
         if (animate)
         {
-            image.transform.localScale = Vector3.zero;
+            var tempGO = Instantiate(image.gameObject, parentBackground);
+            tempGO.transform.SetAsLastSibling();
+            tempGO.transform.localPosition = Vector3.zero;
+            var tempImage = tempGO.GetComponent<Image>();
+            tempImage.sprite = background;
+            tempImage.color = new Color(1, 1, 1, 0); // изначально прозрачный
 
-            tweenScale = image.transform.DOScale(1, timeScale);
+            // Анимация прозрачности
+            tempImage.DOFade(1, timeScale).OnComplete(() =>
+            {
+                image.sprite = background; // обновляем основной Image
+                Destroy(tempGO); // удаляем временный
+            });
         }
         else
         {
+            image.sprite = background;
             image.transform.localScale = Vector3.one;
         }
     }
