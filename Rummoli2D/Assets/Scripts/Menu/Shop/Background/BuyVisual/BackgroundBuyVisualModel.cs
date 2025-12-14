@@ -10,7 +10,7 @@ public class BackgroundBuyVisualModel
     private readonly IStoreBackgroundInfoProvider _storeBackgroundInfoProvider;
     private readonly IMoneyProvider _moneyProvider;
 
-    private int _currentBackgroundIndex;
+    private int _currentBackgroundIndex = -1;
     private int _currentPrice = 0;
 
     public BackgroundBuyVisualModel(IStoreBackgroundEventsProvider storeBackgroundEventsProvider, IStoreBackgroundProvider storeBackgroundProvider, IStoreBackgroundInfoProvider storeBackgroundInfoProvider, IMoneyProvider moneyProvider)
@@ -28,8 +28,7 @@ public class BackgroundBuyVisualModel
 
     public void Initialize()
     {
-        _currentBackgroundIndex = _storeBackgroundInfoProvider.GetBackgroundIndex();
-        ChooseBackground(_currentBackgroundIndex, _currentPrice);
+        ChooseBackground(_storeBackgroundInfoProvider.GetBackgroundIndex(), _currentPrice);
     }
 
     public void Dispose()

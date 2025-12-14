@@ -2804,7 +2804,7 @@ RectTransform:
   m_GameObject: {fileID: 205553535}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 653695646}
@@ -3527,7 +3527,7 @@ RectTransform:
   m_GameObject: {fileID: 229973946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1051796733}
@@ -7562,6 +7562,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   scaleElement: {fileID: 613531690}
+--- !u!1 &621735952
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 621735953}
+  - component: {fileID: 621735954}
+  m_Layer: 5
+  m_Name: BuyVisual
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &621735953
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621735952}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1782905420}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &621735954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621735952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f6d31e680bd06641972febb01ed365f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  designVisuals:
+  - {fileID: 2024430481}
+  - {fileID: 713648163}
+  timeOpenCloseShadow: 0.3
+  timeOpenClosePrice: 0.2
+  timeSelectDeselectCheck: 0.2
+  spriteChoose: {fileID: 21300000, guid: 1708080d086bc194a8b2e73b3b5e3460, type: 3}
+  spriteUnchoose: {fileID: 21300000, guid: 97ada344eefe0e346aabc5954dd2acea, type: 3}
+  buttonBuy: {fileID: 398336515}
+  effectButtonBuy: {fileID: 398336514}
 --- !u!1 &645245220
 GameObject:
   m_ObjectHideFlags: 0
@@ -7680,7 +7738,7 @@ RectTransform:
   m_GameObject: {fileID: 653695645}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 205553536}
@@ -8321,6 +8379,7 @@ GameObject:
   - component: {fileID: 713648159}
   - component: {fileID: 713648161}
   - component: {fileID: 713648160}
+  - component: {fileID: 713648163}
   - component: {fileID: 713648162}
   m_Layer: 5
   m_Name: Cards_2
@@ -8403,6 +8462,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   scaleElement: {fileID: 713648159}
+--- !u!114 &713648163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 713648158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e369f20dee5bb84cb942b0b88fdc16b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
+  price: 60
+  imageFrame: {fileID: 1829566743}
+  transformCheck: {fileID: 1717388761}
+  transformShadow: {fileID: 653695646}
+  transformPrice: {fileID: 205553536}
 --- !u!1 &718486079
 GameObject:
   m_ObjectHideFlags: 0
@@ -10497,7 +10574,7 @@ RectTransform:
   m_GameObject: {fileID: 857794423}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2024430477}
@@ -11639,6 +11716,7 @@ RectTransform:
   - {fileID: 1617768226}
   - {fileID: 1243174922}
   - {fileID: 308114650}
+  - {fileID: 1782905420}
   m_Father: {fileID: 426014025604183617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -11703,7 +11781,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1708080d086bc194a8b2e73b3b5e3460, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 97ada344eefe0e346aabc5954dd2acea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20294,7 +20372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1717388761
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20304,7 +20382,7 @@ RectTransform:
   m_GameObject: {fileID: 1717388760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 713648159}
@@ -21307,6 +21385,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780597073}
   m_CullTransparentMesh: 1
+--- !u!1 &1782905419
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1782905420}
+  m_Layer: 5
+  m_Name: CardDesign
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1782905420
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782905419}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 621735953}
+  m_Father: {fileID: 939941059}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1785918718
 GameObject:
   m_ObjectHideFlags: 0
@@ -23592,6 +23706,7 @@ GameObject:
   - component: {fileID: 2024430477}
   - component: {fileID: 2024430479}
   - component: {fileID: 2024430478}
+  - component: {fileID: 2024430481}
   - component: {fileID: 2024430480}
   m_Layer: 5
   m_Name: Cards_1
@@ -23674,6 +23789,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   duration: 0.1
   scaleElement: {fileID: 2024430477}
+--- !u!114 &2024430481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024430476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e369f20dee5bb84cb942b0b88fdc16b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0
+  price: 0
+  imageFrame: {fileID: 940152292}
+  transformCheck: {fileID: 857794424}
+  transformShadow: {fileID: 1051796733}
+  transformPrice: {fileID: 229973947}
 --- !u!1 &2029003599
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,6 +48,9 @@ public class MenuEntryPoint : MonoBehaviour
     private BackgroundBuyVisualPresenter backgroundBuyVisualPresenter;
     private BackgroundVisualPresenter backgroundVisualPresenter;
 
+    private StoreCardDesignPresenter storeCardDesignPresenter;
+    private CardDesignBuyVisualPresenter cardDesignBuyVisualPresenter;
+
     //----------------//
     private StateMachine_Menu stateMachine;
 
@@ -108,6 +111,9 @@ public class MenuEntryPoint : MonoBehaviour
                 backgroundBuyVisualPresenter = new BackgroundBuyVisualPresenter(new BackgroundBuyVisualModel(storeBackgroundPresenter, storeBackgroundPresenter, storeBackgroundPresenter, bankPresenter), viewContainer.GetView<BackgroundBuyVisualView>());
                 backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
 
+                storeCardDesignPresenter = new StoreCardDesignPresenter(new StoreCardDesignModel());
+                cardDesignBuyVisualPresenter = new CardDesignBuyVisualPresenter(new CardDesignBuyVisualModel(storeCardDesignPresenter, storeCardDesignPresenter, storeCardDesignPresenter, bankPresenter), viewContainer.GetView<CardDesignBuyVisualView>());
+
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,
                 nicknamePresenter,
@@ -154,6 +160,9 @@ public class MenuEntryPoint : MonoBehaviour
                 backgroundBuyVisualPresenter.Initialize();
                 storeBackgroundPresenter.Initialize();
                 backgroundVisualPresenter.Initialize();
+
+                cardDesignBuyVisualPresenter.Initialize();
+                storeCardDesignPresenter.Initialize();
 
                 stateMachine.Initialize();
             }
@@ -242,6 +251,9 @@ public class MenuEntryPoint : MonoBehaviour
         backgroundBuyVisualPresenter?.Dispose();
         storeBackgroundPresenter?.Dispose();
         backgroundVisualPresenter?.Dispose();
+
+        cardDesignBuyVisualPresenter.Dispose();
+        storeCardDesignPresenter.Dispose();
 
         stateMachine?.Dispose();
     }
