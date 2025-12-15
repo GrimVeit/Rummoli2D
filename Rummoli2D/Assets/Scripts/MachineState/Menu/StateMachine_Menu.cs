@@ -35,7 +35,7 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
 
     public void Initialize()
     {
-        SetState(GetState<MainState_Menu>());
+        SetState(GetState<CheckAuthorizationState_Menu>());
     }
 
     public void Dispose()

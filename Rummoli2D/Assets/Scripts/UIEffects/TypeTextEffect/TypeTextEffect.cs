@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class TypeTextEffect : UIEffect
 {
+    public string Text => typeText.TextDescription;
+
     [SerializeField] private TypeText typeText;
     [SerializeField] private float speedType;
 

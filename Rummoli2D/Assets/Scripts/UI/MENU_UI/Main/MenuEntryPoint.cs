@@ -87,9 +87,11 @@ public class MenuEntryPoint : MonoBehaviour
 
                 nicknamePresenter = new NicknamePresenter(new NicknameModel(PlayerPrefsKeys.NICKNAME, soundPresenter), viewContainer.GetView<NicknameView>());
                 avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
-                //firebaseAuthenticationPresenter = new FirebaseAuthenticationPresenter(new FirebaseAuthenticationModel(firebaseAuth, soundPresenter), viewContainer.GetView<FirebaseAuthenticationView>());
-                //firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
-                
+                firebaseAuthenticationPresenter = new FirebaseAuthenticationPresenter(new FirebaseAuthenticationModel(firebaseAuth, soundPresenter), viewContainer.GetView<FirebaseAuthenticationView>());
+                firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
+                avatarVisualPresenter_Main = new AvatarVisualPresenter(new AvatarVisualModel(avatarPresenter, avatarPresenter, avatarPresenter, soundPresenter), viewContainer.GetView<AvatarVisualView>("Registration"));
+                avatarVisualPresenter_Update = new AvatarVisualPresenter(new AvatarVisualModel(avatarPresenter, avatarPresenter, avatarPresenter, soundPresenter), viewContainer.GetView<AvatarVisualView>("Update"));
+
                 rulesVisualPresenter = new RulesVisualPresenter(new RulesVisualModel(), viewContainer.GetView<RulesVisualView>());
 
                 customSliderPresenter_Music = new CustomSliderPresenter(new CustomSliderModel(soundPresenter), viewContainer.GetView<CustomSliderView>("Music"));
@@ -139,7 +141,10 @@ public class MenuEntryPoint : MonoBehaviour
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
                 avatarPresenter.Initialize();
-
+                firebaseAuthenticationPresenter.Initialize();
+                firebaseDatabasePresenter.Initialize();
+                avatarVisualPresenter_Main.Initialize();
+                avatarVisualPresenter_Update.Initialize();
 
                 rulesVisualPresenter.Initialize();
 
@@ -224,8 +229,8 @@ public class MenuEntryPoint : MonoBehaviour
         bankPresenter?.Dispose();
 
         nicknamePresenter?.Dispose();
-        //firebaseAuthenticationPresenter?.Dispose();
-        //firebaseDatabasePresenter?.Dispose();
+        firebaseAuthenticationPresenter?.Dispose();
+        firebaseDatabasePresenter?.Dispose();
 
         avatarVisualPresenter_Main?.Dispose();
         avatarVisualPresenter_Update?.Dispose();

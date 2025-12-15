@@ -31,24 +31,16 @@ public class AvatarVisualPresenter
 
     private void ActivateEvents()
     {
-        _view.OnClickToLeft += _model.LeftClick;
-        _view.OnClickToRight += _model.RightClick;
         _view.OnChooseAvatar += _model.SelectAvatar;
 
-        _model.OnClickToLeft += _view.MoveLeft;
-        _model.OnClickToRight += _view.MoveRight;
         _model.OnSelectAvatar += _view.Select;
         _model.OnDeselectAvatar += _view.Deselect;
     }
 
     private void DeactivateEvents()
     {
-        _view.OnClickToLeft -= _model.LeftClick;
-        _view.OnClickToRight -= _model.RightClick;
         _view.OnChooseAvatar -= _model.SelectAvatar;
 
-        _model.OnClickToLeft -= _view.MoveLeft;
-        _model.OnClickToRight -= _view.MoveRight;
         _model.OnSelectAvatar -= _view.Select;
         _model.OnDeselectAvatar -= _view.Deselect;
     }

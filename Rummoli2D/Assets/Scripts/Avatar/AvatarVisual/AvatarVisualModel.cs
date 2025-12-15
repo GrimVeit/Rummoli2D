@@ -33,20 +33,6 @@ public class AvatarVisualModel
         _avatarEventsProvider.OnChooseAvatar -= OnSelect;
     }
 
-    public void LeftClick()
-    {
-        _soundProvider.PlayOneShot("Click");
-
-        OnClickToLeft?.Invoke();
-    }
-
-    public void RightClick()
-    {
-        _soundProvider.PlayOneShot("Click");
-
-        OnClickToRight?.Invoke();
-    }
-
     public void SelectAvatar(int id)
     {
         _avatarProvider.SelectAvatar(id);
@@ -68,9 +54,6 @@ public class AvatarVisualModel
 
 
     #region Output
-
-    public event Action OnClickToLeft;
-    public event Action OnClickToRight;
 
     public event Action<int> OnSelectAvatar;
     public event Action<int> OnDeselectAvatar;

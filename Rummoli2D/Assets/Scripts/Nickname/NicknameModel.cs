@@ -40,9 +40,6 @@ public class NicknameModel
 
     public void ChangeNickname(string value)
     {
-        Nickname = value;
-        OnChooseNickname?.Invoke(Nickname);
-
         //soundProvider.PlayOneShot("TextEnter");
 
         if (value.Length < 5)
@@ -78,6 +75,9 @@ public class NicknameModel
             OnEnterRegisterLoginError?.Invoke("Nickname cannot end with a period");
             return;
         }
+
+        Nickname = value;
+        OnChooseNickname?.Invoke(Nickname);
 
         OnEnterRegisterLoginError?.Invoke("");
         OnCorrectNickname?.Invoke();

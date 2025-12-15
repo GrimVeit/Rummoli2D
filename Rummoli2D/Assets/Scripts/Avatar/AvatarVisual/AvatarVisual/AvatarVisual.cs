@@ -37,14 +37,14 @@ public class AvatarVisual : MonoBehaviour
     {
         tweenScale?.Kill();
 
-        tweenScale = transformLine.DOScale(new Vector3(1, 1, 1), 0.3f);
+        tweenScale = transformLine.DOScale(1, 0.3f);
     }
 
     public void Deselect()
     {
         tweenScale?.Kill();
 
-        tweenScale = transformLine.DOScale(new Vector3(0, 1, 1), 0.15f);
+        tweenScale = transformLine.DOScale(0, 0.15f);
     }
 
     #region Output

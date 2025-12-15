@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "258716779776",
-    "firebase_url": "https://indiana-fa353-default-rtdb.europe-west1.firebasedatabase.app",
-    "project_id": "indiana-fa353",
-    "storage_bucket": "indiana-fa353.firebasestorage.app"
+    "project_number": "698766522934",
+    "firebase_url": "https://antiquedoors-4f2a3-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "antiquedoors-4f2a3",
+    "storage_bucket": "antiquedoors-4f2a3.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:258716779776:ios:2950b0f499381a61231fe5",
+        "mobilesdk_app_id": "1:698766522934:ios:03098e9043ab6b7f7cf697",
         "android_client_info": {
-          "package_name": "com.DefaultCompany.Indiana"
+          "package_name": "com.DefaultCompany.Rummoli2D"
         }
       },
       "api_key": [
         {
-          "current_key": "AIzaSyB8Vsevwc3BcbeHFnNalh_M_SCCVVfGbHg"
+          "current_key": "AIzaSyCAAZlZdVKq9is-maQaymCwGb8xfi-JW8M"
         }
       ],
       "services": {

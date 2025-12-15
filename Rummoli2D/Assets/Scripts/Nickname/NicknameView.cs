@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,8 +14,10 @@ public class NicknameView : View
     [SerializeField] private List<TMP_InputField> textInputs = new();
 
     [SerializeField] private List<TMP_InputField> inputFieldNickname;
-    [SerializeField] private TextMeshProUGUI textDescription;
-    [SerializeField] private Button button;
+    [SerializeField] private List<TypeTextEffect> typeTextEffects;
+
+    [SerializeField] private Button buttonSave;
+    [SerializeField] private UIEffect buttonEffect;
 
     public void Initialize()
     {
@@ -24,6 +27,8 @@ public class NicknameView : View
         {
             inputFieldNickname[i].onValueChanged.AddListener(HandlerOnNicknameTextValueChanged);
         }
+
+        buttonEffect.Initialize();
     }
 
     public void Dispose()
@@ -34,16 +39,22 @@ public class NicknameView : View
         {
             inputFieldNickname[i].onValueChanged.RemoveListener(HandlerOnNicknameTextValueChanged);
         }
+
+        buttonEffect.Dispose();
     }
 
     public void ActivateButton()
     {
-        button.gameObject.SetActive(true);
+        buttonSave.enabled = true;
+
+        buttonEffect.ActivateEffect();
     }
 
     public void DeactivateButton()
     {
-        button.gameObject.SetActive(false);
+        buttonSave.enabled = false;
+
+        buttonEffect.DeactivateEffect();
     }
 
     public void ChangeNickname(string nickname)
@@ -61,8 +72,15 @@ public class NicknameView : View
 
     public void DisplayDescription(string text)
     {
-        if(textDescription != null)
-           textDescription.text = text;
+        for (int i = 0; i < typeTextEffects.Count; i++)
+        {
+            if (typeTextEffects[i].Text != text)
+            {
+                typeTextEffects[i].ResetEffect();
+                typeTextEffects[i].SetText(text);
+                typeTextEffects[i].ActivateEffect();
+            }
+        }
     }
 
     #region Input
