@@ -54,7 +54,7 @@ public class UIGameRoot : UIRoot
 
     public void Activate()
     {
-        mainPanel.OnClickToExit += HandleClickToExit_Main;
+        //mainPanel.OnClickToExit += HandleClickToExit_Main;
     }
 
     public void Deactivate()

@@ -20,6 +20,8 @@ public class GameSceneEntryPoint : MonoBehaviour
     private SoundPresenter soundPresenter;
     private AvatarPresenter avatarPresenter;
 
+    private BetSystemPresenter betSystemPresenter;
+
     private StateMachine_Game stateMachine;
 
     public void Run(UIRootView uIRootView)
@@ -44,6 +46,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
+        betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
 
         stateMachine = new StateMachine_Game
             (sceneRoot);
@@ -57,11 +60,31 @@ public class GameSceneEntryPoint : MonoBehaviour
         particleEffectPresenter.Initialize();
         particleEffectMaterialPresenter.Initialize();
         particleEffectMaterialPresenter.Activate();
-        sceneRoot.Initialize();
+        //sceneRoot.Initialize();
         bankPresenter.Initialize();
         avatarPresenter.Initialize();
 
+        betSystemPresenter.Initialize();
+
         stateMachine.Initialize();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            betSystemPresenter.AddBet(1, 0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            betSystemPresenter.AddBet(1, 1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            betSystemPresenter.AddBet(1, 2);
+        }
     }
 
     private void ActivateEvents()
@@ -102,6 +125,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         particleEffectMaterialPresenter?.Dispose();
         bankPresenter?.Dispose();
         avatarPresenter?.Dispose();
+
+        betSystemPresenter?.Dispose();
 
         stateMachine?.Dispose();
     }
