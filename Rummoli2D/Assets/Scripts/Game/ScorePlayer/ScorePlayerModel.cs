@@ -7,29 +7,30 @@ public class ScorePlayerModel
 {
     public int Score => _score;
 
-    private int _score = 100;
+    private int _score = 0;
 
     public void SetScore(int score)
     {
         _score = score;
-        OnChangeScore?.Invoke(_score);
+        OnRemoveScore?.Invoke(_score);
     }
 
     public void AddScore(int score)
     {
         _score += score;
-        OnChangeScore?.Invoke(_score);
+        OnAddScore?.Invoke(_score);
     }
 
     public void RemoveScore()
     {
         _score -= 1;
-        OnChangeScore?.Invoke(_score);
+        OnRemoveScore?.Invoke(_score);
     }
 
     #region Output
 
-    public event Action<int> OnChangeScore;
+    public event Action<int> OnRemoveScore;
+    public event Action<int> OnAddScore;
 
     #endregion
 }

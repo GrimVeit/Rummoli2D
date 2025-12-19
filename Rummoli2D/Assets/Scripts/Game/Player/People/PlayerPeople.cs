@@ -56,6 +56,12 @@ public class PlayerPeople : IPlayer
 
     #region Input
 
+    public void SetScore(int score)
+    {
+        _scorePlayerPresenter.SetScore(score);
+    }
+
+
     public void ActivateApplyBet()
     {
         _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<PlayerBetState_PlayerPeople>());

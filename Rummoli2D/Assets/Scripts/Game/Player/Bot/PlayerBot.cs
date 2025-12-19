@@ -55,6 +55,12 @@ public class PlayerBot : IPlayer
 
     #region Input
 
+    public void SetScore(int score)
+    {
+        _scorePlayerPresenter.SetScore(score);
+    }
+
+
     public void ActivateApplyBet()
     {
         _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<PlayerBetState_PlayerBot>());

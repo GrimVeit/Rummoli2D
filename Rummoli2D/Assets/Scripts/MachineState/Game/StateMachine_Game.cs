@@ -11,12 +11,13 @@ public class StateMachine_Game : IStateMachineProvider
 
     public StateMachine_Game(List<IPlayer> players)
     {
+        states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players);
         states[typeof(BetState_Game)] = new BetState_Game(players);
     }
 
     public void Initialize()
     {
-        EnterState(GetState<BetState_Game>());
+        EnterState(GetState<StartingBalanceState_Game>());
     }
 
     public void Dispose()

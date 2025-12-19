@@ -16,21 +16,27 @@ public class ScorePlayerPresenter : IScorePlayerProvider
     public void Initialize()
     {
         ActivateEvents();
+
+        _view.Initialize();
     }
 
     public void Dispose()
     {
         DeactivateEvents();
+
+        _view.Dispose();
     }
 
     private void ActivateEvents()
     {
-        _model.OnChangeScore += _view.SetScore;
+        _model.OnRemoveScore += _view.RemoveScore;
+        _model.OnAddScore += _view.AddScore;
     }
 
     private void DeactivateEvents()
     {
-        _model.OnChangeScore -= _view.SetScore;
+        _model.OnRemoveScore -= _view.RemoveScore;
+        _model.OnAddScore -= _view.AddScore;
     }
 
     #region Input
