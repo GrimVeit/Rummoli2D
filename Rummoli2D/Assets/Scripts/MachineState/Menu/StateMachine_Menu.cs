@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine_Menu : IGlobalStateMachineProvider
+public class StateMachine_Menu : IStateMachineProvider
 {
     private readonly Dictionary<Type, IState> states = new();
 
@@ -35,7 +35,7 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
 
     public void Initialize()
     {
-        SetState(GetState<CheckAuthorizationState_Menu>());
+        EnterState(GetState<CheckAuthorizationState_Menu>());
     }
 
     public void Dispose()
@@ -48,7 +48,7 @@ public class StateMachine_Menu : IGlobalStateMachineProvider
         return states[typeof(T)];
     }
 
-    public void SetState(IState state)
+    public void EnterState(IState state)
     {
         _currentState?.ExitState();
 

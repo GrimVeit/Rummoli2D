@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IGlobalStateMachineProvider
+public interface IStateMachineProvider
 {
     public IState GetState<T>() where T : IState;
 
-    public void SetState(IState state);
+    public void EnterState(IState state);
 }

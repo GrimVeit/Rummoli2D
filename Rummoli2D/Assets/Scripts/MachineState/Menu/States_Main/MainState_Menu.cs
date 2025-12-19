@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class MainState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _machineProvider;
+    private readonly IStateMachineProvider _machineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
 
-    public MainState_Menu(IGlobalStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot)
+    public MainState_Menu(IStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
@@ -39,26 +39,26 @@ public class MainState_Menu : IState
 
     private void ChangeStateToRules()
     {
-        _machineProvider.SetState(_machineProvider.GetState<RulesState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<RulesState_Menu>());
     }
 
     private void ChangeStateToProfile()
     {
-        _machineProvider.SetState(_machineProvider.GetState<ProfileState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<ProfileState_Menu>());
     }
 
     private void ChangeStateToBalance()
     {
-        _machineProvider.SetState(_machineProvider.GetState<BalanceState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<BalanceState_Menu>());
     }
 
     private void ChangeStateToSettings()
     {
-        _machineProvider.SetState(_machineProvider.GetState<SettingsState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<SettingsState_Menu>());
     }
 
     private void ChangeStateToShop()
     {
-        _machineProvider.SetState(_machineProvider.GetState<ShopState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<ShopState_Menu>());
     }
 }

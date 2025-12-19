@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class CheckAuthorizationState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _machineProvider;
+    private readonly IStateMachineProvider _machineProvider;
     private readonly FirebaseAuthenticationPresenter _firebaseAuthentication;
 
-    public CheckAuthorizationState_Menu(IGlobalStateMachineProvider machineProvider, FirebaseAuthenticationPresenter firebaseAuthentication)
+    public CheckAuthorizationState_Menu(IStateMachineProvider machineProvider, FirebaseAuthenticationPresenter firebaseAuthentication)
     {
         _machineProvider = machineProvider;
         _firebaseAuthentication = firebaseAuthentication;
@@ -34,11 +34,11 @@ public class CheckAuthorizationState_Menu : IState
 
     private void ChangeStateToStartRegistration()
     {
-        _machineProvider.SetState(_machineProvider.GetState<NameAndAvatarInputState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<NameAndAvatarInputState_Menu>());
     }
 
     private void ChangeStateToStartMain()
     {
-        _machineProvider.SetState(_machineProvider.GetState<StartMainState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<StartMainState_Menu>());
     }
 }

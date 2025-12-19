@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class RegistrationState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _globalStateMachineProvider;
+    private readonly IStateMachineProvider _globalStateMachineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
     private readonly FirebaseAuthenticationPresenter _firebaseAuthenticationPresenter;
     private readonly FirebaseDatabasePresenter _firebaseDatabasePresenter;
 
-    public RegistrationState_Menu(IGlobalStateMachineProvider globalStateMachineProvider, UIMainMenuRoot sceneRoot, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter, FirebaseDatabasePresenter firebaseDatabasePresenter)
+    public RegistrationState_Menu(IStateMachineProvider globalStateMachineProvider, UIMainMenuRoot sceneRoot, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter, FirebaseDatabasePresenter firebaseDatabasePresenter)
     {
         _globalStateMachineProvider = globalStateMachineProvider;
         _sceneRoot = sceneRoot;
@@ -43,11 +43,11 @@ public class RegistrationState_Menu : IState
 
     private void ChangeStateToNameAndAvatarInput()
     {
-        _globalStateMachineProvider.SetState(_globalStateMachineProvider.GetState<NameAndAvatarInputState_Menu>());
+        _globalStateMachineProvider.EnterState(_globalStateMachineProvider.GetState<NameAndAvatarInputState_Menu>());
     }
 
     private void ChangeStateToStartMainMenu()
     {
-        _globalStateMachineProvider.SetState(_globalStateMachineProvider.GetState<StartMainState_Menu>());
+        _globalStateMachineProvider.EnterState(_globalStateMachineProvider.GetState<StartMainState_Menu>());
     }
 }

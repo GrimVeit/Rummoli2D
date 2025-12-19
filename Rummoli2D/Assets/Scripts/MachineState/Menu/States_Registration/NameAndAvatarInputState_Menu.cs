@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class NameAndAvatarInputState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _globalStateMachineProvider;
+    private readonly IStateMachineProvider _globalStateMachineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
     private readonly NicknamePresenter _nicknamePresenter;
     private readonly AvatarPresenter _avatarPresenter;
     private readonly FirebaseAuthenticationPresenter _firebaseAuthenticationPresenter;
     private readonly FirebaseDatabasePresenter _firebaseDatabasePresenter;
 
-    public NameAndAvatarInputState_Menu(IGlobalStateMachineProvider globalStateMachineProvider, UIMainMenuRoot sceneRoot, NicknamePresenter nicknamePresenter, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter, FirebaseDatabasePresenter firebaseDatabasePresenter, AvatarPresenter avatarPresenter)
+    public NameAndAvatarInputState_Menu(IStateMachineProvider globalStateMachineProvider, UIMainMenuRoot sceneRoot, NicknamePresenter nicknamePresenter, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter, FirebaseDatabasePresenter firebaseDatabasePresenter, AvatarPresenter avatarPresenter)
     {
         _globalStateMachineProvider = globalStateMachineProvider;
         _sceneRoot = sceneRoot;
@@ -47,6 +47,6 @@ public class NameAndAvatarInputState_Menu : IState
 
     private void ChangeStateToRegistration()
     {
-        _globalStateMachineProvider.SetState(_globalStateMachineProvider.GetState<RegistrationState_Menu>());
+        _globalStateMachineProvider.EnterState(_globalStateMachineProvider.GetState<RegistrationState_Menu>());
     }
 }

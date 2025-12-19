@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class RulesState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _machineProvider;
+    private readonly IStateMachineProvider _machineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
     private readonly IRulesVisualProvider _rulesVisualProvider;
 
-    public RulesState_Menu(IGlobalStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot, IRulesVisualProvider rulesVisualProvider)
+    public RulesState_Menu(IStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot, IRulesVisualProvider rulesVisualProvider)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
@@ -34,6 +34,6 @@ public class RulesState_Menu : IState
 
     private void ChangeStateToMain()
     {
-        _machineProvider.SetState(_machineProvider.GetState<MainState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<MainState_Menu>());
     }
 }

@@ -21,6 +21,13 @@ public class GameSceneEntryPoint : MonoBehaviour
     private AvatarPresenter avatarPresenter;
 
     private BetSystemPresenter betSystemPresenter;
+    private HighlightSystemPresenter highlightSystemPresenter;
+
+    private PlayerPeople playerPeople;
+    private PlayerBot playerBot_1;
+    private PlayerBot playerBot_2;
+    private PlayerBot playerBot_3;
+    private PlayerBot playerBot_4;
 
     private StateMachine_Game stateMachine;
 
@@ -47,9 +54,16 @@ public class GameSceneEntryPoint : MonoBehaviour
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
+        highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
+
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_1 = new PlayerBot(1, highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_2 = new PlayerBot(2, highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_3 = new PlayerBot(3, highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_4 = new PlayerBot(4, highlightSystemPresenter, betSystemPresenter, viewContainer);
 
         stateMachine = new StateMachine_Game
-            (sceneRoot);
+            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4});
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -60,11 +74,17 @@ public class GameSceneEntryPoint : MonoBehaviour
         particleEffectPresenter.Initialize();
         particleEffectMaterialPresenter.Initialize();
         particleEffectMaterialPresenter.Activate();
-        //sceneRoot.Initialize();
+        sceneRoot.Initialize();
         bankPresenter.Initialize();
         avatarPresenter.Initialize();
 
         betSystemPresenter.Initialize();
+
+        playerPeople.Initialize();
+        playerBot_1.Initialize();
+        playerBot_2.Initialize();
+        playerBot_3.Initialize();
+        playerBot_4.Initialize();
 
         stateMachine.Initialize();
     }
@@ -73,17 +93,24 @@ public class GameSceneEntryPoint : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            betSystemPresenter.AddBet(1, 0);
+            if (!betSystemPresenter.IsPlayerBetCompleted(1))
+            {
+                if(betSystemPresenter.TryGetRandomAvailableSector(1, out int index))
+                {
+                    betSystemPresenter.AddBet(1, index);
+                }
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            betSystemPresenter.AddBet(1, 1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            betSystemPresenter.AddBet(1, 2);
+            if (!betSystemPresenter.IsPlayerBetCompleted(2))
+            {
+                if (betSystemPresenter.TryGetRandomAvailableSector(2, out int index))
+                {
+                    betSystemPresenter.AddBet(2, index);
+                }
+            }
         }
     }
 
@@ -127,6 +154,12 @@ public class GameSceneEntryPoint : MonoBehaviour
         avatarPresenter?.Dispose();
 
         betSystemPresenter?.Dispose();
+
+        playerPeople.Dispose();
+        playerBot_1.Dispose();
+        playerBot_2.Dispose();
+        playerBot_3.Dispose();
+        playerBot_4.Dispose();
 
         stateMachine?.Dispose();
     }

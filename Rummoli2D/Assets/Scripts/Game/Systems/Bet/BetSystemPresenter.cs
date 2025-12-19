@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider
+public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider, IBetSystemInfoProvider, IBetSystemEventsProvider, IBetSystemProvider
 {
     private readonly BetSystemModel _model;
     private readonly BetSystemView _view;
@@ -48,6 +48,18 @@ public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider
 
     #region Output 
 
+    public event Action<int, int> OnAddBet
+    {
+        add => _model.OnAddBet += value;
+        remove => _model.OnAddBet -= value;
+    }
+
+    public event Action<int, int> OnSubmitBet
+    {
+        add => _model.OnSubmitBet += value;
+        remove => _model.OnSubmitBet -= value;
+    }
+
     public event Action<int> OnPlayerBetCompleted
     {
         add => _model.OnPlayerBetCompleted += value;
@@ -83,6 +95,8 @@ public interface IBetSystemInfoProvider
 
 public interface IBetSystemEventsProvider
 {
+    public event Action<int, int> OnAddBet;
+    public event Action<int, int> OnSubmitBet;
     public event Action<int> OnPlayerBetCompleted;
 }
 

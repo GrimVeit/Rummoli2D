@@ -25,7 +25,7 @@ public class BetSystemModel
 
     public void ChooseBet(int sectorIndex)
     {
-        SubmitBet(0, sectorIndex);
+        AddBet(0, sectorIndex);
     }
 
     public void AddBet(int playerIndex, int sectorIndex)
@@ -41,6 +41,7 @@ public class BetSystemModel
         {
             playerData.AddBet(sectorIndex);
             sectorTotals[sectorIndex]++;
+            OnSubmitBet?.Invoke(playerIndex, sectorIndex);
             OnSectorChangeCountBet?.Invoke(sectorIndex, sectorTotals[sectorIndex]);
 
             if (playerData.IsCompleted)
@@ -70,6 +71,7 @@ public class BetSystemModel
 
     public event Action<int> OnPlayerBetCompleted;
     public event Action<int, int> OnAddBet;
+    public event Action<int, int> OnSubmitBet;
     public event Action<int, int> OnSectorChangeCountBet;
 
     #endregion

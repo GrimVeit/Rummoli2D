@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class ShopState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _machineProvider;
+    private readonly IStateMachineProvider _machineProvider;
     private readonly UIMainMenuRoot _sceneRoot;
     private readonly IShopScrollProvider _shopScrollProvider;
 
-    public ShopState_Menu(IGlobalStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot, IShopScrollProvider shopScrollProvider)
+    public ShopState_Menu(IStateMachineProvider machineProvider, UIMainMenuRoot sceneRoot, IShopScrollProvider shopScrollProvider)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
@@ -37,6 +37,6 @@ public class ShopState_Menu : IState
 
     private void ChangeStateToMain()
     {
-        _machineProvider.SetState(_machineProvider.GetState<MainState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<MainState_Menu>());
     }
 }

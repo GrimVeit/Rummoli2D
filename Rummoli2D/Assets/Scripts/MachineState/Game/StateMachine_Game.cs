@@ -3,21 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine_Game : IGlobalStateMachineProvider
+public class StateMachine_Game : IStateMachineProvider
 {
     private readonly Dictionary<Type, IState> states = new();
 
     private IState _currentState;
 
-    public StateMachine_Game(
-        UIGameRoot sceneRoot)
+    public StateMachine_Game(List<IPlayer> players)
     {
-      
+        states[typeof(BetState_Game)] = new BetState_Game(players);
     }
 
     public void Initialize()
     {
-
+        EnterState(GetState<BetState_Game>());
     }
 
     public void Dispose()
@@ -30,7 +29,7 @@ public class StateMachine_Game : IGlobalStateMachineProvider
         return states[typeof(T)];
     }
 
-    public void SetState(IState state)
+    public void EnterState(IState state)
     {
         _currentState?.ExitState();
 

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class StartMainState_Menu : IState
 {
-    private readonly IGlobalStateMachineProvider _machineProvider;
+    private readonly IStateMachineProvider _machineProvider;
     private readonly FirebaseAuthenticationPresenter _firebaseAuthenticationPresenter;
     private readonly FirebaseDatabasePresenter _firebaseDatabasePresenter;
 
-    public StartMainState_Menu(IGlobalStateMachineProvider machineProvider, FirebaseDatabasePresenter firebaseDatabasePresenter, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter)
+    public StartMainState_Menu(IStateMachineProvider machineProvider, FirebaseDatabasePresenter firebaseDatabasePresenter, FirebaseAuthenticationPresenter firebaseAuthenticationPresenter)
     {
         _machineProvider = machineProvider;
         _firebaseDatabasePresenter = firebaseDatabasePresenter;
         _firebaseAuthenticationPresenter = firebaseAuthenticationPresenter;
     }
 
-    public StartMainState_Menu(IGlobalStateMachineProvider machineProvider)
+    public StartMainState_Menu(IStateMachineProvider machineProvider)
     {
         _machineProvider = machineProvider;
     }
@@ -40,7 +40,7 @@ public class StartMainState_Menu : IState
 
     private void ChangeStateToMain()
     {
-        _machineProvider.SetState(_machineProvider.GetState<MainState_Menu>());
+        _machineProvider.EnterState(_machineProvider.GetState<MainState_Menu>());
     }
 
 }
