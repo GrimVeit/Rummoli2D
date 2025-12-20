@@ -76,6 +76,6 @@ public class BetState_Game : IState
 
     private void ChangeToOtherState()
     {
-        Debug.Log("All Bet good");
+
     }
 }
