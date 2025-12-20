@@ -12,7 +12,7 @@ public class ScorePlayerModel
     public void SetScore(int score)
     {
         _score = score;
-        OnRemoveScore?.Invoke(_score);
+        OnAddScore?.Invoke(_score);
     }
 
     public void AddScore(int score)

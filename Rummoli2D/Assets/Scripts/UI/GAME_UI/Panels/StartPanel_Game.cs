@@ -4,28 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MainPanel_Game : MovePanel
+public class StartPanel_Game : MovePanel
 {
-    [SerializeField] private Button buttonExit;
-
     [SerializeField] private UIEffectCombination effectCombination;
+    [SerializeField] private Button buttonPlay;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        buttonExit.onClick.AddListener(() => OnClickToExit?.Invoke());
-
         effectCombination.Initialize();
+
+        buttonPlay.onClick.AddListener(ClickToPlay);
     }
 
     public override void Dispose()
     {
         base.Dispose();
 
-        buttonExit.onClick.RemoveListener(() => OnClickToExit?.Invoke());
-
         effectCombination.Dispose();
+
+        buttonPlay.onClick.RemoveListener(ClickToPlay);
     }
 
     public override void ActivatePanel()
@@ -44,7 +43,12 @@ public class MainPanel_Game : MovePanel
 
     #region Output
 
-    public event Action OnClickToExit;
+    public event Action OnClickToPlay;
+
+    private void ClickToPlay()
+    {
+        OnClickToPlay?.Invoke();
+    }
 
     #endregion
 }

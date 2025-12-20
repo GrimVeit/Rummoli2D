@@ -22,6 +22,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
+    private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -55,6 +56,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
+        playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, betSystemPresenter, viewContainer);
         playerBot_1 = new PlayerBot(1, highlightSystemPresenter, betSystemPresenter, viewContainer);
@@ -63,7 +65,9 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_4 = new PlayerBot(4, highlightSystemPresenter, betSystemPresenter, viewContainer);
 
         stateMachine = new StateMachine_Game
-            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4});
+            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4},
+            sceneRoot,
+            playerPresentationSystemPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -79,6 +83,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         avatarPresenter.Initialize();
 
         betSystemPresenter.Initialize();
+        playerPresentationSystemPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -126,12 +131,12 @@ public class GameSceneEntryPoint : MonoBehaviour
 
     private void ActivateTransitions()
     {
-        sceneRoot.OnClickToExit_Main += HandleClickToMenu;
+        //sceneRoot.OnClickToExit_Main += HandleClickToMenu;
     }
 
     private void DeactivateTransitions()
     {
-        sceneRoot.OnClickToExit_Main -= HandleClickToMenu;
+        //sceneRoot.OnClickToExit_Main -= HandleClickToMenu;
     }
 
     private void Deactivate()
@@ -154,6 +159,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         avatarPresenter?.Dispose();
 
         betSystemPresenter?.Dispose();
+        playerPresentationSystemPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

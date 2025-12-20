@@ -73,7 +73,7 @@ public class HighlightPlayer
         tweenCheck?.Kill();
 
         tweenLine = transformLine.DOScaleX(0, durationLine);
-        tweenSmoke = transformSmoke.DOScale(3, durationSmoke);
+        tweenSmoke = transformSmoke.DOScale(1, durationSmoke);
         tweenCheck = transformCheck.DOScale(0, durationCheck);
     }
 }

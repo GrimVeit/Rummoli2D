@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonusRewardPanel_Game : MovePanel
+public class PlayerPresentationSystemModel
 {
     
 }
