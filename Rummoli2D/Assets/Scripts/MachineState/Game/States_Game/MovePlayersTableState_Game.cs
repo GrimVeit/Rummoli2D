@@ -6,12 +6,12 @@ public class MovePlayersTableState_Game : IState
 {
     private readonly IStateMachineProvider _stateProvider;
     private readonly List<IPlayer> _players;
-    private readonly IPlayerPresentationProvider _playerPresentationProvider;
+    private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
     private readonly UIGameRoot _sceneRoot;
 
     private IEnumerator timer;
 
-    public MovePlayersTableState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationProvider playerPresentationProvider, UIGameRoot sceneRoot)
+    public MovePlayersTableState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot)
     {
         _stateProvider = stateProvider;
         _players = players;

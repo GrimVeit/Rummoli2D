@@ -8,14 +8,14 @@ public class PlayerPeople : IPlayer
     public int Id => _playerId;
 
     private readonly PlayerPeopleStateMachine _playerPeopleStateMachine;
-    private readonly IHighlightProvider _highlightProvider;
+    private readonly IPlayerHighlightSystemProvider _highlightProvider;
 
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
 
     public PlayerPeople(
         int playerIndex, 
-        IHighlightProvider highlightProvider,
+        IPlayerHighlightSystemProvider highlightProvider,
         BetSystemPresenter betSystemPresenter,
         ViewContainer viewContainer)
     {

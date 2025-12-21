@@ -2744,7 +2744,7 @@ GameObject:
   - component: {fileID: 457316823}
   - component: {fileID: 457316824}
   m_Layer: 5
-  m_Name: BankKitty
+  m_Name: CardBank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3337,6 +3337,7 @@ RectTransform:
   - {fileID: 655243563}
   - {fileID: 157234069}
   - {fileID: 656671027}
+  - {fileID: 1291608759}
   m_Father: {fileID: 426014025604183617}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3790,8 +3791,8 @@ RectTransform:
   m_GameObject: {fileID: 679027715}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1823826715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5341,6 +5342,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds: {fileID: 2077423529}
+  cardThemesSO: {fileID: 11400000, guid: 487665a8d35e3404ea9b5cc07d73c2a1, type: 2}
+  cardsSO: {fileID: 11400000, guid: dc689c27a0b169844ae01483c0c13273, type: 2}
   menuRootPrefab: {fileID: 7740716709243069829}
 --- !u!1 &936759532
 GameObject:
@@ -6659,6 +6662,69 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1291608758
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1291608759}
+  - component: {fileID: 1291608760}
+  m_Layer: 5
+  m_Name: CardSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1291608759
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291608758}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 579983232}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1291608760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291608758}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a0375d2a8e57a4c8c7ab37a83365f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardSpawnerMovePrefab: {fileID: 7857837551155897762, guid: d29a44a300528c94d846df5267ca1384, type: 3}
+  transformSpawnParent: {fileID: 1810172620}
+  transformFrom: {fileID: 1822824289}
+  cardSpawnerTargets:
+    targets:
+    - playerId: 0
+      transformMove: {fileID: 790028725}
+    - playerId: 1
+      transformMove: {fileID: 34456533}
+    - playerId: 2
+      transformMove: {fileID: 936759533}
+    - playerId: 3
+      transformMove: {fileID: 1414411922}
+    - playerId: 4
+      transformMove: {fileID: 1998212434}
 --- !u!1 &1304398480
 GameObject:
   m_ObjectHideFlags: 0
@@ -9309,7 +9375,7 @@ GameObject:
   - component: {fileID: 1823826717}
   - component: {fileID: 1823826716}
   m_Layer: 5
-  m_Name: BankKitty
+  m_Name: CardBank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

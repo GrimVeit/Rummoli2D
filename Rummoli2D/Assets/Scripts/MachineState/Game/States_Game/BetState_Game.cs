@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class BetState_Game : IState
 {
+    private readonly IStateMachineProvider _machineProvider;
+
     private readonly List<IPlayer> _players;
     private readonly int _startIndex;
 
     private int _currentIndex;
     private int _completedCount;
 
-    public BetState_Game(List<IPlayer> players)
+    public BetState_Game(IStateMachineProvider machineProvider, List<IPlayer> players)
     {
+        _machineProvider = machineProvider;
         _players = players;
         _startIndex = Random.Range(0, _players.Count);
     }
@@ -26,7 +29,6 @@ public class BetState_Game : IState
 
     public void ExitState()
     {
-        // На всякий случай чистим подписку
         DeactivateCurrentPlayer();
     }
 
@@ -58,7 +60,7 @@ public class BetState_Game : IState
 
         if (_completedCount >= _players.Count)
         {
-            ChangeToOtherState();
+            ChangeToMovePlayerPeopleToGameState();
             return;
         }
 
@@ -74,8 +76,8 @@ public class BetState_Game : IState
             _currentIndex = 0;
     }
 
-    private void ChangeToOtherState()
+    private void ChangeToMovePlayerPeopleToGameState()
     {
-
+        _machineProvider.EnterState(_machineProvider.GetState<MovePlayerPeopleToGameState_Game>());
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighlightSystemPresenter : IHighlightProvider
+public class HighlightSystemPresenter : IPlayerHighlightSystemProvider
 {
     private readonly HighlightSystemView _view;
 
@@ -19,7 +19,7 @@ public class HighlightSystemPresenter : IHighlightProvider
     #endregion
 }
 
-public interface IHighlightProvider
+public interface IPlayerHighlightSystemProvider
 {
     void ActivateHighlight(int playerId);
     void DeactivateHighlight(int playerId);

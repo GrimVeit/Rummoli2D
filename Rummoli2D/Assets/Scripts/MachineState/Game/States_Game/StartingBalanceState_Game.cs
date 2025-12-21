@@ -6,13 +6,13 @@ using UnityEngine.UIElements;
 public class StartingBalanceState_Game : IState
 {
     private readonly IStateMachineProvider _machineProvider;
-    private readonly IPlayerPresentationProvider _playerPresentationProvider;
+    private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
 
     private readonly List<IPlayer> _players;
 
     private IEnumerator timer;
 
-    public StartingBalanceState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationProvider playerPresentationProvider)
+    public StartingBalanceState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider)
     {
         _machineProvider = machineProvider;
         _players = players;

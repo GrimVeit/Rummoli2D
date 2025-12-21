@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPresentationSystemPresenter : IPlayerPresentationProvider
+public class PlayerPresentationSystemPresenter : IPlayerPresentationSystemProvider
 {
     private readonly PlayerPresentationSystemModel _model;
     private readonly PlayerPresentationSystemView _view;
@@ -37,7 +37,7 @@ public class PlayerPresentationSystemPresenter : IPlayerPresentationProvider
     #endregion
 }
 
-public interface IPlayerPresentationProvider
+public interface IPlayerPresentationSystemProvider
 {
     public void Show(int playerId, Action OnComplete = null);
     public void Hide(int playerId, Action OnComplete = null);

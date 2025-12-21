@@ -70,7 +70,7 @@ public class UIGameRoot : UIRoot
     {
         if(!rummoliTablePanel.IsActive) return;
 
-        CloseOtherPanel(startPanel);
+        CloseOtherPanel(rummoliTablePanel);
     }
 
 

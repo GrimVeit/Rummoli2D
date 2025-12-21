@@ -6,18 +6,18 @@ using UnityEngine;
 
 public class StoreCardPlayerModel
 {
-    public IReadOnlyList<CardData> Cards => cards;
+    public IReadOnlyList<ICard> Cards => cards;
 
-    private readonly List<CardData> cards = new();
+    private readonly List<ICard> cards = new();
 
-    public void AddCard(CardData card)
+    public void AddCard(ICard card)
     {
         cards.Add(card);
 
         OnAddCard?.Invoke(card);
     }
 
-    public void RemoveCard(CardData card)
+    public void RemoveCard(ICard card)
     {
         cards.Remove(card);
 
@@ -26,25 +26,10 @@ public class StoreCardPlayerModel
 
     #region Output
 
-    public event Action<CardData> OnAddCard;
-    public event Action<CardData> OnRemoveCard;
+    public event Action<ICard> OnAddCard;
+    public event Action<ICard> OnRemoveCard;
 
     #endregion
-}
-
-public class CardData
-{
-    public CardSuit CardSuit => _cardSuit;
-    public CardRank CardRank => _cardRank;
-
-    private readonly CardSuit _cardSuit;
-    private readonly CardRank _cardRank;
-
-    public CardData(CardSuit cardSuit, CardRank cardRank)
-    {
-        _cardSuit = cardSuit;
-        _cardRank = cardRank;
-    }
 }
 
 public enum CardSuit

@@ -12,21 +12,21 @@ public class StoreCardPlayerPresenter : IStoreCardInfoProvider, IStoreCardProvid
         _model = model;
     }
 
-    public IReadOnlyList<CardData> Cards => _model.Cards;
+    public IReadOnlyList<ICard> Cards => _model.Cards;
 
-    public void AddCard(CardData card) => _model.AddCard(card);
+    public void AddCard(ICard card) => _model.AddCard(card);
 
-    public void RemoveCard(CardData card) => _model.RemoveCard(card);
+    public void RemoveCard(ICard card) => _model.RemoveCard(card);
 
     #region Output
 
-    public event Action<CardData> OnAddCard
+    public event Action<ICard> OnAddCard
     {
         add => _model.OnAddCard += value;
         remove => _model.OnRemoveCard -= value;
     }
 
-    public event Action<CardData> OnRemoveCard
+    public event Action<ICard> OnRemoveCard
     {
         add => _model.OnRemoveCard += value;
         remove => _model.OnRemoveCard -= value;
@@ -37,17 +37,17 @@ public class StoreCardPlayerPresenter : IStoreCardInfoProvider, IStoreCardProvid
 
 public interface IStoreCardInfoProvider
 {
-    public IReadOnlyList<CardData> Cards { get; }
+    public IReadOnlyList<ICard> Cards { get; }
 }
 
 public interface IStoreCardProvider
 {
-    public void AddCard(CardData card);
-    public void RemoveCard(CardData card);
+    public void AddCard(ICard card);
+    public void RemoveCard(ICard card);
 }
 
 public interface IStoreCardEventsProvider
 {
-    public event Action<CardData> OnAddCard;
-    public event Action<CardData> OnRemoveCard;
+    public event Action<ICard> OnAddCard;
+    public event Action<ICard> OnRemoveCard;
 }

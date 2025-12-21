@@ -12,13 +12,14 @@ public class StateMachine_Game : IStateMachineProvider
     public StateMachine_Game
         (List<IPlayer> players,
         UIGameRoot sceneRoot,
-        IPlayerPresentationProvider playerPresentationProvider)
+        IPlayerPresentationSystemProvider playerPresentationProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
         states[typeof(MovePlayersTableState_Game)] = new MovePlayersTableState_Game(this, players, playerPresentationProvider, sceneRoot);
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);
-        states[typeof(BetState_Game)] = new BetState_Game(players);
+        states[typeof(BetState_Game)] = new BetState_Game(this, players);
+        states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, sceneRoot);
     }
 
     public void Initialize()

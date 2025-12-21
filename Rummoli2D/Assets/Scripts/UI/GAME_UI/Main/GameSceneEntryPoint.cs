@@ -9,6 +9,8 @@ using UnityEngine;
 public class GameSceneEntryPoint : MonoBehaviour
 {
     [SerializeField] private Sounds sounds;
+    [SerializeField] private CardThemesSO cardThemesSO;
+    [SerializeField] private CardsSO cardsSO;
     [SerializeField] private UIGameRoot menuRootPrefab;
 
     private UIGameRoot sceneRoot;
@@ -23,6 +25,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
     private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
+    private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -57,6 +60,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
+        cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, betSystemPresenter, viewContainer);
         playerBot_1 = new PlayerBot(1, highlightSystemPresenter, betSystemPresenter, viewContainer);

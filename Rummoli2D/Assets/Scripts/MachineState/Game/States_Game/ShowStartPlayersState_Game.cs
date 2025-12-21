@@ -6,11 +6,11 @@ public class ShowStartPlayersState_Game : IState
 {
     private readonly IStateMachineProvider _stateProvider;
     private readonly List<IPlayer> _players;
-    private readonly IPlayerPresentationProvider _playerPresentationProvider;
+    private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
 
     private IEnumerator timer;
 
-    public ShowStartPlayersState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationProvider playerPresentationProvider)
+    public ShowStartPlayersState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
