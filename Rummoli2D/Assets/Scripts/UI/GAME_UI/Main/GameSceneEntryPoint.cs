@@ -25,6 +25,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
     private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
+    private CardBankPresentationSystemPresenter cardBankPresentationSystemPresenter;
     private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
 
     private PlayerPeople playerPeople;
@@ -60,6 +61,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
+        cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, betSystemPresenter, viewContainer);
@@ -71,7 +73,10 @@ public class GameSceneEntryPoint : MonoBehaviour
         stateMachine = new StateMachine_Game
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4},
             sceneRoot,
-            playerPresentationSystemPresenter);
+            playerPresentationSystemPresenter,
+            cardBankPresentationSystemPresenter,
+            cardSpawnerSystemPresenter,
+            cardSpawnerSystemPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -88,6 +93,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         betSystemPresenter.Initialize();
         playerPresentationSystemPresenter.Initialize();
+        cardSpawnerSystemPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -164,6 +170,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         betSystemPresenter?.Dispose();
         playerPresentationSystemPresenter?.Dispose();
+        cardSpawnerSystemPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

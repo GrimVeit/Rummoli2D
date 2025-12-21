@@ -12,14 +12,18 @@ public class StateMachine_Game : IStateMachineProvider
     public StateMachine_Game
         (List<IPlayer> players,
         UIGameRoot sceneRoot,
-        IPlayerPresentationSystemProvider playerPresentationProvider)
+        IPlayerPresentationSystemProvider playerPresentationProvider,
+        ICardBankPresentationSystemProvider cardBankPresentationSystemProvider,
+        ICardSpawnerSystemEventsProvider cardSpawnerSystemEventsProvider,
+        ICardSpawnerSystemProvider cardSpawnerSystemProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
         states[typeof(MovePlayersTableState_Game)] = new MovePlayersTableState_Game(this, players, playerPresentationProvider, sceneRoot);
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);
         states[typeof(BetState_Game)] = new BetState_Game(this, players);
-        states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, sceneRoot);
+        states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, sceneRoot);
+        states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider);
     }
 
     public void Initialize()

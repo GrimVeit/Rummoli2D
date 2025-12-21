@@ -7,15 +7,17 @@ public class MovePlayerPeopleToGameState_Game : IState
     private readonly IStateMachineProvider _stateMachineProvider;
     private readonly IPlayer _playerPeople;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
+    private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
     private readonly UIGameRoot _sceneRoot;
 
     private IEnumerator timer;
 
-    public MovePlayerPeopleToGameState_Game(IStateMachineProvider stateMachineProvider, IPlayer playerPeople, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot)
+    public MovePlayerPeopleToGameState_Game(IStateMachineProvider stateMachineProvider, IPlayer playerPeople, IPlayerPresentationSystemProvider playerPresentationProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, UIGameRoot sceneRoot)
     {
         _stateMachineProvider = stateMachineProvider;
         _playerPeople = playerPeople;
         _playerPresentationProvider = playerPresentationProvider;
+        _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
         _sceneRoot = sceneRoot;
     }
 
@@ -39,5 +41,18 @@ public class MovePlayerPeopleToGameState_Game : IState
         yield return new WaitForSeconds(0.1f);
 
         _sceneRoot.CloseRummoliTablePanel();
+
+        yield return new WaitForSeconds(0.1f);
+
+        _cardBankPresentationSystemProvider.Show();
+
+        yield return new WaitForSeconds(0.05f);
+
+        ChangeStateToDealCards();
+    }
+
+    private void ChangeStateToDealCards()
+    {
+        _stateMachineProvider.EnterState(_stateMachineProvider.GetState<DealCardsState_Game>());
     }
 }
