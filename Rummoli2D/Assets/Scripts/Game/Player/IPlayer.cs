@@ -8,8 +8,9 @@ public interface IPlayer
     int Id { get; }
 
     //Balance
-
     void SetScore(int score);
+
+
 
     //Bet
 
@@ -17,4 +18,11 @@ public interface IPlayer
     void DeactivateApplyBet();
 
     event Action OnApplyBet;
+
+
+    //Cards
+
+    void AddCard(ICard card);
 }
+
+

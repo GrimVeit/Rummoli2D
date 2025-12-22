@@ -10,6 +10,9 @@ public class PlayerPeople : IPlayer
     private readonly PlayerPeopleStateMachine _playerPeopleStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;
 
+    private readonly StoreCardPlayerPresenter _storeCardPlayerPresenter; 
+    private readonly PlayerPeopleCardVisualPresenter _playerPeopleCardVisualPresenter;
+
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
 
@@ -22,6 +25,8 @@ public class PlayerPeople : IPlayer
         _playerId = playerIndex;
         _highlightProvider = highlightProvider;
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>("Player"));
+        _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
+        _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
 
         _playerPeopleStateMachine = new PlayerPeopleStateMachine
             (playerIndex, 
@@ -35,11 +40,13 @@ public class PlayerPeople : IPlayer
     public void Initialize()
     {
         _scorePlayerPresenter.Initialize();
+        _playerPeopleCardVisualPresenter.Initialize();
     }
 
     public void Dispose()
     {
         _scorePlayerPresenter.Dispose();
+        _playerPeopleCardVisualPresenter.Dispose();
     }
 
     #region API
@@ -56,12 +63,14 @@ public class PlayerPeople : IPlayer
 
     #region Input
 
+    //APPLY START SCORE
     public void SetScore(int score)
     {
         _scorePlayerPresenter.SetScore(score);
     }
 
 
+    //APPLY BET
     public void ActivateApplyBet()
     {
         _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<PlayerBetState_PlayerPeople>());
@@ -74,6 +83,12 @@ public class PlayerPeople : IPlayer
         _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<PlayerBetState_PlayerPeople>());
 
         _highlightProvider.DeactivateHighlight(_playerId);
+    }
+
+    //CARD
+    public void AddCard(ICard card)
+    {
+        _storeCardPlayerPresenter.AddCard(card);
     }
 
     #endregion

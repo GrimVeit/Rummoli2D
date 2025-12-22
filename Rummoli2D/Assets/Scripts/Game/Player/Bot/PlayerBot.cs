@@ -55,12 +55,14 @@ public class PlayerBot : IPlayer
 
     #region Input
 
+    //APPLY START SCORE
     public void SetScore(int score)
     {
         _scorePlayerPresenter.SetScore(score);
     }
 
 
+    //APPLY BET
     public void ActivateApplyBet()
     {
         _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<PlayerBetState_PlayerBot>());
@@ -73,6 +75,12 @@ public class PlayerBot : IPlayer
         _playerBotStateMachine.ExitState(_playerBotStateMachine.GetState<PlayerBetState_PlayerBot>());
 
         _highlightProvider.DeactivateHighlight(_playerId);
+    }
+
+    //CARD
+    public void AddCard(ICard card)
+    {
+
     }
 
     #endregion

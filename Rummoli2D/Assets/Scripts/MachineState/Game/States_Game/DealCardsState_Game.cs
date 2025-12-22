@@ -45,7 +45,7 @@ public class DealCardsState_Game : IState
         {
             for (int j = 0; j < _players.Count; j++)
             {
-                _cardSpawnerProvider.Spawn(_players[j].Id);
+                _cardSpawnerProvider.Spawn(_players[0].Id);
                 yield return new WaitForSeconds(0.2f);
             }
         }
@@ -53,7 +53,7 @@ public class DealCardsState_Game : IState
 
     private void OnCardSpawned(int playerIndex, ICard card)
     {
-        //_players[playerIndex].SetCard(card);
+        _players[playerIndex].AddCard(card);
         _cardsDealt++;
 
         if (_cardsDealt >= _cardsPerPlayer * _players.Count)
