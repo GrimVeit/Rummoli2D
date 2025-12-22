@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,7 +42,14 @@ public class PlayerPeopleCardVisualView : View
 
         cards.Add(cardVisual);
 
-        ClampScroll();
+        // Если карт стало больше максимального количества видимых
+        if (cards.Count > maxVisibleCards)
+        {
+            // Сдвигаем scrollIndex вправо, чтобы показать новую карту
+            scrollIndex = cards.Count - maxVisibleCards;
+        }
+
+        ClampScroll();   // на всякий случай
         UpdateHand();
     }
 
@@ -109,20 +117,36 @@ public class PlayerPeopleCardVisualView : View
 
         // Скрываем все карты
         for (int i = 0; i < cards.Count; i++)
-            cards[i].gameObject.SetActive(false);
+        {
+            if (i < scrollIndex || i >= scrollIndex + visibleCount)
+            {
+                // Карты вне видимой области
+                cards[i].gameObject.SetActive(false);
+            }
+        }
 
-        // Показываем нужное окно
+        // Показываем и анимируем нужное окно
         for (int i = 0; i < visibleCount; i++)
         {
             int index = scrollIndex + i;
-            if (index >= cards.Count)
-                break;
+            if (index >= cards.Count) break;
 
             var card = cards[index];
-            card.gameObject.SetActive(true);
+            float targetX = startX + i * spacing;
+            float targetZ = -i * 0.01f;
 
-            float x = startX + i * spacing;
-            card.transform.localPosition = new Vector3(x, 0f, -i * 0.01f);
+            // Если карта ещё не активна, сразу ставим её в целевую позицию
+            if (!card.gameObject.activeSelf)
+            {
+                card.gameObject.SetActive(true);
+                card.transform.localPosition = new Vector3(targetX, 0f, targetZ);
+            }
+
+            // Отменяем предыдущие анимации, чтобы не было конфликта
+            card.transform.DOKill();
+
+            // Плавно двигаем карту в целевую позицию
+            card.transform.DOLocalMoveX(targetX, 0.3f).SetEase(Ease.OutCubic);
         }
 
         UpdateButtons();

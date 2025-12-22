@@ -10,6 +10,8 @@ public class PlayerPeopleCardVisual : MonoBehaviour
     [SerializeField] private Image imageFace;
     private ICard _card;
 
+    public bool IsVisible;
+
     public void SetData(ICard card)
     {
         _card = card;

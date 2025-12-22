@@ -2158,12 +2158,12 @@ MonoBehaviour:
   cardsParent: {fileID: 1743376048}
   buttonLeft: {fileID: 861450675}
   buttonRight: {fileID: 1377789589}
-  handWidth: 645
+  handWidth: 750
   smallGap: 3
   cardWidth: 128
-  maxOverlap: 93
+  maxOverlap: 40
   noOverlapCards: 5
-  maxVisibleCards: 8
+  maxVisibleCards: 7
 --- !u!1 &339347391
 GameObject:
   m_ObjectHideFlags: 0
@@ -7508,7 +7508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 563, y: 143}
+  m_AnchoredPosition: {x: 700, y: 143}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1377789589
