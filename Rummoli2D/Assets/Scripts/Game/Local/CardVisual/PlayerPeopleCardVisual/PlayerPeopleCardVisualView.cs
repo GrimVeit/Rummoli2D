@@ -11,6 +11,8 @@ public class PlayerPeopleCardVisualView : View
     [SerializeField] private Transform cardsParent;
     [SerializeField] private Button buttonLeft;
     [SerializeField] private Button buttonRight;
+    [SerializeField] private UIEffect effectButtonLeft;
+    [SerializeField] private UIEffect effectButtonRight;
 
     [Header("Layout Settings")]
     [SerializeField] private float handWidth = 645f;
@@ -20,19 +22,31 @@ public class PlayerPeopleCardVisualView : View
     [SerializeField] private int noOverlapCards = 5;
     [SerializeField] private int maxVisibleCards = 8;
 
+    [Header("Pos")]
+    [SerializeField] private Vector3 vectorPosLeftActive;
+    [SerializeField] private Vector3 vectorPosLeftDeactive;
+
     private readonly List<PlayerPeopleCardVisual> cards = new List<PlayerPeopleCardVisual>();
     private int scrollIndex = 0;
+
+    private Tween tweenCards;
 
     public void Initialize()
     {
         buttonLeft.onClick.AddListener(ScrollLeft);
         buttonRight.onClick.AddListener(ScrollRight);
+
+        effectButtonLeft.Initialize();
+        effectButtonRight.Initialize();
     }
 
     public void Dispose()
     {
         buttonLeft.onClick.RemoveListener(ScrollLeft);
         buttonRight.onClick.RemoveListener(ScrollRight);
+
+        effectButtonLeft.Dispose();
+        effectButtonRight.Dispose();
     }
 
     public void AddCard(ICard card)
@@ -156,7 +170,35 @@ public class PlayerPeopleCardVisualView : View
     {
         bool needScroll = cards.Count > maxVisibleCards;
 
-        buttonLeft.gameObject.SetActive(needScroll && scrollIndex > 0);
-        buttonRight.gameObject.SetActive(needScroll && scrollIndex < cards.Count - maxVisibleCards);
+        if(needScroll && scrollIndex > 0)
+        {
+            tweenCards?.Kill();
+
+            buttonLeft.enabled = true;
+            buttonLeft.gameObject.SetActive(true);
+            effectButtonLeft.ActivateEffect();
+
+            tweenCards = cardsParent.DOLocalMoveX(vectorPosLeftActive.x, 0.2f).SetEase(Ease.OutBack);
+        }
+        else
+        {
+            tweenCards?.Kill();
+
+            buttonLeft.enabled = false;
+            effectButtonLeft.DeactivateEffect(() => buttonLeft.gameObject.SetActive(false));
+
+            tweenCards = cardsParent.DOLocalMoveX(vectorPosLeftDeactive.x, 0.2f).SetEase(Ease.OutBack);
+        }
+
+
+        if(needScroll && scrollIndex < cards.Count - maxVisibleCards)
+        {
+            buttonRight.gameObject.SetActive(true);
+            effectButtonRight.ActivateEffect();
+        }
+        else
+        {
+            effectButtonRight.DeactivateEffect(() => buttonRight.gameObject.SetActive(false));
+        }
     }
 }

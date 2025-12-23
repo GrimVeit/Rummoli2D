@@ -46,7 +46,7 @@ public class DealCardsState_Game : IState
             for (int j = 0; j < _players.Count; j++)
             {
                 _cardSpawnerProvider.Spawn(_players[j].Id);
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(0.2f);
             }
         }
     }

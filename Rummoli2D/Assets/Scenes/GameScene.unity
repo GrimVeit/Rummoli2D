@@ -2218,16 +2218,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3e11800f18bdad43863720d153ffc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardPrefab: {fileID: 6566645066237835786, guid: 6505bb54ce70ace4090454f49789da84, type: 3}
+  cardPrefab: {fileID: 7152410498578882407, guid: 6505bb54ce70ace4090454f49789da84, type: 3}
   cardsParent: {fileID: 1743376048}
   buttonLeft: {fileID: 861450675}
   buttonRight: {fileID: 1377789589}
+  effectButtonLeft: {fileID: 861450678}
+  effectButtonRight: {fileID: 1377789592}
   handWidth: 750
   smallGap: 3
   cardWidth: 128
   maxOverlap: 40
   noOverlapCards: 5
   maxVisibleCards: 7
+  vectorPosLeftActive: {x: 268, y: -23.5, z: 0}
+  vectorPosLeftDeactive: {x: 180, y: -23.5, z: 0}
 --- !u!1 &339347391
 GameObject:
   m_ObjectHideFlags: 0
@@ -5444,6 +5448,7 @@ GameObject:
   - component: {fileID: 861450677}
   - component: {fileID: 861450676}
   - component: {fileID: 861450675}
+  - component: {fileID: 861450678}
   m_Layer: 5
   m_Name: Left_BUTTON
   m_TagString: Untagged
@@ -5467,7 +5472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -82, y: 136}
+  m_AnchoredPosition: {x: -114, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &861450675
@@ -5552,6 +5557,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 861450673}
   m_CullTransparentMesh: 1
+--- !u!114 &861450678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861450673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81e16cc91490c34eba2b1fd07a8728b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.2
+  scaleElement: {fileID: 861450674}
 --- !u!1 &878025147
 GameObject:
   m_ObjectHideFlags: 0
@@ -7480,15 +7499,16 @@ MonoBehaviour:
   cardSpawnerTargets:
     targets:
     - playerId: 0
-      transformMove: {fileID: 790028725}
+      transformMove: {fileID: 1743376048}
     - playerId: 1
-      transformMove: {fileID: 34456533}
+      transformMove: {fileID: 461979116}
     - playerId: 2
-      transformMove: {fileID: 936759533}
+      transformMove: {fileID: 536815627}
     - playerId: 3
-      transformMove: {fileID: 1414411922}
+      transformMove: {fileID: 1130672578}
     - playerId: 4
-      transformMove: {fileID: 1998212434}
+      transformMove: {fileID: 1790326638}
+  canvas: {fileID: 7740716709243069830}
 --- !u!1 &1304398480
 GameObject:
   m_ObjectHideFlags: 0
@@ -7770,7 +7790,7 @@ RectTransform:
   m_GameObject: {fileID: 1341809595}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 972283950}
@@ -8073,6 +8093,7 @@ GameObject:
   - component: {fileID: 1377789591}
   - component: {fileID: 1377789590}
   - component: {fileID: 1377789589}
+  - component: {fileID: 1377789592}
   m_Layer: 5
   m_Name: Right_BUTTON
   m_TagString: Untagged
@@ -8087,7 +8108,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377789587}
-  m_LocalRotation: {x: 0, y: 0, z: 1, w: 0}
+  m_LocalRotation: {x: -0, y: -0, z: 1, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -8096,7 +8117,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 700, y: 143}
+  m_AnchoredPosition: {x: 736, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1377789589
@@ -8181,6 +8202,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1377789587}
   m_CullTransparentMesh: 1
+--- !u!114 &1377789592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377789587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81e16cc91490c34eba2b1fd07a8728b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.2
+  scaleElement: {fileID: 1377789588}
 --- !u!1 &1393755150
 GameObject:
   m_ObjectHideFlags: 0

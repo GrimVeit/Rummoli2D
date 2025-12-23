@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class CardSpawnerMove : MonoBehaviour
 {
+    private RectTransform rectTransform;
     private int _playerIndex;
     private ICard _card;
+
+    private void Awake()
+    {
+        rectTransform = GetComponent<RectTransform>();
+    }
 
     public void SetData(int playerIndex, ICard card)
     {
@@ -15,11 +21,48 @@ public class CardSpawnerMove : MonoBehaviour
         _card = card;
     }
 
-    public void MoveTo(Transform from, Transform to, float duration)
+    public void MoveTo(
+        RectTransform from,
+        RectTransform to,
+        RectTransform localParent,
+        Canvas canvas,
+        float duration
+    )
     {
-        transform.localPosition = from.localPosition;
+        // если есть стартовая точка — ставим туда
+        if (from != null)
+        {
+            rectTransform.localPosition = ConvertToLocal(from, localParent, canvas);
+        }
 
-        transform.DOLocalMove(to.localPosition, duration).OnComplete(() => OnEndMove?.Invoke(_playerIndex, _card, this));
+        Vector2 targetLocalPos = ConvertToLocal(to, localParent, canvas);
+
+        rectTransform
+            .DOLocalMove(targetLocalPos, duration)
+            .SetEase(Ease.OutQuad)
+            .OnComplete(() =>
+            {
+                OnEndMove?.Invoke(_playerIndex, _card, this);
+            });
+    }
+
+    private Vector2 ConvertToLocal(
+        RectTransform target,
+        RectTransform localParent,
+        Canvas canvas
+    )
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            localParent,
+            RectTransformUtility.WorldToScreenPoint(
+                canvas.worldCamera,
+                target.position
+            ),
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+
+        return localPoint;
     }
 
     #region Output
