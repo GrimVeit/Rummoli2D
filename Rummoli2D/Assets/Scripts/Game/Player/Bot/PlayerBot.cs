@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public class PlayerBot : IPlayer
 {
@@ -9,6 +6,9 @@ public class PlayerBot : IPlayer
 
     private readonly PlayerBotStateMachine _playerBotStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;
+
+    private readonly StoreCardPlayerPresenter _storeCardPlayerPresenter;
+    private readonly PlayerBotCardVisualPresenter _playerBotCardVisualPresenter;
 
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
@@ -22,6 +22,8 @@ public class PlayerBot : IPlayer
         _playerId = playerIndex;
         _highlightProvider = highlightProvider;
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>($"Bot_{_playerId}"));
+        _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
+        _playerBotCardVisualPresenter = new PlayerBotCardVisualPresenter(new PlayerBotCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerBotCardVisualView>($"Bot_{_playerId}"));
 
         _playerBotStateMachine = new PlayerBotStateMachine
             (playerIndex,
@@ -34,11 +36,13 @@ public class PlayerBot : IPlayer
     public void Initialize()
     {
         _scorePlayerPresenter.Initialize();
+        _playerBotCardVisualPresenter.Initialize();
     }
 
     public void Dispose()
     {
         _scorePlayerPresenter.Dispose();
+        _playerBotCardVisualPresenter.Dispose();
     }
 
     #region API
@@ -80,7 +84,7 @@ public class PlayerBot : IPlayer
     //CARD
     public void AddCard(ICard card)
     {
-
+        _storeCardPlayerPresenter.AddCard(card);
     }
 
     #endregion

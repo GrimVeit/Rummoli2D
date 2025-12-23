@@ -46,14 +46,14 @@ public class DealCardsState_Game : IState
             for (int j = 0; j < _players.Count; j++)
             {
                 _cardSpawnerProvider.Spawn(_players[j].Id);
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(0.5f);
             }
         }
     }
 
     private void OnCardSpawned(int playerIndex, ICard card)
     {
-        _players[playerIndex].AddCard(card);
+        GetPlayer(playerIndex).AddCard(card);
         _cardsDealt++;
 
         if (_cardsDealt >= _cardsPerPlayer * _players.Count)
@@ -61,6 +61,8 @@ public class DealCardsState_Game : IState
             ChangeStateToOther();
         }
     }
+
+    private IPlayer GetPlayer(int playerIndex) { return _players.Find(player => player.Id == playerIndex); }
 
     private void ChangeStateToOther()
     {
