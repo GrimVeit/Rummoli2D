@@ -85,6 +85,14 @@ public class PlayerPeopleCardVisualView : View
         UpdateHand();
     }
 
+    #region Interactive
+
+    //public void Activate
+
+    #endregion
+
+    #region Hand
+
     private void ScrollLeft()
     {
         scrollIndex--;
@@ -201,4 +209,6 @@ public class PlayerPeopleCardVisualView : View
             effectButtonRight.DeactivateEffect(() => buttonRight.gameObject.SetActive(false));
         }
     }
+
+    #endregion
 }

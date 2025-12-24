@@ -71,7 +71,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_4 = new PlayerBot(4, highlightSystemPresenter, betSystemPresenter, viewContainer);
 
         stateMachine = new StateMachine_Game
-            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4},
+            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
             sceneRoot,
             playerPresentationSystemPresenter,
             cardBankPresentationSystemPresenter,
