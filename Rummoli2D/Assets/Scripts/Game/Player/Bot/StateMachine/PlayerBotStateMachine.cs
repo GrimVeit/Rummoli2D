@@ -12,13 +12,16 @@ public class PlayerBotStateMachine : IStateMachineProvider
         IBetSystemEventsProvider betSystemEventsProvider,
         IBetSystemInfoProvider betSystemInfoProvider,
         IBetSystemProvider betSystemProvider,
-        IScorePlayerProvider scorePlayerProvider)
+        IScorePlayerProvider scorePlayerProvider,
+        IStoreCardInfoProvider storeCardInfoProvider)
     {
-        var state = new PlayerBetState_PlayerBot(playerIndex, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
-        state.OnApplyBet += ApplyBet;
-        states[typeof(PlayerBetState_PlayerBot)] = state;
+        var stateBet = new PlayerBetState_PlayerBot(playerIndex, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
+        stateBet.OnApplyBet += ApplyBet;
+        states[typeof(PlayerBetState_PlayerBot)] = stateBet;
 
-
+        var state5Cards = new Choose5CardsState_PlayerBot(storeCardInfoProvider);
+        state5Cards.OnChooseCards += Choose5Cards;
+        states[typeof(Choose5CardsState_PlayerBot)] = state5Cards;
     }
 
     public IState GetState<T>() where T : IState
@@ -44,5 +47,13 @@ public class PlayerBotStateMachine : IStateMachineProvider
         OnApplyBet?.Invoke();
     }
 
+
+
+    public event Action<List<ICard>> OnChoose5Cards;
+
+    private void Choose5Cards(List<ICard> cards)
+    {
+        OnChoose5Cards?.Invoke(cards);
+    }
     #endregion
 }

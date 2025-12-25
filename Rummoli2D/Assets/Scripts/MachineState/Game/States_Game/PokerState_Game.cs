@@ -39,7 +39,7 @@ public class PokerState_Game : IState
         player.OnChoose5Cards -= OnChoose5Cards;
         player.DeactivateChoose5Cards();
 
-        //_playerPresentationSystemProvider.Hide(player.Id);
+        _playerPresentationSystemProvider.Hide(player.Id);
 
         _playerPokerProvider.SetPlayer(player.Id, player.Name, cards);
     }

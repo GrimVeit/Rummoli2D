@@ -61,7 +61,7 @@ public class PlayerPokerView : View
         card.SetData(data);
         RectTransform rect = card.gameObject.GetComponent<RectTransform>();
         rect.anchoredPosition = point.anchoredPosition;
-        rect.localScale = Vector3.one;
+        rect.localScale = Vector3.zero;
         rect.localRotation = Quaternion.identity;
         rect.DOScale(1, 0.3f);
 

@@ -52,6 +52,9 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         OnApplyBet?.Invoke();
     }
 
+
+
+
     public event Action<List<ICard>> OnChoose5Cards;
 
     private void Choose5Cards(List<ICard> cards)

@@ -35,17 +35,22 @@ public class PlayerBot : IPlayer
             betSystemPresenter,
             betSystemPresenter,
             betSystemPresenter,
-            _scorePlayerPresenter);
+            _scorePlayerPresenter,
+            _storeCardPlayerPresenter);
     }
 
     public void Initialize()
     {
+        _playerBotStateMachine.OnChoose5Cards += Choose5Cards;
+
         _scorePlayerPresenter.Initialize();
         _playerBotCardVisualPresenter.Initialize();
     }
 
     public void Dispose()
     {
+        _playerBotStateMachine.OnChoose5Cards -= Choose5Cards;
+
         _scorePlayerPresenter.Dispose();
         _playerBotCardVisualPresenter.Dispose();
     }
@@ -61,6 +66,11 @@ public class PlayerBot : IPlayer
     }
 
     public event Action<IPlayer, List<ICard>> OnChoose5Cards;
+
+    private void Choose5Cards(List<ICard> cards)
+    {
+        OnChoose5Cards?.Invoke(this, cards);
+    }
 
     #endregion
 
@@ -102,7 +112,7 @@ public class PlayerBot : IPlayer
     //POKER
     public void ActiveChoose5Cards()
     {
-
+        _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<Choose5CardsState_PlayerBot>());
     }
     public void DeactivateChoose5Cards()
     {

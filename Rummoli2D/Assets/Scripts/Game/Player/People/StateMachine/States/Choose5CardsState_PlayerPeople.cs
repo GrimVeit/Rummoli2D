@@ -80,7 +80,7 @@ public class Choose5CardsState_PlayerPeople : IState
     {
         if(_cards.Count != 5) return;
 
-        OnChooseCards?.Invoke(_cards);
+        OnChooseCards?.Invoke(new List<ICard>(_cards));
         Debug.Log("FIVE CARDS!!!");
     }
 
