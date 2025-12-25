@@ -15,7 +15,8 @@ public class StateMachine_Game : IStateMachineProvider
         IPlayerPresentationSystemProvider playerPresentationProvider,
         ICardBankPresentationSystemProvider cardBankPresentationSystemProvider,
         ICardSpawnerSystemEventsProvider cardSpawnerSystemEventsProvider,
-        ICardSpawnerSystemProvider cardSpawnerSystemProvider)
+        ICardSpawnerSystemProvider cardSpawnerSystemProvider,
+        IPlayerPokerProvider playerPokerProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
@@ -23,7 +24,8 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);
         states[typeof(BetState_Game)] = new BetState_Game(this, players);
         states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, sceneRoot);
-        states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider);
+        states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider, cardBankPresentationSystemProvider);
+        states[typeof(PokerState_Game)] = new PokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
     }
 
     public void Initialize()

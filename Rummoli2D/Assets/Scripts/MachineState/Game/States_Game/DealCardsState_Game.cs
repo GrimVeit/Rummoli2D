@@ -8,17 +8,19 @@ public class DealCardsState_Game : IState
     private readonly List<IPlayer> _players;
     private readonly ICardSpawnerSystemProvider _cardSpawnerProvider;
     private readonly ICardSpawnerSystemEventsProvider _cardSpawnerEventsProvider;
+    private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
     private readonly int _cardsPerPlayer;
     private int _cardsDealt = 0;
 
     private IEnumerator timer;
 
-    public DealCardsState_Game(IStateMachineProvider stateMachineProvider, List<IPlayer> players, ICardSpawnerSystemProvider cardSpawnerProvider, ICardSpawnerSystemEventsProvider cardSpawnerEventsProvider)
+    public DealCardsState_Game(IStateMachineProvider stateMachineProvider, List<IPlayer> players, ICardSpawnerSystemProvider cardSpawnerProvider, ICardSpawnerSystemEventsProvider cardSpawnerEventsProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
     {
         _stateMachineProvider = stateMachineProvider;
         _players = players;
         _cardSpawnerProvider = cardSpawnerProvider;
         _cardSpawnerEventsProvider = cardSpawnerEventsProvider;
+        _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
         _cardsPerPlayer = CardDistributionUtility.GetCardsPerPlayer(_players.Count);
     }
 
@@ -58,14 +60,16 @@ public class DealCardsState_Game : IState
 
         if (_cardsDealt >= _cardsPerPlayer * _players.Count)
         {
-            ChangeStateToOther();
+            _cardBankPresentationSystemProvider.MoveToLayout("Normal");
+
+            ChangeStateToPoker();
         }
     }
 
     private IPlayer GetPlayer(int playerIndex) { return _players.Find(player => player.Id == playerIndex); }
 
-    private void ChangeStateToOther()
+    private void ChangeStateToPoker()
     {
-
+        _stateMachineProvider.EnterState(_stateMachineProvider.GetState<PokerState_Game>());
     }
 }

@@ -1,12 +1,15 @@
 using System;
+using System.Collections.Generic;
 
 public class PlayerPeople : IPlayer
 {
     public int Id => _playerId;
+    public string Name => _nicknamePresenter.Nickname;
 
     private readonly PlayerPeopleStateMachine _playerPeopleStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;
 
+    private readonly NicknamePresenter _nicknamePresenter;
     private readonly StoreCardPlayerPresenter _storeCardPlayerPresenter; 
     private readonly PlayerPeopleCardVisualPresenter _playerPeopleCardVisualPresenter;
 
@@ -16,11 +19,13 @@ public class PlayerPeople : IPlayer
     public PlayerPeople(
         int playerIndex, 
         IPlayerHighlightSystemProvider highlightProvider,
+        ISoundProvider soundProvider,
         BetSystemPresenter betSystemPresenter,
         ViewContainer viewContainer)
     {
         _playerId = playerIndex;
         _highlightProvider = highlightProvider;
+        _nicknamePresenter = new NicknamePresenter(new NicknameModel(PlayerPrefsKeys.NICKNAME, soundProvider), viewContainer.GetView<NicknameView>());
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>("Player"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
@@ -31,17 +36,28 @@ public class PlayerPeople : IPlayer
             betSystemPresenter,
             betSystemPresenter,
             betSystemPresenter,
-            _scorePlayerPresenter);
+            _scorePlayerPresenter,
+            _playerPeopleCardVisualPresenter,
+            _playerPeopleCardVisualPresenter,
+            _playerPeopleCardVisualPresenter,
+            _playerPeopleCardVisualPresenter,
+            _playerPeopleCardVisualPresenter);
     }
 
     public void Initialize()
     {
+        _playerPeopleStateMachine.OnChoose5Cards += Choose5Cards;
+
+        _nicknamePresenter.Initialize();
         _scorePlayerPresenter.Initialize();
         _playerPeopleCardVisualPresenter.Initialize();
     }
 
     public void Dispose()
     {
+        _playerPeopleStateMachine.OnChoose5Cards -= Choose5Cards;
+
+        _nicknamePresenter.Dispose();
         _scorePlayerPresenter.Dispose();
         _playerPeopleCardVisualPresenter.Dispose();
     }
@@ -54,6 +70,13 @@ public class PlayerPeople : IPlayer
     {
         add => _playerPeopleStateMachine.OnApplyBet += value;
         remove => _playerPeopleStateMachine.OnApplyBet -= value;
+    }
+
+    public event Action<IPlayer, List<ICard>> OnChoose5Cards;
+
+    private void Choose5Cards(List<ICard> cards)
+    {
+        OnChoose5Cards?.Invoke(this, cards);
     }
 
     #endregion
@@ -86,6 +109,22 @@ public class PlayerPeople : IPlayer
     public void AddCard(ICard card)
     {
         _storeCardPlayerPresenter.AddCard(card);
+    }
+
+    public void RemoveCard(ICard card)
+    {
+        _storeCardPlayerPresenter.RemoveCard(card);
+    }
+
+    //POKER
+    public void ActiveChoose5Cards()
+    {
+        _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<Choose5CardsState_PlayerPeople>());
+    }
+
+    public void DeactivateChoose5Cards()
+    {
+        _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<Choose5CardsState_PlayerPeople>());
     }
 
     #endregion

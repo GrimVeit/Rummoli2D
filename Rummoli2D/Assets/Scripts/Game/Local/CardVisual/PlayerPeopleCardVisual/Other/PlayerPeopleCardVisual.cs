@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -14,8 +15,6 @@ public class PlayerPeopleCardVisual : MonoBehaviour, IPointerDownHandler, IPoint
 
     private Tween tweenSelect;
 
-    private bool isSelect = false;
-
     public bool IsVisible;
 
     public void SetData(ICard card)
@@ -29,16 +28,12 @@ public class PlayerPeopleCardVisual : MonoBehaviour, IPointerDownHandler, IPoint
     {
         tweenSelect?.Kill();
 
-        isSelect = true;
-
         tweenSelect = imageFace.transform.DOLocalMoveY(50, 0.2f).SetEase(Ease.OutBack);
     }
 
     public void Deselect()
     {
         tweenSelect?.Kill();
-
-        isSelect = false;
 
         tweenSelect = imageFace.transform.DOLocalMoveY(0, 0.2f).SetEase(Ease.OutBack);
     }
@@ -50,9 +45,12 @@ public class PlayerPeopleCardVisual : MonoBehaviour, IPointerDownHandler, IPoint
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (isSelect)
-            Deselect();
-        else
-            Select();
+        OnChooseCard?.Invoke(_card);
     }
+
+    #region Output
+
+    public event Action<ICard> OnChooseCard;
+
+    #endregion
 }

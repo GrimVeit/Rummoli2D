@@ -27,6 +27,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
     private CardBankPresentationSystemPresenter cardBankPresentationSystemPresenter;
     private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
+    private PlayerPokerPresenter playerPokerPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -63,12 +64,13 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
         cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
+        playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(), viewContainer.GetView<PlayerPokerView>());
 
-        playerPeople = new PlayerPeople(0, highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_1 = new PlayerBot(1, highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_2 = new PlayerBot(2, highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_3 = new PlayerBot(3, highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_4 = new PlayerBot(4, highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, betSystemPresenter, viewContainer);
+        playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, betSystemPresenter, viewContainer);
 
         stateMachine = new StateMachine_Game
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
@@ -76,7 +78,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             playerPresentationSystemPresenter,
             cardBankPresentationSystemPresenter,
             cardSpawnerSystemPresenter,
-            cardSpawnerSystemPresenter);
+            cardSpawnerSystemPresenter,
+            playerPokerPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -94,6 +97,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter.Initialize();
         playerPresentationSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
+        playerPokerPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -171,6 +175,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter?.Dispose();
         playerPresentationSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();
+        playerPokerPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

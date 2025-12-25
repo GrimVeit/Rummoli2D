@@ -70,4 +70,10 @@ public class NicknamePresenter
     }
 
     #endregion
+
+    #region Output
+
+    public string Nickname => nicknameModel.Nickname;
+
+    #endregion
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -26,6 +27,12 @@ public class PlayerPeopleCardVisualView : View
     [SerializeField] private Vector3 vectorPosLeftActive;
     [SerializeField] private Vector3 vectorPosLeftDeactive;
 
+    [Header("Submit")]
+    [SerializeField] private UIEffect effectButtonSubmit;
+    [SerializeField] private Button buttonSubmit;
+
+    private bool isInteractive = false;
+
     private readonly List<PlayerPeopleCardVisual> cards = new List<PlayerPeopleCardVisual>();
     private int scrollIndex = 0;
 
@@ -35,24 +42,29 @@ public class PlayerPeopleCardVisualView : View
     {
         buttonLeft.onClick.AddListener(ScrollLeft);
         buttonRight.onClick.AddListener(ScrollRight);
+        buttonSubmit.onClick.AddListener(Submit);
 
         effectButtonLeft.Initialize();
         effectButtonRight.Initialize();
+        effectButtonSubmit.Initialize();
     }
 
     public void Dispose()
     {
         buttonLeft.onClick.RemoveListener(ScrollLeft);
         buttonRight.onClick.RemoveListener(ScrollRight);
+        buttonSubmit.onClick.RemoveListener(Submit);
 
         effectButtonLeft.Dispose();
         effectButtonRight.Dispose();
+        effectButtonSubmit.Dispose();
     }
 
     public void AddCard(ICard card)
     {
         PlayerPeopleCardVisual cardVisual = Instantiate(cardPrefab, cardsParent);
         cardVisual.SetData(card);
+        cardVisual.OnChooseCard += ChooseCard;
 
         cards.Add(cardVisual);
 
@@ -67,11 +79,40 @@ public class PlayerPeopleCardVisualView : View
         UpdateHand();
     }
 
+    public void Select(ICard card)
+    {
+        var cardVisual = GetCard(card);
+
+        if(cardVisual == null)
+        {
+            Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
+            return;
+        }
+
+        cardVisual.Select();
+
+    }
+
+    public void Deselect(ICard card)
+    {
+        var cardVisual = GetCard(card);
+
+        if (cardVisual == null)
+        {
+            Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
+            return;
+        }
+
+        cardVisual.Deselect();
+    }
+
     public void RemoveCard(ICard card)
     {
         PlayerPeopleCardVisual cardVisual = cards.Find(c => c.Card == card);
         if (cardVisual == null)
             return;
+
+        cardVisual.OnChooseCard -= ChooseCard;
 
         int removedIndex = cards.IndexOf(cardVisual);
 
@@ -85,9 +126,22 @@ public class PlayerPeopleCardVisualView : View
         UpdateHand();
     }
 
+    private PlayerPeopleCardVisual GetCard(ICard card)
+    {
+        return cards.Find(c => c.Card == card);
+    }
+
     #region Interactive
 
-    //public void Activate
+    public void ActivateInteractive()
+    {
+        isInteractive = true;
+    }
+
+    public void DeactivateInteractive()
+    {
+        isInteractive = false;
+    }
 
     #endregion
 
@@ -208,6 +262,43 @@ public class PlayerPeopleCardVisualView : View
         {
             effectButtonRight.DeactivateEffect(() => buttonRight.gameObject.SetActive(false));
         }
+    }
+
+    #endregion
+
+    #region Submit
+
+    public void ActivateSubmit()
+    {
+        buttonSubmit.enabled = true;
+        effectButtonSubmit.ActivateEffect();
+    }
+
+    public void DeactivateSubmit()
+    {
+        buttonSubmit.enabled = false;
+        effectButtonSubmit.DeactivateEffect();
+    }
+
+    public event Action OnSubmit;
+
+    private void Submit()
+    {
+        OnSubmit?.Invoke();
+    }
+
+    #endregion
+
+
+    #region Output
+
+    public event Action<ICard> OnChooseCard;
+
+    private void ChooseCard(ICard card)
+    {
+        if(!isInteractive) return;
+
+        OnChooseCard?.Invoke(card);
     }
 
     #endregion

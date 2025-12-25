@@ -21,26 +21,24 @@ public class NicknameView : View
 
     public void Initialize()
     {
-        if (inputFieldNickname.Count == 0) return;
-
         for (int i = 0; i < inputFieldNickname.Count; i++)
         {
             inputFieldNickname[i].onValueChanged.AddListener(HandlerOnNicknameTextValueChanged);
         }
 
-        buttonEffect.Initialize();
+        if(buttonEffect != null)
+           buttonEffect.Initialize();
     }
 
     public void Dispose()
     {
-        if (inputFieldNickname.Count == 0) return;
-
         for (int i = 0; i < inputFieldNickname.Count; i++)
         {
             inputFieldNickname[i].onValueChanged.RemoveListener(HandlerOnNicknameTextValueChanged);
         }
 
-        buttonEffect.Dispose();
+        if (buttonEffect != null)
+            buttonEffect.Dispose();
     }
 
     public void ActivateButton()
