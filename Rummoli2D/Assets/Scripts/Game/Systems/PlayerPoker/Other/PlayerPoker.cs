@@ -40,6 +40,14 @@ public class PlayerPoker : MonoBehaviour
         Coroutines.Start(_timerSetData);
     }
 
+    public void Destroy()
+    {
+        if (_timerShow != null) Coroutines.Stop(_timerShow);
+        if (_timerSetData != null) Coroutines.Stop(_timerSetData);
+
+        Destroy(gameObject);
+    }
+
     private IEnumerator TimerSetData(PlayerPokerData data)
     {
         textEffectNickname.SetText(data.Nickname);
@@ -70,6 +78,11 @@ public class PlayerPoker : MonoBehaviour
 
         _timerShow = TimerShow();
         Coroutines.Start(_timerShow);
+    }
+
+    public void Hide()
+    {
+        transform.DOScale(0, 0.2f);
     }
 
     private IEnumerator TimerShow()

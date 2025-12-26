@@ -23,7 +23,10 @@ public class PlayerPokerView : View
     private RectTransform[] currentPoints;
     private int currentIndex;
     private readonly List<PlayerPoker> _spawnedCards = new();
+
+
     private IEnumerator _timerShowAll;
+    private IEnumerator _timerClearAll;
 
     public void SetCountPlayer(int count)
     {
@@ -99,12 +102,32 @@ public class PlayerPokerView : View
 
     public void ClearAll()
     {
+        if (_timerClearAll != null) Coroutines.Stop(_timerClearAll);
+
+        _timerClearAll = TimerClearAll();
+        Coroutines.Start(_timerClearAll);
+    }
+
+    private IEnumerator TimerClearAll()
+    {
         foreach (PlayerPoker card in _spawnedCards)
         {
             if (card != null)
             {
                 card.Dispose();
-                Destroy(card.gameObject);
+                card.Hide();
+
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        foreach (PlayerPoker card in _spawnedCards)
+        {
+            if (card != null)
+            {
+                card.Destroy();
             }
         }
 

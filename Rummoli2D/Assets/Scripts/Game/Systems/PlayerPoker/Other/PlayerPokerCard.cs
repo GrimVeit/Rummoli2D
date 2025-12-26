@@ -35,7 +35,7 @@ public class PlayerPokerCard : MonoBehaviour
 
         seq.Append(rectTransform.DOLocalMoveY(originalPosition.y + moveDistance, moveDuration)
             .SetEase(Ease.OutQuad));
-        seq.Join(rectTransform.DOLocalRotate(new Vector3(0, 90, 0), flipDuration, RotateMode.LocalAxisAdd)
+        seq.Join(rectTransform.DOLocalRotate(new Vector3(0, 90, 0), flipDuration)
             .SetEase(Ease.InOutQuad));
 
         // Когда карта “исчезает” меняем спрайт
@@ -44,7 +44,7 @@ public class PlayerPokerCard : MonoBehaviour
         });
 
         // Возврат поворота и опускание
-        seq.Append(rectTransform.DOLocalRotate(new Vector3(0, 90, 0), flipDuration, RotateMode.LocalAxisAdd)
+        seq.Append(rectTransform.DOLocalRotate(new Vector3(0, 0, 0), flipDuration)
             .SetEase(Ease.InOutQuad));
         seq.Join(rectTransform.DOLocalMoveY(originalPosition.y, moveDuration)
             .SetEase(Ease.InQuad));
