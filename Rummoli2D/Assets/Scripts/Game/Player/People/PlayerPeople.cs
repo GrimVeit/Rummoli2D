@@ -20,6 +20,7 @@ public class PlayerPeople : IPlayer
         int playerIndex, 
         IPlayerHighlightSystemProvider highlightProvider,
         ISoundProvider soundProvider,
+        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         BetSystemPresenter betSystemPresenter,
         ViewContainer viewContainer)
     {
@@ -41,7 +42,8 @@ public class PlayerPeople : IPlayer
             _playerPeopleCardVisualPresenter,
             _playerPeopleCardVisualPresenter,
             _playerPeopleCardVisualPresenter,
-            _playerPeopleCardVisualPresenter);
+            _playerPeopleCardVisualPresenter,
+            cardPokerSelectorPlayerProvider);
     }
 
     public void Initialize()

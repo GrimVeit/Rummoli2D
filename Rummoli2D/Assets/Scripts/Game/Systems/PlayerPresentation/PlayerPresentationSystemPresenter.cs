@@ -34,6 +34,9 @@ public class PlayerPresentationSystemPresenter : IPlayerPresentationSystemProvid
     public void ShowBalance(int playerId, Action OnComplete = null) => _view.ShowBalance(playerId, OnComplete);
     public void HideBalance(int playerId, Action OnComplete = null) => _view.HideBalance(playerId, OnComplete);
 
+    public void ShowCards(int playerId, Action OnComplete = null) => _view.ShowCards(playerId, OnComplete);
+    public void HideCards(int playerId, Action OnComplete = null) => _view.HideCards(playerId, OnComplete);
+
     #endregion
 }
 
@@ -46,4 +49,7 @@ public interface IPlayerPresentationSystemProvider
 
     void ShowBalance(int playerId, Action OnComplete = null);
     void HideBalance(int playerId, Action OnComplete = null);
+
+    void ShowCards(int playerId, Action OnComplete = null);
+    void HideCards(int playerId, Action OnComplete = null);
 }

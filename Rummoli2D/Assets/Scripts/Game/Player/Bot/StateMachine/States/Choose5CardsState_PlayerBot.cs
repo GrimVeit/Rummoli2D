@@ -8,14 +8,16 @@ using Random = UnityEngine.Random;
 public class Choose5CardsState_PlayerBot : IState
 {
     private readonly IStoreCardInfoProvider _storeCardInfoProvider;
+    private readonly ICardPokerSelectorBotProvider _cardPokerSelectorBotProvider;
 
     private List<ICard> _cards = new();
 
     private IEnumerator timer;
 
-    public Choose5CardsState_PlayerBot(IStoreCardInfoProvider storeCardInfoProvider)
+    public Choose5CardsState_PlayerBot(IStoreCardInfoProvider storeCardInfoProvider, ICardPokerSelectorBotProvider cardPokerSelectorBotProvider)
     {
         _storeCardInfoProvider = storeCardInfoProvider;
+        _cardPokerSelectorBotProvider = cardPokerSelectorBotProvider;
     }
 
     public void EnterState()
@@ -25,7 +27,7 @@ public class Choose5CardsState_PlayerBot : IState
         timer = Timer();
         Coroutines.Start(timer);
 
-        _cards = _storeCardInfoProvider.Cards.Take(5).ToList();
+        _cards = _cardPokerSelectorBotProvider.ChooseHandBot(_storeCardInfoProvider.Cards.ToList());
     }
 
     public void ExitState()

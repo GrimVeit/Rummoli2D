@@ -21,6 +21,7 @@ public class BetState_Game : IState
 
     public void EnterState()
     {
+        Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
         _completedCount = 0;
         _currentIndex = _startIndex;
 

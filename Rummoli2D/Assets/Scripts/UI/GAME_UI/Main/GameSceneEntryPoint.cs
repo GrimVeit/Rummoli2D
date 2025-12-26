@@ -22,6 +22,9 @@ public class GameSceneEntryPoint : MonoBehaviour
     private SoundPresenter soundPresenter;
     private AvatarPresenter avatarPresenter;
 
+    private StoreLanguagePresenter storeLanguagePresenter;
+    private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
+    private CardPokerHandSelectorPresenter cardPokerHandSelectorPresenter;
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
     private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
@@ -59,18 +62,21 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
+        storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
+        storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
+        cardPokerHandSelectorPresenter = new CardPokerHandSelectorPresenter(new CardPokerHandSelectorModel(storeGameDifficultyPresenter));
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
         cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
-        playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(), viewContainer.GetView<PlayerPokerView>());
+        playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
 
-        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, betSystemPresenter, viewContainer);
-        playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, betSystemPresenter, viewContainer);
-        playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, betSystemPresenter, viewContainer);
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
+        playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
+        playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
+        playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
+        playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
 
         stateMachine = new StateMachine_Game
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
@@ -79,6 +85,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             cardBankPresentationSystemPresenter,
             cardSpawnerSystemPresenter,
             cardSpawnerSystemPresenter,
+            playerPokerPresenter,
             playerPokerPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
@@ -94,6 +101,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter.Initialize();
         avatarPresenter.Initialize();
 
+        storeLanguagePresenter.Initialize();
+        storeGameDifficultyPresenter.Initialize();
         betSystemPresenter.Initialize();
         playerPresentationSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
@@ -172,6 +181,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter?.Dispose();
         avatarPresenter?.Dispose();
 
+        storeLanguagePresenter?.Dispose();
+        storeGameDifficultyPresenter.Dispose();
         betSystemPresenter?.Dispose();
         playerPresentationSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();

@@ -14,4 +14,5 @@ public static class PlayerPrefsKeys
     public const string NICKNAME = "NICKNAME";
 
     public const string LANGUAGE = "LANGUAGE";
+    public const string GAME_DIFFICULTY = "GAME_DIFFICULTY";
 }

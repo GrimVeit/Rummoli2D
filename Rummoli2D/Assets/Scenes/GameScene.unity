@@ -1281,7 +1281,7 @@ GameObject:
   - component: {fileID: 119925748}
   - component: {fileID: 119925750}
   m_Layer: 5
-  m_Name: Points
+  m_Name: Table
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5126,6 +5126,7 @@ RectTransform:
   - {fileID: 695306263}
   - {fileID: 2129934451}
   - {fileID: 2137874000}
+  - {fileID: 507628624}
   m_Father: {fileID: 1565066530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -6056,6 +6057,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &507628623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 507628624}
+  - component: {fileID: 507628625}
+  m_Layer: 5
+  m_Name: CENTER
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &507628624
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507628623}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 436635759}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &507628625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507628623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24f22b695431ad64a96a5f3f102f1a17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isVisible: 1
+  size: 0.5
+  color: {r: 0, g: 0, b: 0, a: 0.9490196}
+  drawType: 0
 --- !u!1 &517723653
 GameObject:
   m_ObjectHideFlags: 0
@@ -7538,59 +7591,75 @@ MonoBehaviour:
       transformMove: {fileID: 1256149110}
     - key: Game
       transformMove: {fileID: 790028725}
+    - key: Center
+      transformMove: {fileID: 507628624}
     transformPlayer: {fileID: 1341809596}
     transformBalance: {fileID: 387118154}
     transformAvatar: {fileID: 1221793178}
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: -34, y: 0, z: 0}
+    transformCards: {fileID: 1743376048}
   - playerId: 1
     playerPresentationTransforms:
     - key: Start
       transformMove: {fileID: 187399284}
     - key: Table
       transformMove: {fileID: 34456533}
+    - key: Center
+      transformMove: {fileID: 507628624}
     transformPlayer: {fileID: 700690400}
     transformBalance: {fileID: 878025148}
     transformAvatar: {fileID: 661348227}
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: 34, y: 0, z: 0}
+    transformCards: {fileID: 461979116}
   - playerId: 2
     playerPresentationTransforms:
     - key: Start
       transformMove: {fileID: 1180745384}
     - key: Table
       transformMove: {fileID: 936759533}
+    - key: Center
+      transformMove: {fileID: 507628624}
     transformPlayer: {fileID: 404870437}
     transformBalance: {fileID: 1125296577}
     transformAvatar: {fileID: 686429845}
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: 34, y: 0, z: 0}
+    transformCards: {fileID: 536815627}
   - playerId: 3
     playerPresentationTransforms:
     - key: Start
       transformMove: {fileID: 1982923795}
     - key: Table
       transformMove: {fileID: 1414411922}
+    - key: Center
+      transformMove: {fileID: 507628624}
     transformPlayer: {fileID: 600139103}
     transformBalance: {fileID: 542377238}
     transformAvatar: {fileID: 1117931776}
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: -34, y: 0, z: 0}
+    transformCards: {fileID: 1130672578}
   - playerId: 4
     playerPresentationTransforms:
     - key: Start
       transformMove: {fileID: 1013567122}
     - key: Table
       transformMove: {fileID: 1998212434}
+    - key: Center
+      transformMove: {fileID: 507628624}
     transformPlayer: {fileID: 89774455}
     transformBalance: {fileID: 1943117261}
     transformAvatar: {fileID: 255951462}
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: -34, y: 0, z: 0}
+    transformCards: {fileID: 1790326638}
   speedScalePlayer: 0.2
   speedMovePlayer: 0.4
   speedMoveAvatar: 0.2
   speedScaleBalance: 0.2
+  speedScaleCards: 0.2
 --- !u!1 &661228792
 GameObject:
   m_ObjectHideFlags: 0
@@ -13749,6 +13818,7 @@ MonoBehaviour:
   - {fileID: 661228793}
   - {fileID: 1066738923}
   - {fileID: 905463908}
+  transformTable: {fileID: 119925748}
 --- !u!1 &1304166320
 GameObject:
   m_ObjectHideFlags: 0
@@ -24428,7 +24498,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: -1

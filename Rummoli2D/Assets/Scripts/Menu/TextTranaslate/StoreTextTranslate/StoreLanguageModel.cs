@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreTextTranslateModel
+public class StoreLanguageModel
 {
     public Language CurrentLanguage => _currentLanguage;
 
@@ -12,7 +12,7 @@ public class StoreTextTranslateModel
     private Language _currentLanguage;
     private readonly string KEY;
 
-    public StoreTextTranslateModel(string key)
+    public StoreLanguageModel(string key)
     {
         KEY = key;
     }

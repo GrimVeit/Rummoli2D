@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -15,9 +16,14 @@ public class PlayerPokerView : View
     [SerializeField] private RectTransform[] points4;
     [SerializeField] private RectTransform[] points5;
 
+    [Header("Table")]
+    [SerializeField] private Transform transformTable;
+    private Tween tweenScale;
+
     private RectTransform[] currentPoints;
     private int currentIndex;
-    private readonly List<PlayerPoker> spawnedCards = new();
+    private readonly List<PlayerPoker> _spawnedCards = new();
+    private IEnumerator _timerShowAll;
 
     public void SetCountPlayer(int count)
     {
@@ -58,6 +64,7 @@ public class PlayerPokerView : View
         RectTransform point = currentPoints[currentIndex];
 
         PlayerPoker card = Instantiate(prefabCard, parent);
+        card.Initialize();
         card.SetData(data);
         RectTransform rect = card.gameObject.GetComponent<RectTransform>();
         rect.anchoredPosition = point.anchoredPosition;
@@ -65,19 +72,86 @@ public class PlayerPokerView : View
         rect.localRotation = Quaternion.identity;
         rect.DOScale(1, 0.3f);
 
-        spawnedCards.Add(card);
+        _spawnedCards.Add(card);
         currentIndex++;
+    }
+
+    public void ShowWin(int playerId)
+    {
+        var player = GetPlayerPoker(playerId);
+
+        if(player == null)
+        {
+            Debug.LogWarning("Not found PlayerPoker with PlayerId - " + playerId);
+            return;
+        }
+
+        player.Select();
+    }
+
+    public void ShowAll()
+    {
+        if(_timerShowAll != null) Coroutines.Stop(_timerShowAll);
+
+        _timerShowAll = TimerShowAll();
+        Coroutines.Start(_timerShowAll);
     }
 
     public void ClearAll()
     {
-        foreach (PlayerPoker obj in spawnedCards)
+        foreach (PlayerPoker card in _spawnedCards)
         {
-            if (obj != null)
-                Destroy(obj.gameObject);
+            if (card != null)
+            {
+                card.Dispose();
+                Destroy(card.gameObject);
+            }
         }
 
-        spawnedCards.Clear();
+        _spawnedCards.Clear();
         currentIndex = 0;
     }
+
+    #region Table
+
+    public void ShowTable()
+    {
+        tweenScale?.Kill();
+
+        tweenScale = transformTable.DOScale(1, 0.3f).SetEase(Ease.OutBack);
+    }
+
+    public void HideTable()
+    {
+        tweenScale?.Kill();
+
+        tweenScale = transformTable.DOScale(0.6f, 0.3f).SetEase(Ease.OutBack);
+    }
+
+    #endregion
+
+    private IEnumerator TimerShowAll()
+    {
+        for (int i = 0; i < _spawnedCards.Count; i++)
+        {
+            _spawnedCards[i].Show();
+
+            yield return new WaitForSeconds(0.4f);
+        }
+
+        yield return new WaitForSeconds(1);
+
+        OnShowAll?.Invoke();
+    }
+
+    private PlayerPoker GetPlayerPoker(int playerId)
+    {
+        return _spawnedCards.Find(data => data.Data.PlayerId == playerId);
+    }
+
+    #region Output
+
+    public event Action OnShowAll;
+
+    #endregion
 }

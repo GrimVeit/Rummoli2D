@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreTextTranslatePresenter : IStoreTextTranslateInfoProvider, IStoreTextTranslateProvider, IStoreTextTranslateEventsProvider
+public class StoreLanguagePresenter : IStoreLanguageInfoProvider, IStoreLanguageProvider, IStoreLanguageEventsProvider
 {
-    private readonly StoreTextTranslateModel _model;
+    private readonly StoreLanguageModel _model;
 
-    public StoreTextTranslatePresenter(StoreTextTranslateModel model)
+    public StoreLanguagePresenter(StoreLanguageModel model)
     {
         _model = model;
     }
@@ -40,17 +40,17 @@ public class StoreTextTranslatePresenter : IStoreTextTranslateInfoProvider, ISto
     #endregion
 }
 
-public interface IStoreTextTranslateProvider
+public interface IStoreLanguageProvider
 {
     public void SetLanguage(Language language);
 }
 
-public interface IStoreTextTranslateInfoProvider
+public interface IStoreLanguageInfoProvider
 {
     public Language CurrentLanguage { get; }
 }
 
-public interface IStoreTextTranslateEventsProvider
+public interface IStoreLanguageEventsProvider
 {
     public event Action<Language> OnChangeLanguage;
 }

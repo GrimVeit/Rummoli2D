@@ -10,8 +10,12 @@ public class PlayerPresentationSystemView : View
 
     [SerializeField] private float speedScalePlayer;
     [SerializeField] private float speedMovePlayer;
+
     [SerializeField] private float speedMoveAvatar;
+
     [SerializeField] private float speedScaleBalance;
+
+    [SerializeField] private float speedScaleCards;
 
     public void Show(int playerId, Action OnComplete)
     {
@@ -79,6 +83,33 @@ public class PlayerPresentationSystemView : View
         playerPresentation.HideBalance(speedMoveAvatar, speedScaleBalance, OnComplete);
     }
 
+
+    public void ShowCards(int playerId, Action OnComplete)
+    {
+        var playerPresentation = GetPlayerPresentation(playerId);
+
+        if (playerPresentation == null)
+        {
+            Debug.LogWarning("Not found PlayerPresentation with PlayerId - " + playerId);
+            return;
+        }
+
+        playerPresentation.ShowCards(speedScaleCards, OnComplete);
+    }
+
+    public void HideCards(int playerId, Action OnComplete)
+    {
+        var playerPresentation = GetPlayerPresentation(playerId);
+
+        if (playerPresentation == null)
+        {
+            Debug.LogWarning("Not found PlayerPresentation with PlayerId - " + playerId);
+            return;
+        }
+
+        playerPresentation.HideCards(speedScaleCards, OnComplete);
+    }
+
     private PlayerPresentation GetPlayerPresentation(int playerId)
     {
         return playerPresentations.Find(data => data.PlayerId == playerId);
@@ -104,10 +135,14 @@ public class PlayerPresentation
     [SerializeField] private Vector3 positionAvatarNormal;
     [SerializeField] private Vector3 positionAvatarWithBalance;
 
+    [Header("Cards")]
+    [SerializeField] private Transform transformCards;
+
     private Tween tweenScalePlayer;
     private Tween tweenMovePlayer;
     private Tween tweenMoveAvatar;
     private Tween tweenScaleBalance;
+    private Tween tweenScaleCards;
 
     public void Show(float speedScalePlayer, Action OnComplete)
     {
@@ -141,6 +176,20 @@ public class PlayerPresentation
         }
 
         tweenMovePlayer = transformPlayer.DOLocalMove(transformMove.localPosition, speedMovePlayer).OnComplete(() => OnComplete?.Invoke());
+    }
+
+    public void ShowCards(float speedScaleCards, Action OnComplete)
+    {
+        tweenScaleCards?.Kill();
+
+        tweenScaleCards = transformCards.DOScale(1, speedScaleCards).OnComplete(() => OnComplete?.Invoke());
+    }
+
+    public void HideCards(float speedScaleCards, Action OnComplete)
+    {
+        tweenScaleCards?.Kill();
+
+        tweenScaleCards = transformCards.DOScale(0, speedScaleCards).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void ShowBalance(float speedMoveAvatar, float speedScaleBalance, Action OnComplete)

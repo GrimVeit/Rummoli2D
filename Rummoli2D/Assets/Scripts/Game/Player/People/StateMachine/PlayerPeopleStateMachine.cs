@@ -18,13 +18,14 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         IPlayerPeopleCardVisualInteractiveActivatorProvider playerPeopleCardVisualInteractiveProvider,
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleSubmitEventsProvider playerPeopleSubmitEventsProvider,
-        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitActivatorProvider)
+        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitActivatorProvider,
+        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
     {
         var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerPeople)] = stateBet;
 
-        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider);
+        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerPeople)] = state5Cards;
     }

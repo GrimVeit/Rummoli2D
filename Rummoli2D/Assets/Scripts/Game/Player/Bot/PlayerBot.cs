@@ -20,6 +20,7 @@ public class PlayerBot : IPlayer
         int playerIndex,
         string name,
         IPlayerHighlightSystemProvider highlightProvider,
+        ICardPokerSelectorBotProvider cardPlayerPresenter,
         BetSystemPresenter betSystemPresenter,
         ViewContainer viewContainer)
     {
@@ -35,6 +36,7 @@ public class PlayerBot : IPlayer
             betSystemPresenter,
             betSystemPresenter,
             betSystemPresenter,
+            cardPlayerPresenter,
             _scorePlayerPresenter,
             _storeCardPlayerPresenter);
     }

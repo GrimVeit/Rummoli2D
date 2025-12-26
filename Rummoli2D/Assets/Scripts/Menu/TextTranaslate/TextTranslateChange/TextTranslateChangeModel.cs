@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class TextTranslateChangeModel
 {
-    private readonly IStoreTextTranslateProvider _storeTextTranslateProvider;
-    private readonly IStoreTextTranslateInfoProvider _storeTextTranslateInfoProvider;
+    private readonly IStoreLanguageProvider _storeTextTranslateProvider;
+    private readonly IStoreLanguageInfoProvider _storeTextTranslateInfoProvider;
 
-    public TextTranslateChangeModel(IStoreTextTranslateProvider storeTextTranslateProvider, IStoreTextTranslateInfoProvider storeTextTranslateInfoProvider)
+    public TextTranslateChangeModel(IStoreLanguageProvider storeTextTranslateProvider, IStoreLanguageInfoProvider storeTextTranslateInfoProvider)
     {
         _storeTextTranslateProvider = storeTextTranslateProvider;
         _storeTextTranslateInfoProvider = storeTextTranslateInfoProvider;

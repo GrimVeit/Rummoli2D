@@ -12,6 +12,7 @@ public class PlayerBotStateMachine : IStateMachineProvider
         IBetSystemEventsProvider betSystemEventsProvider,
         IBetSystemInfoProvider betSystemInfoProvider,
         IBetSystemProvider betSystemProvider,
+        ICardPokerSelectorBotProvider cardPokerSelectorBotProvider,
         IScorePlayerProvider scorePlayerProvider,
         IStoreCardInfoProvider storeCardInfoProvider)
     {
@@ -19,7 +20,7 @@ public class PlayerBotStateMachine : IStateMachineProvider
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerBot)] = stateBet;
 
-        var state5Cards = new Choose5CardsState_PlayerBot(storeCardInfoProvider);
+        var state5Cards = new Choose5CardsState_PlayerBot(storeCardInfoProvider, cardPokerSelectorBotProvider);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerBot)] = state5Cards;
     }

@@ -10,6 +10,7 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly IPlayerPeopleCardVisualProvider _playerPeopleCardVisualProvider;
     private readonly IPlayerPeopleSubmitEventsProvider _playerPeopleSubmitEventsProvider;
     private readonly IPlayerPeopleSubmitActivatorProvider _playerPeopleSubmitProvider;
+    private readonly ICardPokerSelectorPlayerProvider _cardPokerSelectorPlayerProvider;
     private readonly List<ICard> _cards = new();
 
     public Choose5CardsState_PlayerPeople
@@ -17,13 +18,15 @@ public class Choose5CardsState_PlayerPeople : IState
         IPlayerPeopleCardVisualEventsProvider playerPeopleCardVisualEventsProvider,
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleSubmitEventsProvider playerPeopleSubmitEventsProvider,
-        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitProvider)
+        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitProvider,
+        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
         _playerPeopleCardVisualProvider = playerPeopleCardVisualProvider;
         _playerPeopleSubmitEventsProvider = playerPeopleSubmitEventsProvider;
         _playerPeopleSubmitProvider = playerPeopleSubmitProvider;
+        _cardPokerSelectorPlayerProvider = cardPokerSelectorPlayerProvider;
     }
 
     public void EnterState()

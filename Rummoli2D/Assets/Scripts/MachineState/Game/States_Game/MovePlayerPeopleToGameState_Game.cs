@@ -23,7 +23,8 @@ public class MovePlayerPeopleToGameState_Game : IState
 
     public void EnterState()
     {
-        if(timer != null) Coroutines.Stop(timer);
+        Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
+        if (timer != null) Coroutines.Stop(timer);
 
         timer = Timer();
         Coroutines.Start(timer);

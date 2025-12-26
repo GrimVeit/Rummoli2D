@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PokerState_Game : IState
+public class ChooseCardsPokerState_Game : IState
 {
     private readonly IStateMachineProvider _machineProvider;
     private readonly IPlayerPokerProvider _playerPokerProvider;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
+
+    private int _currentCount = 0;
     private readonly List<IPlayer> _players;
 
-    public PokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider)
+    public ChooseCardsPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
@@ -19,6 +21,8 @@ public class PokerState_Game : IState
 
     public void EnterState()
     {
+        Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
+
         _playerPokerProvider.SetCountPlayer(_players.Count);
 
         for (int i = 0; i < _players.Count; i++)
@@ -42,5 +46,17 @@ public class PokerState_Game : IState
         _playerPresentationSystemProvider.Hide(player.Id);
 
         _playerPokerProvider.SetPlayer(player.Id, player.Name, cards);
+
+        _currentCount += 1;
+
+        if(_currentCount == _players.Count)
+        {
+            ChangeStateToResultPokerState();
+        }
+    }
+
+    private void ChangeStateToResultPokerState()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<ResultPokerState_Game>());
     }
 }

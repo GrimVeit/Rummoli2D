@@ -26,6 +26,8 @@ public class DealCardsState_Game : IState
 
     public void EnterState()
     {
+        Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
+
         _cardSpawnerEventsProvider.OnSpawn += OnCardSpawned;
 
         if(timer != null) Coroutines.Stop(timer);
@@ -70,6 +72,6 @@ public class DealCardsState_Game : IState
 
     private void ChangeStateToPoker()
     {
-        _stateMachineProvider.EnterState(_stateMachineProvider.GetState<PokerState_Game>());
+        _stateMachineProvider.EnterState(_stateMachineProvider.GetState<ChooseCardsPokerState_Game>());
     }
 }
