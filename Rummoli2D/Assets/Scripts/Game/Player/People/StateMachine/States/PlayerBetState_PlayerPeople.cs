@@ -32,7 +32,7 @@ public class PlayerBetState_PlayerPeople : IState
     public void EnterState()
     {
         _betSystemEventsProvider.OnPlayerBetCompleted += ApplyBet;
-        _betSystemEventsProvider.OnSubmitBet += SubmitBet;
+        _betSystemEventsProvider.OnAddBet += SubmitBet;
 
         _betSystemInteractiveActivatorProvider.ActivateInteractive();
     }
@@ -40,7 +40,7 @@ public class PlayerBetState_PlayerPeople : IState
     public void ExitState()
     {
         _betSystemEventsProvider.OnPlayerBetCompleted -= ApplyBet;
-        _betSystemEventsProvider.OnSubmitBet -= SubmitBet;
+        _betSystemEventsProvider.OnAddBet -= SubmitBet;
 
         _betSystemInteractiveActivatorProvider.DeactivateInteractive();
     }

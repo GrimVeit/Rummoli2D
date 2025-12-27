@@ -91,6 +91,11 @@ public class PlayerPeople : IPlayer
         _scorePlayerPresenter.SetScore(score);
     }
 
+    public void AddScore(int score)
+    {
+        _scorePlayerPresenter.AddScore(score);
+    }
+
 
     //APPLY BET
     public void ActivateApplyBet()

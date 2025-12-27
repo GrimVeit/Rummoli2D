@@ -10,6 +10,7 @@ public interface IPlayer
 
     //Balance
     void SetScore(int score);
+    void AddScore(int score);
 
     //Bet
     void ActivateApplyBet();

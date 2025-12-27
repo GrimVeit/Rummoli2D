@@ -86,7 +86,9 @@ public class GameSceneEntryPoint : MonoBehaviour
             cardSpawnerSystemPresenter,
             cardSpawnerSystemPresenter,
             playerPokerPresenter,
-            playerPokerPresenter);
+            playerPokerPresenter,
+            betSystemPresenter,
+            betSystemPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -104,7 +106,6 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeLanguagePresenter.Initialize();
         storeGameDifficultyPresenter.Initialize();
         betSystemPresenter.Initialize();
-        playerPresentationSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
         playerPokerPresenter.Initialize();
 
@@ -125,7 +126,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             {
                 if(betSystemPresenter.TryGetRandomAvailableSector(1, out int index))
                 {
-                    betSystemPresenter.AddBet(1, index);
+                    betSystemPresenter.StartAddBet(1, index);
                 }
             }
         }
@@ -136,7 +137,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             {
                 if (betSystemPresenter.TryGetRandomAvailableSector(2, out int index))
                 {
-                    betSystemPresenter.AddBet(2, index);
+                    betSystemPresenter.StartAddBet(2, index);
                 }
             }
         }
@@ -184,7 +185,6 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeLanguagePresenter?.Dispose();
         storeGameDifficultyPresenter.Dispose();
         betSystemPresenter?.Dispose();
-        playerPresentationSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();
         playerPokerPresenter?.Dispose();
 

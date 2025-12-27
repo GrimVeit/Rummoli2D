@@ -7,7 +7,8 @@ using UnityEngine.UI;
 
 public class BetSystemView : View
 {
-    [SerializeField] private BetSystemChip chipMovePrefab;
+    [SerializeField] private BetAddChip chipAddBetPrefab;
+    [SerializeField] private BetReturnChip chipReturnBetPrefab;
     [SerializeField] private Transform transformSpawnParent;
 
     [SerializeField] private BetPlayerTransforms playerTransforms;
@@ -25,14 +26,6 @@ public class BetSystemView : View
         sectors.Dispose();
     }
 
-    public void AddBet(int playerIndex, int sectorIndex)
-    {
-        var chip = Instantiate(chipMovePrefab, transformSpawnParent);
-        chip.SetData(playerIndex, sectorIndex);
-        chip.OnEndMove += DestroyChip;
-        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), 0.3f);
-    }
-
     public void SetSectorBetCount(int sectorIndex, int count)
     {
         sectors.SetSectorBetCount(sectorIndex, count);
@@ -48,18 +41,52 @@ public class BetSystemView : View
         sectors.DeactivateInteractive();
     }
 
-    private void DestroyChip(int playerIndex, int sectorIndex, BetSystemChip chip)
-    {
-        chip.OnEndMove -= DestroyChip;
+    #region AddBet
 
-        OnSubmitBet?.Invoke(playerIndex, sectorIndex);
+    public void StartAddBet(int playerIndex, int sectorIndex)
+    {
+        var chip = Instantiate(chipAddBetPrefab, transformSpawnParent);
+        chip.SetData(playerIndex, sectorIndex);
+        chip.OnEndMove += DestroyAddBetChip;
+        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), 0.3f);
+    }
+
+    private void DestroyAddBetChip(int playerIndex, int sectorIndex, BetAddChip chip)
+    {
+        chip.OnEndMove -= DestroyAddBetChip;
+
+        OnAddBet?.Invoke(playerIndex, sectorIndex);
 
         Destroy(chip.gameObject);
     }
 
+    #endregion
+
+    #region ReturnBet
+
+    public void StartReturnBet(int playerIndex, int sectorIndex, int score)
+    {
+        var chip = Instantiate(chipReturnBetPrefab, transformSpawnParent);
+        chip.SetData(playerIndex, score);
+        chip.OnEndMove += DestroyReturnBetChip;
+        chip.MoveTo(sectors.GetTransformSector(sectorIndex), playerTransforms.GetTransformPlayer(playerIndex), 0.3f);
+    }
+
+    private void DestroyReturnBetChip(int playerIndex, int sectorIndex, BetReturnChip chip)
+    {
+        chip.OnEndMove -= DestroyReturnBetChip;
+
+        OnReturnBet?.Invoke(playerIndex, sectorIndex);
+
+        Destroy(chip.gameObject);
+    }
+
+    #endregion
+
     #region Output
 
-    public event Action<int, int> OnSubmitBet;
+    public event Action<int, int> OnAddBet;
+    public event Action<int, int> OnReturnBet;
     public event Action<int> OnChooseSector;
 
     private void ChooseSector(int sector)

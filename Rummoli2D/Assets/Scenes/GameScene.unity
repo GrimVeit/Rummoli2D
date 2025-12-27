@@ -18263,7 +18263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dbc3c28dd9465a41b25da7c4debcf53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chipMovePrefab: {fileID: 8368615498780898681, guid: 1b0c9a1985e90414b87f417d835f2523, type: 3}
+  chipAddBetPrefab: {fileID: 8368615498780898681, guid: 1b0c9a1985e90414b87f417d835f2523, type: 3}
+  chipReturnBetPrefab: {fileID: 5986152578001235272, guid: 8f6726b84b86cbf48be76f07495c119e, type: 3}
   transformSpawnParent: {fileID: 651516419}
   playerTransforms:
     betPlayerTransforms:

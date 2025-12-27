@@ -8,6 +8,8 @@ public class ResultPokerState_Game : IState
     private readonly IPlayerPokerProvider _playerPokerProvider;
     private readonly IPlayerPokerListener _playerPokerListener;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
+    private readonly IBetSystemEventsProvider _betSystemEventsProvider;
+    private readonly IBetSystemProvider _betSystemProvider;
     private readonly UIGameRoot _sceneRoot;
 
     private readonly List<IPlayer> _players;
@@ -15,7 +17,7 @@ public class ResultPokerState_Game : IState
 
     private IEnumerator timer;
 
-    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, UIGameRoot sceneRoot)
+    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, UIGameRoot sceneRoot, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
@@ -23,10 +25,13 @@ public class ResultPokerState_Game : IState
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _playerPokerListener = playerPokerListener;
         _sceneRoot = sceneRoot;
+        _betSystemEventsProvider = betSystemEventsProvider;
+        _betSystemProvider = betSystemProvider;
     }
 
     public void EnterState()
     {
+        _betSystemEventsProvider.OnReturnBet += ReturnBet;
         _playerPokerListener.OnSearchWinner += SetWinner;
 
         Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
@@ -39,6 +44,7 @@ public class ResultPokerState_Game : IState
 
     public void ExitState()
     {
+        _betSystemEventsProvider.OnReturnBet -= ReturnBet;
         _playerPokerListener.OnSearchWinner -= SetWinner;
 
         if (timer != null) Coroutines.Stop(timer);
@@ -80,8 +86,19 @@ public class ResultPokerState_Game : IState
         _playerPresentationSystemProvider.MoveToLayout(_winnerPlayerId, "Table", () =>
         {
             _playerPresentationSystemProvider.ShowBalance(_winnerPlayerId);
-            _sceneRoot.OpenRummoliTablePanel();
         });
+        _sceneRoot.OpenRummoliTablePanel();
+
+        yield return new WaitForSeconds(0.5f);
+
+        _betSystemProvider.StartReturnBet(_winnerPlayerId, 0);
+    }
+
+    private void ReturnBet(int playerId, int score)
+    {
+        var player = GetPlayer(playerId);
+
+        player.AddScore(score);
     }
 
     private void SetWinner(int playerId)

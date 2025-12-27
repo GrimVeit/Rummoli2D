@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class BetSystemChip : MonoBehaviour
+public class BetAddChip : MonoBehaviour
 {
     private int _playerIndex;
     private int _sectorIndex;
@@ -24,7 +24,7 @@ public class BetSystemChip : MonoBehaviour
 
     #region Output
 
-    public event Action<int, int, BetSystemChip> OnEndMove;
+    public event Action<int, int, BetAddChip> OnEndMove;
 
     #endregion
 }

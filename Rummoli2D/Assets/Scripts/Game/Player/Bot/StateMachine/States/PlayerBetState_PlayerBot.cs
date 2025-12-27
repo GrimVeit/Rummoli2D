@@ -29,14 +29,14 @@ public class PlayerBetState_PlayerBot : IState
     public void EnterState()
     {
         _betSystemEventsProvider.OnPlayerBetCompleted += ApplyBet;
-        _betSystemEventsProvider.OnSubmitBet += SubmitBet;
-        _betSystemEventsProvider.OnAddBet += AddBet;
+        _betSystemEventsProvider.OnAddBet += SubmitBet;
+        _betSystemEventsProvider.OnStartAddBet += AddBet;
 
         if (!_betSystemInfoProvider.IsPlayerBetCompleted(_playerIndex))
         {
             if (_betSystemInfoProvider.TryGetRandomAvailableSector(_playerIndex, out int index))
             {
-                _betSystemProvider.AddBet(_playerIndex, index);
+                _betSystemProvider.StartAddBet(_playerIndex, index);
             }
         }
     }
@@ -44,8 +44,8 @@ public class PlayerBetState_PlayerBot : IState
     public void ExitState()
     {
         _betSystemEventsProvider.OnPlayerBetCompleted -= ApplyBet;
-        _betSystemEventsProvider.OnSubmitBet -= SubmitBet;
-        _betSystemEventsProvider.OnAddBet -= AddBet;
+        _betSystemEventsProvider.OnAddBet -= SubmitBet;
+        _betSystemEventsProvider.OnStartAddBet -= AddBet;
     }
 
     private void AddBet(int playerIndex, int sectorIndex)
@@ -64,7 +64,7 @@ public class PlayerBetState_PlayerBot : IState
             {
                 if (_betSystemInfoProvider.TryGetRandomAvailableSector(_playerIndex, out int index))
                 {
-                    _betSystemProvider.AddBet(_playerIndex, index);
+                    _betSystemProvider.StartAddBet(_playerIndex, index);
                 }
             }
         }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class TextTranslateChangeView : View
+public class LanguageChangeView : View
 {
     [SerializeField] private DropdownLanguages dropdownLanguages;
     [SerializeField] private TMP_Dropdown dropdownLang;

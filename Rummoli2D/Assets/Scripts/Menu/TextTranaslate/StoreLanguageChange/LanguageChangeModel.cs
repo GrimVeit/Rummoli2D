@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextTranslateChangeModel
+public class LanguageChangeModel
 {
     private readonly IStoreLanguageProvider _storeTextTranslateProvider;
     private readonly IStoreLanguageInfoProvider _storeTextTranslateInfoProvider;
 
-    public TextTranslateChangeModel(IStoreLanguageProvider storeTextTranslateProvider, IStoreLanguageInfoProvider storeTextTranslateInfoProvider)
+    public LanguageChangeModel(IStoreLanguageProvider storeTextTranslateProvider, IStoreLanguageInfoProvider storeTextTranslateInfoProvider)
     {
         _storeTextTranslateProvider = storeTextTranslateProvider;
         _storeTextTranslateInfoProvider = storeTextTranslateInfoProvider;

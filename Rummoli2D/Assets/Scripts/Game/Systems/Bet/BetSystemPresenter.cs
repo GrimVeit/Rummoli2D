@@ -31,22 +31,32 @@ public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider, IBetSy
     private void ActivateEvents()
     {
         _view.OnChooseSector += _model.ChooseBet;
-        _view.OnSubmitBet += _model.SubmitBet;
+        _view.OnAddBet += _model.AddBet;
+        _view.OnReturnBet += _model.ReturnBet;
 
-        _model.OnAddBet += _view.AddBet;
+        _model.OnStartAddBet += _view.StartAddBet;
+        _model.OnStartReturnBet += _view.StartReturnBet;
         _model.OnSectorChangeCountBet += _view.SetSectorBetCount;
     }
 
     private void DeactivateEvents()
     {
         _view.OnChooseSector -= _model.ChooseBet;
-        _view.OnSubmitBet -= _model.SubmitBet;
+        _view.OnAddBet -= _model.AddBet;
+        _view.OnReturnBet -= _model.ReturnBet;
 
-        _model.OnAddBet -= _view.AddBet;
+        _model.OnStartAddBet -= _view.StartAddBet;
+        _model.OnStartReturnBet -= _view.StartReturnBet;
         _model.OnSectorChangeCountBet -= _view.SetSectorBetCount;
     }
 
     #region Output 
+
+    public event Action<int, int> OnStartAddBet
+    {
+        add => _model.OnStartAddBet += value;
+        remove => _model.OnStartAddBet -= value;
+    }
 
     public event Action<int, int> OnAddBet
     {
@@ -54,11 +64,15 @@ public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider, IBetSy
         remove => _model.OnAddBet -= value;
     }
 
-    public event Action<int, int> OnSubmitBet
+
+
+    public event Action<int, int> OnReturnBet
     {
-        add => _model.OnSubmitBet += value;
-        remove => _model.OnSubmitBet -= value;
+        add => _model.OnReturnBet += value;
+        remove => _model.OnReturnBet -= value;
     }
+
+
 
     public event Action<int> OnPlayerBetCompleted
     {
@@ -70,7 +84,8 @@ public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider, IBetSy
 
     #region Input
 
-    public void AddBet(int playerIndex, int sectorIndex) => _model.AddBet(playerIndex, sectorIndex);
+    public void StartAddBet(int playerIndex, int sectorIndex) => _model.StartAddBet(playerIndex, sectorIndex);
+    public void StartReturnBet(int playerIndex, int sectorIndex) => _model.StartReturnBet(playerIndex, sectorIndex);
 
     public void ActivateInteractive() => _view.ActivateInteractive();
     public void DeactivateInteractive() => _view.DeactivateInteractive();
@@ -95,12 +110,16 @@ public interface IBetSystemInfoProvider
 
 public interface IBetSystemEventsProvider
 {
+    public event Action<int, int> OnStartAddBet;
     public event Action<int, int> OnAddBet;
-    public event Action<int, int> OnSubmitBet;
+
+    public event Action<int, int> OnReturnBet;
+
     public event Action<int> OnPlayerBetCompleted;
 }
 
 public interface IBetSystemProvider
 {
-    public void AddBet(int playerIndex, int sectorIndex);
+    public void StartAddBet(int playerIndex, int sectorIndex);
+    public void StartReturnBet(int playerIndex, int sectorIndex);
 }

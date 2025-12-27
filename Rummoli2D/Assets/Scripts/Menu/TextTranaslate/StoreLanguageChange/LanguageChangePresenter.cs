@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TextTranslateChangePresenter
+public class LanguageChangePresenter
 {
-    private readonly TextTranslateChangeModel _model;
-    private readonly TextTranslateChangeView _view;
+    private readonly LanguageChangeModel _model;
+    private readonly LanguageChangeView _view;
 
-    public TextTranslateChangePresenter(TextTranslateChangeModel model, TextTranslateChangeView view)
+    public LanguageChangePresenter(LanguageChangeModel model, LanguageChangeView view)
     {
         _model = model;
         _view = view;

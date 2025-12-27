@@ -23,17 +23,41 @@ public class BetSystemModel
         }
     }
 
-    public void ChooseBet(int sectorIndex)
+    public void Reset()
     {
-        AddBet(0, sectorIndex);
+        foreach (var playerData in playerBets.Values)
+        {
+            playerData.Reset();
+        }
+
+        for (int i = 0; i < sectorTotals.Length; i++)
+        {
+            sectorTotals[i] = 0;
+            OnSectorChangeCountBet?.Invoke(i, sectorTotals[i]);
+        }
+    }
+
+    public void StartAddBet(int playerIndex, int sectorIndex)
+    {
+        OnStartAddBet?.Invoke(playerIndex, sectorIndex);
+    }
+
+    public void StartReturnBet(int playerIndex, int sectorIndex)
+    {
+        int totalScore = sectorTotals[sectorIndex];
+
+        sectorTotals[sectorIndex] = 0;
+        OnSectorChangeCountBet?.Invoke(sectorIndex, sectorTotals[sectorIndex]);
+
+        OnStartReturnBet?.Invoke(playerIndex, sectorIndex, totalScore);
+    }
+
+    public void ReturnBet(int playerIndex, int score)
+    {
+        OnReturnBet?.Invoke(playerIndex, score);
     }
 
     public void AddBet(int playerIndex, int sectorIndex)
-    {
-        OnAddBet?.Invoke(playerIndex, sectorIndex);
-    }
-
-    public void SubmitBet(int playerIndex, int sectorIndex)
     {
         var playerData = playerBets[playerIndex];
 
@@ -41,7 +65,7 @@ public class BetSystemModel
         {
             playerData.AddBet(sectorIndex);
             sectorTotals[sectorIndex]++;
-            OnSubmitBet?.Invoke(playerIndex, sectorIndex);
+            OnAddBet?.Invoke(playerIndex, sectorIndex);
             OnSectorChangeCountBet?.Invoke(sectorIndex, sectorTotals[sectorIndex]);
 
             if (playerData.IsCompleted)
@@ -57,6 +81,15 @@ public class BetSystemModel
 
     }
 
+    #region PlayerPeople
+
+    public void ChooseBet(int sectorIndex)
+    {
+        StartAddBet(0, sectorIndex);
+    }
+
+    #endregion
+
     public bool IsPlayerBetCompleted(int playerIndex)
     {
         return playerBets[playerIndex].IsCompleted;
@@ -70,8 +103,12 @@ public class BetSystemModel
     #region Output
 
     public event Action<int> OnPlayerBetCompleted;
+
+    public event Action<int, int> OnStartAddBet;
     public event Action<int, int> OnAddBet;
-    public event Action<int, int> OnSubmitBet;
+
+    public event Action<int, int, int> OnStartReturnBet;
+    public event Action<int, int> OnReturnBet;
     public event Action<int, int> OnSectorChangeCountBet;
 
     #endregion
@@ -89,6 +126,16 @@ public class PlayerBetData
     {
         PlayerIndex = playerIndex;
         BetsPerSector = new int[sectorCount];
+        TotalBetsPlaced = 0;
+    }
+
+    public void Reset()
+    {
+        for (int i = 0; i < BetsPerSector.Length; i++)
+        {
+            BetsPerSector[i] = 0;
+        }
+
         TotalBetsPlaced = 0;
     }
 

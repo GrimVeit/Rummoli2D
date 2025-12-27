@@ -34,7 +34,7 @@ public class MenuEntryPoint : MonoBehaviour
     private VolumeSettingsPresenter volumeSettingsPresenter;
 
     private StoreLanguagePresenter storeTextTranslatePresenter;
-    private TextTranslateChangePresenter textTranslateChangePresenter;
+    private LanguageChangePresenter textTranslateChangePresenter;
     private TextTranslatePresenter textTranslatePresenter;
 
     //------Shop------//
@@ -99,7 +99,7 @@ public class MenuEntryPoint : MonoBehaviour
                 volumeSettingsPresenter = new VolumeSettingsPresenter(new VolumeSettingsModel(soundPresenter, customSliderPresenter_Sound, customSliderPresenter_Music));
 
                 storeTextTranslatePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
-                textTranslateChangePresenter = new TextTranslateChangePresenter(new TextTranslateChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateChangeView>());
+                textTranslateChangePresenter = new LanguageChangePresenter(new LanguageChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<LanguageChangeView>());
                 textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateView>());
 
 

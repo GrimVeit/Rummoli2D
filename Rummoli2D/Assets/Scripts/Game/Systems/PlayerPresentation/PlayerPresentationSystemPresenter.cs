@@ -14,16 +14,6 @@ public class PlayerPresentationSystemPresenter : IPlayerPresentationSystemProvid
         _view = view;
     }
 
-    public void Initialize()
-    {
-
-    }
-
-    public void Dispose()
-    {
-
-    }
-
     #region Input
 
     public void Show(int playerId, Action OnComplete = null) => _view.Show(playerId, OnComplete);
