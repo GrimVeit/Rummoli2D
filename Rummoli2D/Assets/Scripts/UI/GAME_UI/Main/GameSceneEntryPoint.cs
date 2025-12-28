@@ -28,6 +28,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
     private PlayerPresentationSystemPresenter playerPresentationSystemPresenter;
+    private RoundPhasePresentationSystemPresenter roundPhasePresentationSystemPresenter;
     private CardBankPresentationSystemPresenter cardBankPresentationSystemPresenter;
     private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
     private PlayerPokerPresenter playerPokerPresenter;
@@ -68,6 +69,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
+        roundPhasePresentationSystemPresenter = new RoundPhasePresentationSystemPresenter(new RoundPhasePresentationSystemModel(), viewContainer.GetView<RoundPhasePresentationSystemView>());
         cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
         playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
@@ -82,6 +84,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
             sceneRoot,
             playerPresentationSystemPresenter,
+            roundPhasePresentationSystemPresenter,
             cardBankPresentationSystemPresenter,
             cardSpawnerSystemPresenter,
             cardSpawnerSystemPresenter,

@@ -65,23 +65,25 @@ public class ResultPokerState_Game : IState
             _playerPresentationSystemProvider.HideCards(_players[i].Id);
         }
 
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(7f);
 
         _playerPokerProvider.SearchWinner();
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(2f);
 
         _playerPokerProvider.ClearAll();
 
         yield return new WaitForSeconds(1);
 
-        _playerPresentationSystemProvider.Show(_winnerPlayerId, () =>
-        {
-            _playerPresentationSystemProvider.MoveToLayout(_winnerPlayerId, "Center");
-            _playerPresentationSystemProvider.HideBalance(_winnerPlayerId);
-        });
+        //_playerPresentationSystemProvider.Show(_winnerPlayerId, () =>
+        //{
+        //    _playerPresentationSystemProvider.MoveToLayout(_winnerPlayerId, "Center");
+        //    _playerPresentationSystemProvider.HideBalance(_winnerPlayerId);
+        //});
 
-        yield return new WaitForSeconds(3f);
+        _playerPresentationSystemProvider.Show(_winnerPlayerId);
+
+        yield return new WaitForSeconds(0.3f);
 
         _playerPresentationSystemProvider.MoveToLayout(_winnerPlayerId, "Table", () =>
         {
@@ -89,9 +91,19 @@ public class ResultPokerState_Game : IState
         });
         _sceneRoot.OpenRummoliTablePanel();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
 
         _betSystemProvider.StartReturnBet(_winnerPlayerId, 0);
+
+        yield return new WaitForSeconds(1f);
+
+        _playerPresentationSystemProvider.Hide(_winnerPlayerId);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _sceneRoot.CloseRummoliTablePanel();
+
+        ChangeStateToPhase2();
     }
 
     private void ReturnBet(int playerId, int score)
@@ -109,5 +121,10 @@ public class ResultPokerState_Game : IState
     private IPlayer GetPlayer(int playerId)
     {
         return _players.Find(player => player.Id == playerId);
+    }
+
+    private void ChangeStateToPhase2()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<Phase2State_Game>());
     }
 }

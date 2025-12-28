@@ -41,4 +41,14 @@ public static class RummolyNameUtility
             _ => ""
         };
     }
+
+    public static string GetRoundName(int roundNumber, Language language = Language.English)
+    {
+        return language switch
+        {
+            Language.English => $"Round {roundNumber}",
+            Language.Russia => $"Раунд {roundNumber}",
+            _ => $"Round {roundNumber}"
+        };
+    }
 }

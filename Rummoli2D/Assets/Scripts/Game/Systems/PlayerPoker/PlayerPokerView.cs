@@ -141,14 +141,14 @@ public class PlayerPokerView : View
     {
         tweenScale?.Kill();
 
-        tweenScale = transformTable.DOScale(1, 0.3f).SetEase(Ease.OutBack);
+        tweenScale = transformTable.DOScale(1, 0.4f);
     }
 
     public void HideTable()
     {
         tweenScale?.Kill();
 
-        tweenScale = transformTable.DOScale(0.6f, 0.3f).SetEase(Ease.OutBack);
+        tweenScale = transformTable.DOScale(0.6f, 0.4f);
     }
 
     #endregion

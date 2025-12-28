@@ -53,11 +53,11 @@ public class StartingBalanceState_Game : IState
 
         yield return new WaitForSeconds(0.3f);
 
-        ChangeToOtherState();
+        ChangeToRoundState();
     }
 
-    private void ChangeToOtherState()
+    private void ChangeToRoundState()
     {
-        _machineProvider.EnterState(_machineProvider.GetState<BetState_Game>());
+        _machineProvider.EnterState(_machineProvider.GetState<RoundState_Game>());
     }
 }

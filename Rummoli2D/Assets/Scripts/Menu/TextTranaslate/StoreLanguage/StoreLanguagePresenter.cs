@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreLanguagePresenter : IStoreLanguageInfoProvider, IStoreLanguageProvider, IStoreLanguageEventsProvider
+public class StoreLanguagePresenter : IStoreLanguageInfoProvider, IStoreLanguageProvider, IStoreLanguageListener
 {
     private readonly StoreLanguageModel _model;
 
@@ -50,7 +50,7 @@ public interface IStoreLanguageInfoProvider
     public Language CurrentLanguage { get; }
 }
 
-public interface IStoreLanguageEventsProvider
+public interface IStoreLanguageListener
 {
     public event Action<Language> OnChangeLanguage;
 }

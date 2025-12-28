@@ -13,6 +13,7 @@ public class StateMachine_Game : IStateMachineProvider
         (List<IPlayer> players,
         UIGameRoot sceneRoot,
         IPlayerPresentationSystemProvider playerPresentationProvider,
+        IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider,
         ICardBankPresentationSystemProvider cardBankPresentationSystemProvider,
         ICardSpawnerSystemEventsProvider cardSpawnerSystemEventsProvider,
         ICardSpawnerSystemProvider cardSpawnerSystemProvider,
@@ -25,11 +26,15 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
         states[typeof(MovePlayersTableState_Game)] = new MovePlayersTableState_Game(this, players, playerPresentationProvider, sceneRoot);
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);
+
+        states[typeof(RoundState_Game)] = new RoundState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider);
+        states[typeof(Phase1State_Game)] = new Phase1State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
         states[typeof(BetState_Game)] = new BetState_Game(this, players);
         states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, sceneRoot);
         states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider, cardBankPresentationSystemProvider);
         states[typeof(ChooseCardsPokerState_Game)] = new ChooseCardsPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
         states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider);
+        states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
     }
 
     public void Initialize()
