@@ -8075,7 +8075,7 @@ MonoBehaviour:
     positionAvatarNormal: {x: 0, y: 0, z: 0}
     positionAvatarWithBalance: {x: -34, y: 0, z: 0}
     transformCards: {fileID: 1790326638}
-  speedScalePlayer: 0.3
+  speedScalePlayer: 0.4
   speedMovePlayer: 0.5
   speedMoveAvatar: 0.3
   speedScaleBalance: 0.3
@@ -19063,7 +19063,7 @@ MonoBehaviour:
   panel: {fileID: 1693955492}
   from: {x: 0, y: 0, z: 0}
   to: {x: 0, y: 0, z: 0}
-  time: 0.1
+  time: 0.2
   canvasGroup: {fileID: 1693955497}
   effectCombination: {fileID: 1693955495}
 --- !u!225 &1693955497

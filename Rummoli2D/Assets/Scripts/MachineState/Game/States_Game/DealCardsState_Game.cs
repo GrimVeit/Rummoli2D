@@ -62,7 +62,10 @@ public class DealCardsState_Game : IState
 
         if (_cardsDealt >= _cardsPerPlayer * _players.Count)
         {
-            _cardBankPresentationSystemProvider.MoveToLayout("Normal");
+            _cardBankPresentationSystemProvider.MoveToLayout("Normal", () =>
+            {
+                _cardBankPresentationSystemProvider.ShowBalance();
+            });
 
             ChangeStateToPoker();
         }

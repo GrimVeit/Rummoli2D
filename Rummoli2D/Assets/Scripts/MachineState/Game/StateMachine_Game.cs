@@ -33,7 +33,7 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, sceneRoot);
         states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider, cardBankPresentationSystemProvider);
         states[typeof(ChooseCardsPokerState_Game)] = new ChooseCardsPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
-        states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider);
+        states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider);
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
     }
 

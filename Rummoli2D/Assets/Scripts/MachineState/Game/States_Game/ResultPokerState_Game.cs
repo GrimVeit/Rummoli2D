@@ -10,6 +10,7 @@ public class ResultPokerState_Game : IState
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IBetSystemEventsProvider _betSystemEventsProvider;
     private readonly IBetSystemProvider _betSystemProvider;
+    private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
     private readonly UIGameRoot _sceneRoot;
 
     private readonly List<IPlayer> _players;
@@ -17,7 +18,7 @@ public class ResultPokerState_Game : IState
 
     private IEnumerator timer;
 
-    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, UIGameRoot sceneRoot, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider)
+    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, UIGameRoot sceneRoot, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
@@ -27,6 +28,7 @@ public class ResultPokerState_Game : IState
         _sceneRoot = sceneRoot;
         _betSystemEventsProvider = betSystemEventsProvider;
         _betSystemProvider = betSystemProvider;
+        _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
     }
 
     public void EnterState()
@@ -54,6 +56,7 @@ public class ResultPokerState_Game : IState
     {
         yield return new WaitForSeconds(0.2f);
 
+        _cardBankPresentationSystemProvider.Hide();
         _playerPokerProvider.ShowTable();
 
         yield return new WaitForSeconds(1f);
@@ -74,12 +77,6 @@ public class ResultPokerState_Game : IState
         _playerPokerProvider.ClearAll();
 
         yield return new WaitForSeconds(1);
-
-        //_playerPresentationSystemProvider.Show(_winnerPlayerId, () =>
-        //{
-        //    _playerPresentationSystemProvider.MoveToLayout(_winnerPlayerId, "Center");
-        //    _playerPresentationSystemProvider.HideBalance(_winnerPlayerId);
-        //});
 
         _playerPresentationSystemProvider.Show(_winnerPlayerId);
 
