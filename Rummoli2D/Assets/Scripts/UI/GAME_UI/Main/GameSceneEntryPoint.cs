@@ -22,6 +22,8 @@ public class GameSceneEntryPoint : MonoBehaviour
     private SoundPresenter soundPresenter;
     private AvatarPresenter avatarPresenter;
 
+    private StoreCardRummoliPresenter storeCardRummoliPresenter;
+    private CardRummoliVisualPresenter cardRummoliVisualPresenter;
     private StoreLanguagePresenter storeLanguagePresenter;
     private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
     private CardPokerHandSelectorPresenter cardPokerHandSelectorPresenter;
@@ -63,6 +65,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
+        storeCardRummoliPresenter = new StoreCardRummoliPresenter(new StoreCardRummoliModel());
+        cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO), viewContainer.GetView<CardRummoliVisualView>());
         storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
         storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
         cardPokerHandSelectorPresenter = new CardPokerHandSelectorPresenter(new CardPokerHandSelectorModel(storeGameDifficultyPresenter));
@@ -91,7 +95,9 @@ public class GameSceneEntryPoint : MonoBehaviour
             playerPokerPresenter,
             playerPokerPresenter,
             betSystemPresenter,
-            betSystemPresenter);
+            betSystemPresenter,
+            storeCardRummoliPresenter,
+            cardRummoliVisualPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -111,6 +117,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         betSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
         playerPokerPresenter.Initialize();
+        cardRummoliVisualPresenter.Initialize();
+        storeCardRummoliPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -185,11 +193,13 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter?.Dispose();
         avatarPresenter?.Dispose();
 
+        storeCardRummoliPresenter?.Dispose();
         storeLanguagePresenter?.Dispose();
         storeGameDifficultyPresenter.Dispose();
         betSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();
         playerPokerPresenter?.Dispose();
+        cardRummoliVisualPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

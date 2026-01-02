@@ -28,12 +28,14 @@ public interface IPlayer
 
     //Rummoli
     void ActivateRequestCard(CardData card);
-    void DeactivateRequestCard(CardData card);
+    void DeactivateRequestCard();
 
     void ActivateRequestRandomTwo();
     void DeactivateRequestRandomTwo();
-    event Action<int, ICard> OnCardLaid;
-    event Action<int> OnPass;
+    event Action<int, ICard> OnCardLaid_Next;
+    event Action<int> OnPass_Next;
+    event Action<int, ICard> OnCardLaid_RandomTwo;
+    event Action<int> OnPass_RandomTwo;
 
 }
 

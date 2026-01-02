@@ -66,5 +66,12 @@ public class StartRummoliState_Game : IState
         //_sceneRoot.OpenRummoliTablePanel();
 
         yield return new WaitForSeconds(0.3f);
+
+        ChangeStateToRummoli();
+    }
+
+    private void ChangeStateToRummoli()
+    {
+        _stateProvider.EnterState(_stateProvider.GetState<RummoliState_Game>());
     }
 }

@@ -8,8 +8,8 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly IPlayerPeopleCardVisualInteractiveActivatorProvider _playerPeopleCardVisualInteractiveProvider;
     private readonly IPlayerPeopleCardVisualEventsProvider _playerPeopleCardVisualEventsProvider;
     private readonly IPlayerPeopleCardVisualProvider _playerPeopleCardVisualProvider;
-    private readonly IPlayerPeopleSubmitEventsProvider _playerPeopleSubmitEventsProvider;
-    private readonly IPlayerPeopleSubmitActivatorProvider _playerPeopleSubmitProvider;
+    private readonly IPlayerPeopleInputEventsProvider _playerPeopleSubmitEventsProvider;
+    private readonly IPlayerPeopleInputActivatorProvider _playerPeopleSubmitProvider;
     private readonly ICardPokerSelectorPlayerProvider _cardPokerSelectorPlayerProvider;
     private readonly List<ICard> _cards = new();
 
@@ -17,8 +17,8 @@ public class Choose5CardsState_PlayerPeople : IState
         (IPlayerPeopleCardVisualInteractiveActivatorProvider playerPeopleCardVisualInteractiveProvider, 
         IPlayerPeopleCardVisualEventsProvider playerPeopleCardVisualEventsProvider,
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
-        IPlayerPeopleSubmitEventsProvider playerPeopleSubmitEventsProvider,
-        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitProvider,
+        IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
+        IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
@@ -31,7 +31,7 @@ public class Choose5CardsState_PlayerPeople : IState
 
     public void EnterState()
     {
-        _playerPeopleSubmitEventsProvider.OnSubmit += Submit;
+        _playerPeopleSubmitEventsProvider.OnChoose += Submit;
         _playerPeopleCardVisualEventsProvider.OnChooseCard += ChooseCard;
 
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
@@ -39,7 +39,7 @@ public class Choose5CardsState_PlayerPeople : IState
 
     public void ExitState()
     {
-        _playerPeopleSubmitEventsProvider.OnSubmit -= Submit;
+        _playerPeopleSubmitEventsProvider.OnChoose -= Submit;
         _playerPeopleCardVisualEventsProvider.OnChooseCard -= ChooseCard;
 
         _playerPeopleCardVisualInteractiveProvider.DeactivateInteractive();
@@ -49,7 +49,7 @@ public class Choose5CardsState_PlayerPeople : IState
             _playerPeopleCardVisualProvider.Deselect(_cards[i]);
         }
 
-        _playerPeopleSubmitProvider.DeactivateSubmit();
+        _playerPeopleSubmitProvider.DeactivateChoose();
     }
 
     private void ChooseCard(ICard card)
@@ -67,11 +67,11 @@ public class Choose5CardsState_PlayerPeople : IState
 
         if(_cards.Count == 5)
         {
-            _playerPeopleSubmitProvider.ActivateSubmit();
+            _playerPeopleSubmitProvider.ActivateChoose();
         }
         else
         {
-            _playerPeopleSubmitProvider.DeactivateSubmit();
+            _playerPeopleSubmitProvider.DeactivateChoose();
         }
     }
 

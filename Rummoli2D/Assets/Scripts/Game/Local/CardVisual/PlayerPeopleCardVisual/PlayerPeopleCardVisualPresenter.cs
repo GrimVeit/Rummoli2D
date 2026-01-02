@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiveActivatorProvider, IPlayerPeopleCardVisualProvider, IPlayerPeopleCardVisualEventsProvider, IPlayerPeopleSubmitEventsProvider, IPlayerPeopleSubmitActivatorProvider
+public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiveActivatorProvider, IPlayerPeopleCardVisualProvider, IPlayerPeopleCardVisualEventsProvider
 {
     private readonly PlayerPeopleCardVisualModel _model;
     private readonly PlayerPeopleCardVisualView _view;
@@ -50,12 +50,6 @@ public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiv
         remove => _view.OnChooseCard -= value;
     }
 
-    public event Action OnSubmit
-    {
-        add => _view.OnSubmit += value;
-        remove => _view.OnSubmit -= value;
-    }
-
     #endregion
 
 
@@ -69,9 +63,6 @@ public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiv
     public void Select(ICard card) => _view.Select(card);
     public void Deselect(ICard card) => _view.Deselect(card);
 
-
-    public void ActivateSubmit() => _view.ActivateSubmit();
-    public void DeactivateSubmit() => _view.DeactivateSubmit();
 
     #endregion
 }
@@ -91,17 +82,4 @@ public interface IPlayerPeopleCardVisualProvider
 {
     public void Select(ICard card);
     public void Deselect(ICard card);
-}
-
-
-
-public interface IPlayerPeopleSubmitActivatorProvider
-{
-    public void ActivateSubmit();
-    public void DeactivateSubmit();
-}
-
-public interface IPlayerPeopleSubmitEventsProvider
-{
-    public event Action OnSubmit;
 }

@@ -17,8 +17,8 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         IPlayerPeopleCardVisualEventsProvider playerPeopleCardVisualEventsProvider,
         IPlayerPeopleCardVisualInteractiveActivatorProvider playerPeopleCardVisualInteractiveProvider,
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
-        IPlayerPeopleSubmitEventsProvider playerPeopleSubmitEventsProvider,
-        IPlayerPeopleSubmitActivatorProvider playerPeopleSubmitActivatorProvider,
+        IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
+        IPlayerPeopleInputActivatorProvider playerPeopleSubmitActivatorProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
     {
         var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
@@ -28,6 +28,16 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerPeople)] = state5Cards;
+
+        var stateRequestCard = new ChooseRequestCard_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider);
+        stateRequestCard.OnCardLaid += Choose_Next;
+        stateRequestCard.OnPass += Pass_Next;
+        states[typeof(ChooseRequestCard_PlayerPeople)] = stateRequestCard;
+
+        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider);
+        stateRequestCardRandomTwo.OnCardLaid += Choose_RandomTwo;
+        stateRequestCardRandomTwo.OnPass += Pass_RandomTwo;
+        states[typeof(ChooseRequestRandomTwo_PlayerPeople)] = stateRequestCardRandomTwo;
     }
 
     public IState GetState<T>() where T : IState
@@ -61,6 +71,38 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
     private void Choose5Cards(List<ICard> cards)
     {
         OnChoose5Cards?.Invoke(cards);
+    }
+
+
+
+    public event Action<ICard> OnCardLaid_Next;
+    public event Action OnPass_Next;
+
+    private void Choose_Next(ICard card)
+    {
+        OnCardLaid_Next?.Invoke(card);
+    }
+
+    private void Pass_Next()
+    {
+        OnPass_Next?.Invoke();
+    }
+
+
+
+
+
+    public event Action<ICard> OnCardLaid_RandomTwo;
+    public event Action OnPass_RandomTwo;
+
+    private void Choose_RandomTwo(ICard card)
+    {
+        OnCardLaid_RandomTwo?.Invoke(card);
+    }
+
+    private void Pass_RandomTwo()
+    {
+        OnPass_RandomTwo?.Invoke();
     }
 
     #endregion

@@ -37,7 +37,7 @@ public class Choose5CardsState_PlayerBot : IState
 
     private IEnumerator Timer()
     {
-        yield return new WaitForSeconds(Random.Range(3f, 20f));
+        yield return new WaitForSeconds(Random.Range(1f, 3f));
 
         Choose();
     }

@@ -44,6 +44,10 @@ public class PlayerBot : IPlayer
     public void Initialize()
     {
         _playerBotStateMachine.OnChoose5Cards += Choose5Cards;
+        _playerBotStateMachine.OnCardLaid_Next += CardLiad_Next;
+        _playerBotStateMachine.OnPass_Next += Pass_Next;
+        _playerBotStateMachine.OnCardLaid_RandomTwo += CardLiad_RandomTwo;
+        _playerBotStateMachine.OnPass_RandomTwo += Pass_RandomTwo;
 
         _scorePlayerPresenter.Initialize();
         _playerBotCardVisualPresenter.Initialize();
@@ -52,6 +56,10 @@ public class PlayerBot : IPlayer
     public void Dispose()
     {
         _playerBotStateMachine.OnChoose5Cards -= Choose5Cards;
+        _playerBotStateMachine.OnCardLaid_Next -= CardLiad_Next;
+        _playerBotStateMachine.OnPass_Next -= Pass_Next;
+        _playerBotStateMachine.OnCardLaid_RandomTwo -= CardLiad_RandomTwo;
+        _playerBotStateMachine.OnPass_RandomTwo -= Pass_RandomTwo;
 
         _scorePlayerPresenter.Dispose();
         _playerBotCardVisualPresenter.Dispose();
@@ -77,8 +85,34 @@ public class PlayerBot : IPlayer
     }
 
     //RUMMOLI-------------------------------------------------
-    public event Action<int, ICard> OnCardLaid;
-    public event Action<int> OnPass;
+    public event Action<int, ICard> OnCardLaid_Next;
+    public event Action<int> OnPass_Next;
+
+    private void CardLiad_Next(ICard card)
+    {
+        OnCardLaid_Next?.Invoke(_playerId, card);
+    }
+
+    private void Pass_Next()
+    {
+        OnPass_Next?.Invoke(_playerId);
+    }
+
+
+
+
+    public event Action<int, ICard> OnCardLaid_RandomTwo;
+    public event Action<int> OnPass_RandomTwo;
+
+    private void CardLiad_RandomTwo(ICard card)
+    {
+        OnCardLaid_RandomTwo?.Invoke(_playerId, card);
+    }
+
+    private void Pass_RandomTwo()
+    {
+        OnPass_RandomTwo?.Invoke(_playerId);
+    }
 
     #endregion
 
@@ -136,22 +170,25 @@ public class PlayerBot : IPlayer
     //RUMMOLI-----------------------------------------------------------------------------------------------------
     public void ActivateRequestCard(CardData card)
     {
-
+        var istate = _playerBotStateMachine.GetState<ChooseRequestCard_PlayerBot>();
+        ChooseRequestCard_PlayerBot state = (ChooseRequestCard_PlayerBot)istate;
+        state.SetCardData(card);
+        _playerBotStateMachine.EnterState(state);
     }
 
-    public void DeactivateRequestCard(CardData card)
+    public void DeactivateRequestCard()
     {
-
+        _playerBotStateMachine.ExitState(_playerBotStateMachine.GetState<ChooseRequestCard_PlayerBot>());
     }
 
     public void ActivateRequestRandomTwo()
     {
-
+        _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<ChooseRequestRandomTwo_PlayerBot>());
     }
 
     public void DeactivateRequestRandomTwo()
     {
-
+        _playerBotStateMachine.ExitState(_playerBotStateMachine.GetState<ChooseRequestRandomTwo_PlayerBot>());
     }
 
     #endregion

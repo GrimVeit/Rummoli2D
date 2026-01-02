@@ -9,7 +9,7 @@ public class StoreCardRummoliModel
     private Dictionary<CardSuit, List<CardData>> _suits; // карты по мастям
     private HashSet<CardSuit> _usedSuits;            // масти, полностью выложенные
 
-    public CardData CurrentCardData { get; private set; }   // текущая карта для выкладывания
+    public CardData CurrentCardData; // текущая карта для выкладывания
 
     private readonly System.Random _random = new();
 
@@ -29,9 +29,12 @@ public class StoreCardRummoliModel
 
             _suits[suit] = _suits[suit].OrderBy(c => (int)c.Rank).ToList();
         }
+    }
 
-        // начинаем с 2 треф
+    public void Initialize()
+    {
         CurrentCardData = _suits[CardSuit.Clubs].FirstOrDefault(c => c.Rank == CardRank.Two);
+        OnCurrentCardDataChanged?.Invoke(CurrentCardData);
     }
 
     public CardData NextCard()
@@ -45,10 +48,12 @@ public class StoreCardRummoliModel
         {
             _usedSuits.Add(CurrentCardData.Suit);
             CurrentCardData = null;
+            OnCurrentCardDataChanged?.Invoke(CurrentCardData);
             return null;
         }
 
         CurrentCardData = suitCards[currentIndex + 1];
+        OnCurrentCardDataChanged?.Invoke(CurrentCardData);
         return CurrentCardData;
     }
 
@@ -60,6 +65,7 @@ public class StoreCardRummoliModel
         if (suitCards.Count < 2) return null;
 
         CurrentCardData = suitCards[1]; // тройка
+        OnCurrentCardDataChanged?.Invoke(CurrentCardData);
         return CurrentCardData;
     }
 
@@ -94,6 +100,12 @@ public class StoreCardRummoliModel
 
         CurrentCardData = _suits[CardSuit.Clubs].FirstOrDefault(c => c.Rank == CardRank.Two);
     }
+
+    #region Output
+
+    public event Action<CardData> OnCurrentCardDataChanged;
+
+    #endregion
 }
 
 public class CardData

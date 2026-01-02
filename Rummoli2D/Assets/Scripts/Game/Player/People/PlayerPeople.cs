@@ -12,6 +12,7 @@ public class PlayerPeople : IPlayer
     private readonly NicknamePresenter _nicknamePresenter;
     private readonly StoreCardPlayerPresenter _storeCardPlayerPresenter; 
     private readonly PlayerPeopleCardVisualPresenter _playerPeopleCardVisualPresenter;
+    private readonly PlayerPeopleInputPresenter _playerPeopleInputPresenter;
 
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
@@ -30,6 +31,7 @@ public class PlayerPeople : IPlayer
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>("Player"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
+        _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(viewContainer.GetView<PlayerPeopleInputView>());
 
         _playerPeopleStateMachine = new PlayerPeopleStateMachine
             (playerIndex, 
@@ -41,27 +43,37 @@ public class PlayerPeople : IPlayer
             _playerPeopleCardVisualPresenter,
             _playerPeopleCardVisualPresenter,
             _playerPeopleCardVisualPresenter,
-            _playerPeopleCardVisualPresenter,
-            _playerPeopleCardVisualPresenter,
+            _playerPeopleInputPresenter,
+            _playerPeopleInputPresenter,
             cardPokerSelectorPlayerProvider);
     }
 
     public void Initialize()
     {
         _playerPeopleStateMachine.OnChoose5Cards += Choose5Cards;
+        _playerPeopleStateMachine.OnCardLaid_Next += CardLiad_Next;
+        _playerPeopleStateMachine.OnPass_Next += Pass_Next;
+        _playerPeopleStateMachine.OnCardLaid_RandomTwo += CardLiad_RandomTwo;
+        _playerPeopleStateMachine.OnPass_RandomTwo += Pass_RandomTwo;
 
         _nicknamePresenter.Initialize();
         _scorePlayerPresenter.Initialize();
         _playerPeopleCardVisualPresenter.Initialize();
+        _playerPeopleInputPresenter.Initialize();
     }
 
     public void Dispose()
     {
         _playerPeopleStateMachine.OnChoose5Cards -= Choose5Cards;
+        _playerPeopleStateMachine.OnCardLaid_Next -= CardLiad_Next;
+        _playerPeopleStateMachine.OnPass_Next -= Pass_Next;
+        _playerPeopleStateMachine.OnCardLaid_RandomTwo -= CardLiad_RandomTwo;
+        _playerPeopleStateMachine.OnPass_RandomTwo -= Pass_RandomTwo;
 
         _nicknamePresenter.Dispose();
         _scorePlayerPresenter.Dispose();
         _playerPeopleCardVisualPresenter.Dispose();
+        _playerPeopleInputPresenter.Dispose();
     }
 
     #region API
@@ -84,8 +96,32 @@ public class PlayerPeople : IPlayer
     }
 
     //RUMMOLI-------------------------------------------------
-    public event Action<int, ICard> OnCardLaid;
-    public event Action<int> OnPass;
+    public event Action<int, ICard> OnCardLaid_Next;
+    public event Action<int> OnPass_Next;
+
+    private void CardLiad_Next(ICard card)
+    {
+        OnCardLaid_Next?.Invoke(_playerId, card);
+    }
+
+    private void Pass_Next()
+    {
+        OnPass_Next?.Invoke(_playerId);
+    }
+
+
+    public event Action<int, ICard> OnCardLaid_RandomTwo;
+    public event Action<int> OnPass_RandomTwo;
+
+    private void CardLiad_RandomTwo(ICard card)
+    {
+        OnCardLaid_RandomTwo?.Invoke(_playerId, card);
+    }
+
+    private void Pass_RandomTwo()
+    {
+        OnPass_RandomTwo?.Invoke(_playerId);
+    }
 
     #endregion
 
@@ -143,22 +179,25 @@ public class PlayerPeople : IPlayer
     //RUMMOLI-----------------------------------------------------------------------------------------------------
     public void ActivateRequestCard(CardData card)
     {
-
+        var istate = _playerPeopleStateMachine.GetState<ChooseRequestCard_PlayerPeople>();
+        ChooseRequestCard_PlayerPeople state = (ChooseRequestCard_PlayerPeople)istate;
+        state.SetCardData(card);
+        _playerPeopleStateMachine.EnterState(state);
     }
 
-    public void DeactivateRequestCard(CardData card)
+    public void DeactivateRequestCard()
     {
-
+        _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<ChooseRequestCard_PlayerPeople>());
     }
 
     public void ActivateRequestRandomTwo()
     {
-
+        _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<ChooseRequestRandomTwo_PlayerPeople>());
     }
 
     public void DeactivateRequestRandomTwo()
     {
-
+        _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<ChooseRequestRandomTwo_PlayerPeople>());
     }
 
     #endregion

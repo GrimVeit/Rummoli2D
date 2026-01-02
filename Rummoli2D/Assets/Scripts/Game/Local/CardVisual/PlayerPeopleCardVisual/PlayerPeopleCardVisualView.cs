@@ -27,10 +27,6 @@ public class PlayerPeopleCardVisualView : View
     [SerializeField] private Vector3 vectorPosLeftActive;
     [SerializeField] private Vector3 vectorPosLeftDeactive;
 
-    [Header("Submit")]
-    [SerializeField] private UIEffect effectButtonSubmit;
-    [SerializeField] private Button buttonSubmit;
-
     private bool isInteractive = false;
 
     private readonly List<PlayerPeopleCardVisual> cards = new List<PlayerPeopleCardVisual>();
@@ -42,22 +38,18 @@ public class PlayerPeopleCardVisualView : View
     {
         buttonLeft.onClick.AddListener(ScrollLeft);
         buttonRight.onClick.AddListener(ScrollRight);
-        buttonSubmit.onClick.AddListener(Submit);
 
         effectButtonLeft.Initialize();
         effectButtonRight.Initialize();
-        effectButtonSubmit.Initialize();
     }
 
     public void Dispose()
     {
         buttonLeft.onClick.RemoveListener(ScrollLeft);
         buttonRight.onClick.RemoveListener(ScrollRight);
-        buttonSubmit.onClick.RemoveListener(Submit);
 
         effectButtonLeft.Dispose();
         effectButtonRight.Dispose();
-        effectButtonSubmit.Dispose();
     }
 
     public void AddCard(ICard card)
@@ -262,29 +254,6 @@ public class PlayerPeopleCardVisualView : View
         {
             effectButtonRight.DeactivateEffect(() => buttonRight.gameObject.SetActive(false));
         }
-    }
-
-    #endregion
-
-    #region Submit
-
-    public void ActivateSubmit()
-    {
-        buttonSubmit.enabled = true;
-        effectButtonSubmit.ActivateEffect();
-    }
-
-    public void DeactivateSubmit()
-    {
-        buttonSubmit.enabled = false;
-        effectButtonSubmit.DeactivateEffect();
-    }
-
-    public event Action OnSubmit;
-
-    private void Submit()
-    {
-        OnSubmit?.Invoke();
     }
 
     #endregion
