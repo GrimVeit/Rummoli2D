@@ -61,12 +61,14 @@ public class PlayerBot : IPlayer
 
     #region Output
 
+    //BET-----------------------------------------------------
     public event Action OnApplyBet
     {
         add => _playerBotStateMachine.OnApplyBet += value;
         remove => _playerBotStateMachine.OnApplyBet -= value;
     }
 
+    //POKER---------------------------------------------------
     public event Action<IPlayer, List<ICard>> OnChoose5Cards;
 
     private void Choose5Cards(List<ICard> cards)
@@ -74,11 +76,15 @@ public class PlayerBot : IPlayer
         OnChoose5Cards?.Invoke(this, cards);
     }
 
+    //RUMMOLI-------------------------------------------------
+    public event Action<int, ICard> OnCardLaid;
+    public event Action<int> OnPass;
+
     #endregion
 
     #region Input
 
-    //APPLY START SCORE
+    //APPLY START SCORE----------------------------------------------------------------------------------
     public void SetScore(int score)
     {
         _scorePlayerPresenter.SetScore(score);
@@ -90,7 +96,7 @@ public class PlayerBot : IPlayer
     }
 
 
-    //APPLY BET
+    //APPLY BET------------------------------------------------------------------------------------------
     public void ActivateApplyBet()
     {
         _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<PlayerBetState_PlayerBot>());
@@ -105,7 +111,7 @@ public class PlayerBot : IPlayer
         _highlightProvider.DeactivateHighlight(_playerId);
     }
 
-    //CARD
+    //CARD-----------------------------------------------------------------------------------------------
     public void AddCard(ICard card)
     {
         _storeCardPlayerPresenter.AddCard(card);
@@ -116,12 +122,34 @@ public class PlayerBot : IPlayer
         _storeCardPlayerPresenter.RemoveCard(card);
     }
 
-    //POKER
+    //POKER----------------------------------------------------------------------------------------------
     public void ActiveChoose5Cards()
     {
         _playerBotStateMachine.EnterState(_playerBotStateMachine.GetState<Choose5CardsState_PlayerBot>());
     }
+
     public void DeactivateChoose5Cards()
+    {
+        _playerBotStateMachine.ExitState(_playerBotStateMachine.GetState<Choose5CardsState_PlayerBot>());
+    }
+
+    //RUMMOLI-----------------------------------------------------------------------------------------------------
+    public void ActivateRequestCard(CardData card)
+    {
+
+    }
+
+    public void DeactivateRequestCard(CardData card)
+    {
+
+    }
+
+    public void ActivateRequestRandomTwo()
+    {
+
+    }
+
+    public void DeactivateRequestRandomTwo()
     {
 
     }

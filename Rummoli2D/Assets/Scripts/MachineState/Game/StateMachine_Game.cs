@@ -35,6 +35,7 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(ChooseCardsPokerState_Game)] = new ChooseCardsPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
         states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider);
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
+        states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, sceneRoot);
     }
 
     public void Initialize()

@@ -68,18 +68,24 @@ public class PlayerPeople : IPlayer
 
     #region Output
 
+    //BET-----------------------------------------------------
     public event Action OnApplyBet
     {
         add => _playerPeopleStateMachine.OnApplyBet += value;
         remove => _playerPeopleStateMachine.OnApplyBet -= value;
     }
 
+    //POKER---------------------------------------------------
     public event Action<IPlayer, List<ICard>> OnChoose5Cards;
 
     private void Choose5Cards(List<ICard> cards)
     {
         OnChoose5Cards?.Invoke(this, cards);
     }
+
+    //RUMMOLI-------------------------------------------------
+    public event Action<int, ICard> OnCardLaid;
+    public event Action<int> OnPass;
 
     #endregion
 
@@ -97,7 +103,7 @@ public class PlayerPeople : IPlayer
     }
 
 
-    //APPLY BET
+    //APPLY BET-------------------------------------------------------------------------------------------------
     public void ActivateApplyBet()
     {
         _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<PlayerBetState_PlayerPeople>());
@@ -112,7 +118,7 @@ public class PlayerPeople : IPlayer
         _highlightProvider.DeactivateHighlight(_playerId);
     }
 
-    //CARD
+    //CARD-------------------------------------------------------------------------------------------------------
     public void AddCard(ICard card)
     {
         _storeCardPlayerPresenter.AddCard(card);
@@ -123,7 +129,7 @@ public class PlayerPeople : IPlayer
         _storeCardPlayerPresenter.RemoveCard(card);
     }
 
-    //POKER
+    //POKER-------------------------------------------------------------------------------------------------------
     public void ActiveChoose5Cards()
     {
         _playerPeopleStateMachine.EnterState(_playerPeopleStateMachine.GetState<Choose5CardsState_PlayerPeople>());
@@ -132,6 +138,27 @@ public class PlayerPeople : IPlayer
     public void DeactivateChoose5Cards()
     {
         _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<Choose5CardsState_PlayerPeople>());
+    }
+
+    //RUMMOLI-----------------------------------------------------------------------------------------------------
+    public void ActivateRequestCard(CardData card)
+    {
+
+    }
+
+    public void DeactivateRequestCard(CardData card)
+    {
+
+    }
+
+    public void ActivateRequestRandomTwo()
+    {
+
+    }
+
+    public void DeactivateRequestRandomTwo()
+    {
+
     }
 
     #endregion

@@ -26,6 +26,15 @@ public interface IPlayer
     void DeactivateChoose5Cards();
     event Action<IPlayer, List<ICard>> OnChoose5Cards;
 
+    //Rummoli
+    void ActivateRequestCard(CardData card);
+    void DeactivateRequestCard(CardData card);
+
+    void ActivateRequestRandomTwo();
+    void DeactivateRequestRandomTwo();
+    event Action<int, ICard> OnCardLaid;
+    event Action<int> OnPass;
+
 }
 
 

@@ -23,6 +23,8 @@ public class Phase2State_Game : IState
 
     public void EnterState()
     {
+        Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
+
         if (timer != null) Coroutines.Stop(timer);
 
         timer = Timer();
@@ -50,6 +52,14 @@ public class Phase2State_Game : IState
         yield return new WaitForSeconds(2f);
 
         _roundPhasePresentationSystemProvider.HideTextPhase(1);
-        _roundPhasePresentationSystemProvider.MoveToLayoutNamePhase(1, "Main");
+        _roundPhasePresentationSystemProvider.MoveToLayoutNamePhase(1, "Main", () =>
+        {
+            ChangeStateToStartRummoli();
+        });
+    }
+
+    private void ChangeStateToStartRummoli()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<StartRummoliState_Game>());
     }
 }
