@@ -22,6 +22,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private SoundPresenter soundPresenter;
     private AvatarPresenter avatarPresenter;
 
+    private PlayerPopupEffectSystemPresenter playerPopupEffectSystemPresenter;
     private StoreCardRummoliPresenter storeCardRummoliPresenter;
     private CardRummoliVisualPresenter cardRummoliVisualPresenter;
     private StoreLanguagePresenter storeLanguagePresenter;
@@ -65,6 +66,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
+        playerPopupEffectSystemPresenter = new PlayerPopupEffectSystemPresenter(viewContainer.GetView<PlayerPopupEffectSystemView>());
         storeCardRummoliPresenter = new StoreCardRummoliPresenter(new StoreCardRummoliModel());
         cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO), viewContainer.GetView<CardRummoliVisualView>());
         storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
@@ -88,6 +90,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
             sceneRoot,
             playerPresentationSystemPresenter,
+            highlightSystemPresenter,
             roundPhasePresentationSystemPresenter,
             cardBankPresentationSystemPresenter,
             cardSpawnerSystemPresenter,
@@ -97,7 +100,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             betSystemPresenter,
             betSystemPresenter,
             storeCardRummoliPresenter,
-            cardRummoliVisualPresenter);
+            cardRummoliVisualPresenter,
+            playerPopupEffectSystemPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();

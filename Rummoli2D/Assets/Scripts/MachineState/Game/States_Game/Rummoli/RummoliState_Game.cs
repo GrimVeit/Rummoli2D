@@ -10,17 +10,21 @@ public class RummoliState_Game : IState
     private readonly IStoreCardRummoliProvider _storeCardRummoliProvider;
     private readonly List<int> _passCycle;
     private readonly ICardRummoliVisualActivator _cardRummoliVisualActivator;
+    private readonly IPlayerHighlightSystemProvider _highlightSystemProvider;
+    private readonly IPlayerPopupEffectSystemProvider _popupEffectSystemProvider;
 
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
 
-    public RummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IStoreCardRummoliProvider storeCardRummoliProvider, ICardRummoliVisualActivator cardRummoliVisualActivator)
+    public RummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IStoreCardRummoliProvider storeCardRummoliProvider, ICardRummoliVisualActivator cardRummoliVisualActivator, IPlayerHighlightSystemProvider highlightSystemProvider, IPlayerPopupEffectSystemProvider popupEffectSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
         _storeCardRummoliProvider = storeCardRummoliProvider;
         _passCycle = new List<int>();
         _cardRummoliVisualActivator = cardRummoliVisualActivator;
+        _highlightSystemProvider = highlightSystemProvider;
+        _popupEffectSystemProvider = popupEffectSystemProvider;
     }
 
 
@@ -43,6 +47,7 @@ public class RummoliState_Game : IState
     private void RequestCardToCurrentPlayer()
     {
         var player = GetPlayer(_currentPlayerIndex);
+        _highlightSystemProvider.ActivateHighlight(player.Id);
 
         if (_storeCardRummoliProvider.CurrentCardData != null)
         {
@@ -103,6 +108,7 @@ public class RummoliState_Game : IState
         var player = GetPlayer(playerId);
         player.DeactivateRequestCard();
         UnsubscribeNextEvents(player);
+        _highlightSystemProvider.DeactivateHighlight(playerId);
 
         Debug.Log($"[Rummoli] Player {player.Name} laid card successfully");
         _storeCardRummoliProvider.NextCard();
@@ -118,6 +124,8 @@ public class RummoliState_Game : IState
         var player = GetPlayer(playerId);
         player.DeactivateRequestCard();
         UnsubscribeNextEvents(player);
+        _highlightSystemProvider.DeactivateHighlight(playerId);
+        _popupEffectSystemProvider.ShowPass(playerId);
 
         Debug.Log($"[Rummoli] Player {player.Name} passed, next card will be chosen automatically");
 
@@ -138,8 +146,9 @@ public class RummoliState_Game : IState
         var player = GetPlayer(playerId);
         player.DeactivateRequestRandomTwo();
         UnsubscribeRandomTwoEvents(player);
+        _highlightSystemProvider.DeactivateHighlight(player.Id);
 
-        player.AddCard(card); // Игрок скинул случайную двойку
+        player.RemoveCard(card); // Игрок скинул случайную двойку
         _awaitingRandomTwo = false;
 
         // Сделать эту двойку текущей картой и продолжить Next
@@ -153,6 +162,17 @@ public class RummoliState_Game : IState
         var player = GetPlayer(playerId);
         player.DeactivateRequestRandomTwo();
         UnsubscribeRandomTwoEvents(player);
+        _highlightSystemProvider.DeactivateHighlight(playerId);
+        _popupEffectSystemProvider.ShowPass(playerId);
+
+        _passCycle.Add(playerId);
+
+        if (_passCycle.Count == _players.Count)
+        {
+            Debug.Log("[Rummoli] All players passed, next card will be chosen automatically");
+            _storeCardRummoliProvider.ChooseRandomSuit();
+            _passCycle.Clear();
+        }
 
         AdvanceTurnRandomTwo();
     }

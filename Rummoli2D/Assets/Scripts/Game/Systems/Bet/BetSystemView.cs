@@ -11,7 +11,7 @@ public class BetSystemView : View
     [SerializeField] private BetReturnChip chipReturnBetPrefab;
     [SerializeField] private Transform transformSpawnParent;
 
-    [SerializeField] private BetPlayerTransforms playerTransforms;
+    [SerializeField] private PlayerTransforms playerTransforms;
     [SerializeField] private Sectors sectors;
 
     public void Initialize()
@@ -98,9 +98,9 @@ public class BetSystemView : View
 }
 
 [System.Serializable]
-public class BetPlayerTransforms
+public class PlayerTransforms
 {
-    [SerializeField] private List<BetPlayerTransform> betPlayerTransforms = new List<BetPlayerTransform>();
+    [SerializeField] private List<PlayerTransform> betPlayerTransforms = new List<PlayerTransform>();
 
     public Transform GetTransformPlayer(int playerIndex)
     {
@@ -109,7 +109,7 @@ public class BetPlayerTransforms
 }
 
 [System.Serializable]
-public class BetPlayerTransform
+public class PlayerTransform
 {
     [SerializeField] private int playerIndex;
     [SerializeField] private Transform transformPlayer;
