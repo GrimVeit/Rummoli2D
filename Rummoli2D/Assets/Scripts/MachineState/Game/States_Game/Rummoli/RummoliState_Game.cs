@@ -116,7 +116,9 @@ public class RummoliState_Game : IState
         _passCycle.Clear();
 
         player.RemoveCard(card); // Добавляем карту в игрока
-        AdvanceTurn();
+        //AdvanceTurn();
+
+        RequestCardToCurrentPlayer();
     }
 
     private void OnPassNext(int playerId)
