@@ -12,6 +12,11 @@ public class RummoliState_Game : IState
     private readonly ICardRummoliVisualActivator _cardRummoliVisualActivator;
     private readonly IPlayerHighlightSystemProvider _highlightSystemProvider;
     private readonly IPlayerPopupEffectSystemProvider _popupEffectSystemProvider;
+    private readonly ISectorConditionCheckerProvider _sectorConditionCheckerProvider;
+    private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
+    private readonly IBetSystemProvider _betSystemProvider;
+    private readonly UIGameRoot _sceneRoot;
+    private readonly IBetSystemEventsProvider _betSystemEventsProvider;
 
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
@@ -27,7 +32,12 @@ public class RummoliState_Game : IState
         IStoreCardRummoliProvider storeCardRummoliProvider,
         ICardRummoliVisualActivator cardRummoliVisualActivator,
         IPlayerHighlightSystemProvider highlightSystemProvider,
-        IPlayerPopupEffectSystemProvider popupEffectSystemProvider)
+        IPlayerPopupEffectSystemProvider popupEffectSystemProvider,
+        ISectorConditionCheckerProvider sectorConditionCheckerProvider,
+        IPlayerPresentationSystemProvider playerPresentationSystemProvider,
+        IBetSystemProvider betSystemProvider,
+        UIGameRoot sceneRoot,
+        IBetSystemEventsProvider betSystemEventsProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
@@ -36,12 +46,19 @@ public class RummoliState_Game : IState
         _cardRummoliVisualActivator = cardRummoliVisualActivator;
         _highlightSystemProvider = highlightSystemProvider;
         _popupEffectSystemProvider = popupEffectSystemProvider;
+        _sectorConditionCheckerProvider = sectorConditionCheckerProvider;
+        _playerPresentationSystemProvider = playerPresentationSystemProvider;
+        _betSystemProvider = betSystemProvider;
+        _sceneRoot = sceneRoot;
+        _betSystemEventsProvider = betSystemEventsProvider;
     }
 
     #region State
 
     public void EnterState()
     {
+        _betSystemEventsProvider.OnReturnBet += ReturnBet;
+
         _currentPlayerIndex = 0;
         _awaitingRandomTwo = false;
         _passCycle.Clear();
@@ -52,6 +69,8 @@ public class RummoliState_Game : IState
 
     public void ExitState()
     {
+        _betSystemEventsProvider.OnReturnBet -= ReturnBet;
+
         _cardRummoliVisualActivator.DeactivateVisual();
 
         UnsubscribeCurrentPlayerEvents();
@@ -156,7 +175,15 @@ public class RummoliState_Game : IState
 
         player.RemoveCard(card);
 
+        _sectorConditionCheckerProvider.AddCard(playerId, card);
+
         yield return new WaitForSeconds(CARD_LAID_DELAY);
+
+        //
+
+        yield return HandleClosedSectorsRoutine();
+
+        //
 
         _storeCardRummoliProvider.NextCard();
         _passCycle.Clear();
@@ -197,7 +224,15 @@ public class RummoliState_Game : IState
 
         player.RemoveCard(card);
 
+        _sectorConditionCheckerProvider.AddCard(playerId, card);
+
         yield return new WaitForSeconds(CARD_LAID_DELAY);
+
+        //
+
+        yield return HandleClosedSectorsRoutine();
+
+        //
 
         _awaitingRandomTwo = false;
         _passCycle.Clear();
@@ -242,6 +277,113 @@ public class RummoliState_Game : IState
     private IPlayer GetPlayer(int id)
     {
         return _players.Find(p => p.Id == id);
+    }
+
+    #endregion
+
+    #region SectorReward
+
+    private IEnumerator HandleClosedSectorsRoutine()
+    {
+        if (!_sectorConditionCheckerProvider.IsHaveClosedSectors())
+            yield break;
+
+        var closedSectors = _sectorConditionCheckerProvider.GetClosedSectors();
+
+        foreach (var (sectorIndex, playerId) in closedSectors)
+        {
+            yield return HandleClosedSectorRoutine(
+                sectorIndex,
+                playerId
+            );
+
+            _sectorConditionCheckerProvider.ClaimSector(sectorIndex);
+        }
+    }
+
+    private IEnumerator HandleClosedSectorRoutine(int sectorIndex, int playerId)
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        int startIndex = UnityEngine.Random.Range(0, _players.Count);
+
+        for (int i = 0; i < _players.Count; i++)
+        {
+            int index = (startIndex + i) % _players.Count;
+
+
+            if (_players[index].Id == playerId)
+            {
+                if (_players[index].Id == 0)
+                {
+                    _playerPresentationSystemProvider.HideCards(0);
+
+                    yield return new WaitForSeconds(0.2f);
+
+                    _playerPresentationSystemProvider.MoveToLayout(0, "Table");
+
+                    yield return new WaitForSeconds(0.3f);
+                }
+            }
+            else
+            {
+                _playerPresentationSystemProvider.Hide(_players[index].Id);
+            }
+
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        _cardRummoliVisualActivator.DeactivateVisual();
+
+        yield return new WaitForSeconds(0.2f);
+
+        _sceneRoot.OpenRummoliTablePanel();
+
+        yield return new WaitForSeconds(0.2f);
+
+        _betSystemProvider.StartReturnBet(playerId, sectorIndex);
+
+        yield return new WaitForSeconds(1);
+
+        startIndex = UnityEngine.Random.Range(0, _players.Count);
+
+        for (int i = 0; i < _players.Count; i++)
+        {
+            int index = (startIndex + i) % _players.Count;
+
+            if (_players[index].Id == playerId)
+            {
+                if (_players[index].Id == 0)
+                {
+                    _playerPresentationSystemProvider.MoveToLayout(0, "Game");
+
+                    yield return new WaitForSeconds(0.3f);
+
+                    _playerPresentationSystemProvider.ShowCards(0);
+                }
+            }
+            else
+            {
+                _playerPresentationSystemProvider.Show(_players[index].Id);
+            }
+
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        _sceneRoot.CloseRummoliTablePanel();
+
+        yield return new WaitForSeconds(0.2f);
+
+        _cardRummoliVisualActivator.ActivateVisual();
+
+        yield return new WaitForSeconds(0.2f);
+    }
+
+    private void ReturnBet(int playerId, int score)
+    {
+        var player = GetPlayer(playerId);
+
+        player.AddScore(score);
     }
 
     #endregion

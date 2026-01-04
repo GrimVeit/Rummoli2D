@@ -24,7 +24,8 @@ public class StateMachine_Game : IStateMachineProvider
         IBetSystemProvider betSystemProvider,
         IStoreCardRummoliProvider storeCardRummoliProvider,
         ICardRummoliVisualActivator cardRummoliVisualActivator,
-        IPlayerPopupEffectSystemProvider playerPopupEffectSystemProvider)
+        IPlayerPopupEffectSystemProvider playerPopupEffectSystemProvider,
+        ISectorConditionCheckerProvider sectorConditionCheckerProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
@@ -40,7 +41,7 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider);
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
         states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, sceneRoot);
-        states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider);
+        states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, sceneRoot, betSystemEventsProvider);
     }
 
     public void Initialize()

@@ -35,6 +35,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private CardBankPresentationSystemPresenter cardBankPresentationSystemPresenter;
     private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
     private PlayerPokerPresenter playerPokerPresenter;
+    private SectorConditionCheckerPresenter sectorConditionCheckerPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -79,6 +80,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
         playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
+        sectorConditionCheckerPresenter = new SectorConditionCheckerPresenter(new SectorConditionCheckerModel());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
@@ -101,7 +103,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             betSystemPresenter,
             storeCardRummoliPresenter,
             cardRummoliVisualPresenter,
-            playerPopupEffectSystemPresenter);
+            playerPopupEffectSystemPresenter,
+            sectorConditionCheckerPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();

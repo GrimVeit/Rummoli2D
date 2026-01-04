@@ -48,7 +48,7 @@ public class BetSystemView : View
         var chip = Instantiate(chipAddBetPrefab, transformSpawnParent);
         chip.SetData(playerIndex, sectorIndex);
         chip.OnEndMove += DestroyAddBetChip;
-        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), 0.3f);
+        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), 0.5f);
     }
 
     private void DestroyAddBetChip(int playerIndex, int sectorIndex, BetAddChip chip)
@@ -69,7 +69,7 @@ public class BetSystemView : View
         var chip = Instantiate(chipReturnBetPrefab, transformSpawnParent);
         chip.SetData(playerIndex, score);
         chip.OnEndMove += DestroyReturnBetChip;
-        chip.MoveTo(sectors.GetTransformSector(sectorIndex), playerTransforms.GetTransformPlayer(playerIndex), 0.3f);
+        chip.MoveTo(sectors.GetTransformSector(sectorIndex), playerTransforms.GetTransformPlayer(playerIndex), 0.5f);
     }
 
     private void DestroyReturnBetChip(int playerIndex, int sectorIndex, BetReturnChip chip)
