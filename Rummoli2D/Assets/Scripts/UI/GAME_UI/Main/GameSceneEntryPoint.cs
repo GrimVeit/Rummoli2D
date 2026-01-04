@@ -133,31 +133,6 @@ public class GameSceneEntryPoint : MonoBehaviour
         stateMachine.Initialize();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            if (!betSystemPresenter.IsPlayerBetCompleted(1))
-            {
-                if(betSystemPresenter.TryGetRandomAvailableSector(1, out int index))
-                {
-                    betSystemPresenter.StartAddBet(1, index);
-                }
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            if (!betSystemPresenter.IsPlayerBetCompleted(2))
-            {
-                if (betSystemPresenter.TryGetRandomAvailableSector(2, out int index))
-                {
-                    betSystemPresenter.StartAddBet(2, index);
-                }
-            }
-        }
-    }
-
     private void ActivateEvents()
     {
         ActivateTransitions();

@@ -24,12 +24,12 @@ public class PlayerBotStateMachine : IStateMachineProvider
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerBot)] = state5Cards;
 
-        var stateRequestCard = new ChooseRequestCard_PlayerBot();
+        var stateRequestCard = new ChooseRequestCard_PlayerBot(storeCardInfoProvider);
         stateRequestCard.OnCardLaid += Choose_Next;
         stateRequestCard.OnPass += Pass_Next;
         states[typeof(ChooseRequestCard_PlayerBot)] = stateRequestCard;
 
-        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerBot();
+        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerBot(storeCardInfoProvider);
         stateRequestCardRandomTwo.OnCardLaid += Choose_RandomTwo;
         stateRequestCardRandomTwo.OnPass += Pass_RandomTwo;
         states[typeof(ChooseRequestRandomTwo_PlayerBot)] = stateRequestCardRandomTwo;

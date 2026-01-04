@@ -1,6 +1,6 @@
+п»їusing System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using UnityEngine;
 
 public class RummoliState_Game : IState
@@ -16,7 +16,18 @@ public class RummoliState_Game : IState
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
 
-    public RummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IStoreCardRummoliProvider storeCardRummoliProvider, ICardRummoliVisualActivator cardRummoliVisualActivator, IPlayerHighlightSystemProvider highlightSystemProvider, IPlayerPopupEffectSystemProvider popupEffectSystemProvider)
+    // рџ”№ РўР°Р№РјРёРЅРіРё (РјРѕР¶РЅРѕ РІС‹РЅРµСЃС‚Рё РІ РєРѕРЅС„РёРі)
+    private const float TURN_DELAY = 0.4f;
+    private const float PASS_DELAY = 0.6f;
+    private const float CARD_LAID_DELAY = 0.5f;
+
+    public RummoliState_Game(
+        IStateMachineProvider stateProvider,
+        List<IPlayer> players,
+        IStoreCardRummoliProvider storeCardRummoliProvider,
+        ICardRummoliVisualActivator cardRummoliVisualActivator,
+        IPlayerHighlightSystemProvider highlightSystemProvider,
+        IPlayerPopupEffectSystemProvider popupEffectSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
@@ -27,42 +38,50 @@ public class RummoliState_Game : IState
         _popupEffectSystemProvider = popupEffectSystemProvider;
     }
 
+    #region State
 
     public void EnterState()
     {
-        Debug.Log($"[Rummoli] EnterState: {_storeCardRummoliProvider.CurrentCardData?.Suit} {_storeCardRummoliProvider.CurrentCardData?.Rank}");
         _currentPlayerIndex = 0;
         _awaitingRandomTwo = false;
+        _passCycle.Clear();
 
         _cardRummoliVisualActivator.ActivateVisual();
-
-        RequestCardToCurrentPlayer();
+        Coroutines.Start(RequestCardRoutine());
     }
 
     public void ExitState()
     {
+        _cardRummoliVisualActivator.DeactivateVisual();
+
         UnsubscribeCurrentPlayerEvents();
     }
 
-    private void RequestCardToCurrentPlayer()
+    #endregion
+
+    #region Request
+
+    private IEnumerator RequestCardRoutine()
     {
+        yield return new WaitForSeconds(TURN_DELAY);
+
         var player = GetPlayer(_currentPlayerIndex);
         _highlightSystemProvider.ActivateHighlight(player.Id);
 
         if (_storeCardRummoliProvider.CurrentCardData != null)
         {
-            // Запросить обычную карту (Next)
             SubscribeNextEvents(player);
             player.ActivateRequestCard(_storeCardRummoliProvider.CurrentCardData);
         }
         else
         {
-            // Текущая карта null — значит нужно ждать рандомную двойку
             _awaitingRandomTwo = true;
             SubscribeRandomTwoEvents(player);
             player.ActivateRequestRandomTwo();
         }
     }
+
+    #endregion
 
     #region Event Subscriptions
 
@@ -101,67 +120,97 @@ public class RummoliState_Game : IState
 
     #endregion
 
-    #region Event Handlers
+    #region Events в†’ Coroutines
 
     private void OnCardLaidNext(int playerId, ICard card)
     {
-        var player = GetPlayer(playerId);
-        player.DeactivateRequestCard();
-        UnsubscribeNextEvents(player);
-        _highlightSystemProvider.DeactivateHighlight(playerId);
-
-        Debug.Log($"[Rummoli] Player {player.Name} laid card successfully");
-        _storeCardRummoliProvider.NextCard();
-
-        _passCycle.Clear();
-
-        player.RemoveCard(card); // Добавляем карту в игрока
-        //AdvanceTurn();
-
-        RequestCardToCurrentPlayer();
+        Coroutines.Start(CardLaidNextRoutine(playerId, card));
     }
 
     private void OnPassNext(int playerId)
     {
+        Coroutines.Start(PassNextRoutine(playerId));
+    }
+
+    private void OnCardLaidRandomTwo(int playerId, ICard card)
+    {
+        Coroutines.Start(CardLaidRandomTwoRoutine(playerId, card));
+    }
+
+    private void OnPassRandomTwo(int playerId)
+    {
+        Coroutines.Start(PassRandomTwoRoutine(playerId));
+    }
+
+    #endregion
+
+    #region Routines
+
+    private IEnumerator CardLaidNextRoutine(int playerId, ICard card)
+    {
         var player = GetPlayer(playerId);
+
+        player.DeactivateRequestCard();
+        UnsubscribeNextEvents(player);
+        _highlightSystemProvider.DeactivateHighlight(playerId);
+
+        player.RemoveCard(card);
+
+        yield return new WaitForSeconds(CARD_LAID_DELAY);
+
+        _storeCardRummoliProvider.NextCard();
+        _passCycle.Clear();
+
+        yield return RequestCardRoutine();
+    }
+
+    private IEnumerator PassNextRoutine(int playerId)
+    {
+        var player = GetPlayer(playerId);
+
         player.DeactivateRequestCard();
         UnsubscribeNextEvents(player);
         _highlightSystemProvider.DeactivateHighlight(playerId);
         _popupEffectSystemProvider.ShowPass(playerId);
 
-        Debug.Log($"[Rummoli] Player {player.Name} passed, next card will be chosen automatically");
-
         _passCycle.Add(playerId);
 
-        if(_passCycle.Count == _players.Count)
+        yield return new WaitForSeconds(PASS_DELAY);
+
+        if (_passCycle.Count == _players.Count)
         {
-            Debug.Log("[Rummoli] All players passed, next card will be chosen automatically");
             _storeCardRummoliProvider.NextCard();
             _passCycle.Clear();
         }
 
         AdvanceTurn();
+        yield return RequestCardRoutine();
     }
 
-    private void OnCardLaidRandomTwo(int playerId, ICard card)
+    private IEnumerator CardLaidRandomTwoRoutine(int playerId, ICard card)
     {
         var player = GetPlayer(playerId);
+
         player.DeactivateRequestRandomTwo();
         UnsubscribeRandomTwoEvents(player);
-        _highlightSystemProvider.DeactivateHighlight(player.Id);
+        _highlightSystemProvider.DeactivateHighlight(playerId);
 
-        player.RemoveCard(card); // Игрок скинул случайную двойку
+        player.RemoveCard(card);
+
+        yield return new WaitForSeconds(CARD_LAID_DELAY);
+
         _awaitingRandomTwo = false;
+        _passCycle.Clear();
+        _storeCardRummoliProvider.ChooseSuit(card.CardSuit);
+        _currentPlayerIndex = playerId;
 
-        // Сделать эту двойку текущей картой и продолжить Next
-        _storeCardRummoliProvider.ChooseSuit(card.CardSuit); // в StoreCardRummoliPresenter она станет CurrentCardData
-        _currentPlayerIndex = playerId; // Начинаем цикл с того, кто скинул двойку
-        RequestCardToCurrentPlayer();
+        yield return RequestCardRoutine();
     }
 
-    private void OnPassRandomTwo(int playerId)
+    private IEnumerator PassRandomTwoRoutine(int playerId)
     {
         var player = GetPlayer(playerId);
+
         player.DeactivateRequestRandomTwo();
         UnsubscribeRandomTwoEvents(player);
         _highlightSystemProvider.DeactivateHighlight(playerId);
@@ -169,47 +218,32 @@ public class RummoliState_Game : IState
 
         _passCycle.Add(playerId);
 
+        yield return new WaitForSeconds(PASS_DELAY);
+
         if (_passCycle.Count == _players.Count)
         {
-            Debug.Log("[Rummoli] All players passed, next card will be chosen automatically");
             _storeCardRummoliProvider.ChooseRandomSuit();
             _passCycle.Clear();
         }
 
-        AdvanceTurnRandomTwo();
+        AdvanceTurn();
+        yield return RequestCardRoutine();
     }
 
     #endregion
 
-    #region Turn Management
+    #region Turn
 
     private void AdvanceTurn()
     {
-        // Следующий игрок по кругу
         _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.Count;
-
-        // Запросить карту следующему игроку
-        RequestCardToCurrentPlayer();
-    }
-
-    private void AdvanceTurnRandomTwo()
-    {
-        _currentPlayerIndex = (_currentPlayerIndex + 1) % _players.Count;
-
-        // Если все прошли и никто не выложил двойку, оставляем CurrentCardData null, чтобы состояние обработало выбор рандомной двойки
-        if (_currentPlayerIndex == 0)
-        {
-            Debug.Log("[Rummoli] No player had a two, next card will be chosen randomly");
-            _storeCardRummoliProvider.CurrentCardData = null;
-        }
-
-        RequestCardToCurrentPlayer();
     }
 
     private IPlayer GetPlayer(int id)
     {
-        return _players.Find(data => data.Id == id);
+        return _players.Find(p => p.Id == id);
     }
 
     #endregion
 }
+
