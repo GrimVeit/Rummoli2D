@@ -13,6 +13,7 @@ public class PlayerBotCardVisualModel
 
         _storeCardEventsProvider.OnAddCard += AddCard;
         _storeCardEventsProvider.OnRemoveCard += RemoveCard;
+        _storeCardEventsProvider.OnDeleteCards += DeleteCards;
     }
 
     public void Initialize()
@@ -24,6 +25,7 @@ public class PlayerBotCardVisualModel
     {
         _storeCardEventsProvider.OnAddCard -= AddCard;
         _storeCardEventsProvider.OnRemoveCard -= RemoveCard;
+        _storeCardEventsProvider.OnDeleteCards -= DeleteCards;
     }
 
     private void AddCard(ICard card)
@@ -36,10 +38,16 @@ public class PlayerBotCardVisualModel
         OnRemoveCard?.Invoke(card);
     }
 
+    private void DeleteCards()
+    {
+        OnDeleteCards?.Invoke();
+    }
+
     #region Output
 
     public event Action<ICard> OnAddCard;
     public event Action<ICard> OnRemoveCard;
+    public event Action OnDeleteCards;
 
     #endregion
 }

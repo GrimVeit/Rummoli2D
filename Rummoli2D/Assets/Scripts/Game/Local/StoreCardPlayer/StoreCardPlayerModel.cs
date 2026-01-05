@@ -24,10 +24,17 @@ public class StoreCardPlayerModel
         OnRemoveCard?.Invoke(card);
     }
 
+    public void DeleteCards()
+    {
+        cards.Clear();
+        OnDeleteCards?.Invoke();
+    }
+
     #region Output
 
     public event Action<ICard> OnAddCard;
     public event Action<ICard> OnRemoveCard;
+    public event Action OnDeleteCards;
 
     #endregion
 }

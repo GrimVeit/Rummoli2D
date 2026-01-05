@@ -25,14 +25,16 @@ public class StateMachine_Game : IStateMachineProvider
         IStoreCardRummoliProvider storeCardRummoliProvider,
         ICardRummoliVisualActivator cardRummoliVisualActivator,
         IPlayerPopupEffectSystemProvider playerPopupEffectSystemProvider,
-        ISectorConditionCheckerProvider sectorConditionCheckerProvider)
+        ISectorConditionCheckerProvider sectorConditionCheckerProvider,
+        IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider,
+        IStoreRoundNumberProvider storeRoundNumberProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
         states[typeof(MovePlayersTableState_Game)] = new MovePlayersTableState_Game(this, players, playerPresentationProvider, sceneRoot);
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);
 
-        states[typeof(RoundState_Game)] = new RoundState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider);
+        states[typeof(RoundState_Game)] = new RoundState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider, storeRoundNumberProvider);
         states[typeof(Phase1State_Game)] = new Phase1State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
         states[typeof(BetState_Game)] = new BetState_Game(this, players);
         states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, sceneRoot);
@@ -42,6 +44,8 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
         states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, sceneRoot);
         states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, sceneRoot, betSystemEventsProvider);
+        states[typeof(RoundCompleteState_Game)] = new RoundCompleteState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider);
+        states[typeof(ReturnPlayersToStartState_Game)] = new ReturnPlayersToStartState_Game(this, players, sceneRoot, playerPresentationProvider, storeRoundNumberInfoProvider, cardSpawnerSystemProvider, sectorConditionCheckerProvider, storeCardRummoliProvider, betSystemProvider);
     }
 
     public void Initialize()

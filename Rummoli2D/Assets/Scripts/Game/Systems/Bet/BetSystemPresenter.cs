@@ -86,6 +86,7 @@ public class BetSystemPresenter : IBetSystemInteractiveActivatorProvider, IBetSy
 
     public void StartAddBet(int playerIndex, int sectorIndex) => _model.StartAddBet(playerIndex, sectorIndex);
     public void StartReturnBet(int playerIndex, int sectorIndex) => _model.StartReturnBet(playerIndex, sectorIndex);
+    public void Reset() => _model.Reset();
 
     public void ActivateInteractive() => _view.ActivateInteractive();
     public void DeactivateInteractive() => _view.DeactivateInteractive();
@@ -120,6 +121,7 @@ public interface IBetSystemEventsProvider
 
 public interface IBetSystemProvider
 {
+    public void Reset();
     public void StartAddBet(int playerIndex, int sectorIndex);
     public void StartReturnBet(int playerIndex, int sectorIndex);
 }

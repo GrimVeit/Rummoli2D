@@ -36,6 +36,8 @@ public class GameSceneEntryPoint : MonoBehaviour
     private CardSpawnerSystemPresenter cardSpawnerSystemPresenter;
     private PlayerPokerPresenter playerPokerPresenter;
     private SectorConditionCheckerPresenter sectorConditionCheckerPresenter;
+    private StoreRoundNumberPresenter storeRoundNumberPresenter;
+    private RoundNumberVisualPresenter roundNumberVisualPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -81,6 +83,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
         playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
         sectorConditionCheckerPresenter = new SectorConditionCheckerPresenter(new SectorConditionCheckerModel());
+        storeRoundNumberPresenter = new StoreRoundNumberPresenter(new StoreRoundNumberModel());
+        roundNumberVisualPresenter = new RoundNumberVisualPresenter(new RoundNumberVisualModel(storeRoundNumberPresenter, storeRoundNumberPresenter, storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<RoundNumberVisualView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
@@ -104,7 +108,9 @@ public class GameSceneEntryPoint : MonoBehaviour
             storeCardRummoliPresenter,
             cardRummoliVisualPresenter,
             playerPopupEffectSystemPresenter,
-            sectorConditionCheckerPresenter);
+            sectorConditionCheckerPresenter,
+            storeRoundNumberPresenter,
+            storeRoundNumberPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -126,6 +132,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerPokerPresenter.Initialize();
         cardRummoliVisualPresenter.Initialize();
         storeCardRummoliPresenter.Initialize();
+        storeRoundNumberPresenter.Initialize();
+        roundNumberVisualPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -164,6 +172,18 @@ public class GameSceneEntryPoint : MonoBehaviour
         soundPresenter?.Dispose();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            playerPeople.DeleteCards();
+            playerBot_1.DeleteCards();
+            playerBot_2.DeleteCards();
+            playerBot_3.DeleteCards();
+            playerBot_4.DeleteCards();
+        }
+    }
+
     private void Dispose()
     {
         DeactivateEvents();
@@ -182,6 +202,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         cardSpawnerSystemPresenter?.Dispose();
         playerPokerPresenter?.Dispose();
         cardRummoliVisualPresenter?.Dispose();
+        storeRoundNumberPresenter?.Dispose();
+        roundNumberVisualPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

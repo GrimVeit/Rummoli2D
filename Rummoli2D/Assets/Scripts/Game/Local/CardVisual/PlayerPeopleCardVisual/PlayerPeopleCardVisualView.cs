@@ -71,6 +71,8 @@ public class PlayerPeopleCardVisualView : View
         UpdateHand();
     }
 
+
+
     public void Select(ICard card)
     {
         var cardVisual = GetCard(card);
@@ -114,6 +116,20 @@ public class PlayerPeopleCardVisualView : View
         if (scrollIndex > removedIndex)
             scrollIndex--;
 
+        ClampScroll();
+        UpdateHand();
+    }
+
+    public void DeleteCards()
+    {
+        foreach (var card in cards)
+        {
+            card.OnChooseCard -= ChooseCard;
+            Destroy(card.gameObject);
+        }
+
+        cards.Clear();
+        scrollIndex = 0;
         ClampScroll();
         UpdateHand();
     }

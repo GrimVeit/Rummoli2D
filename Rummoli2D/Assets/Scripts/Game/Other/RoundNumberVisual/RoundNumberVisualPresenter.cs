@@ -29,11 +29,13 @@ public class RoundNumberVisualPresenter
 
     private void ActivateEvents()
     {
-        _model.OnChangeRoundName += _view.SetName;
+        _model.OnChangeRoundName_Open += _view.SetNameOpenRound;
+        _model.OnChangeRoundName_Completed += _view.SetNameCompletedRound;
     }
 
     private void DeactivateEvents()
     {
-        _model.OnChangeRoundName -= _view.SetName;
+        _model.OnChangeRoundName_Open -= _view.SetNameOpenRound;
+        _model.OnChangeRoundName_Completed -= _view.SetNameCompletedRound;
     }
 }

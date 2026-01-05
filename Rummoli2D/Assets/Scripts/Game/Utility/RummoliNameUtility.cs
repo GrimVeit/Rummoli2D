@@ -42,12 +42,23 @@ public static class RummolyNameUtility
         };
     }
 
-    public static string GetRoundName(int roundNumber, Language language = Language.English)
+    public static string GetRoundName_Open(int roundNumber, Language language = Language.English)
     {
         return language switch
         {
             Language.English => $"Round {roundNumber}",
             Language.Russia => $"Раунд {roundNumber}",
+            _ => $"Round {roundNumber}"
+        };
+    }
+
+    public static string GetRoundName_Complete(int roundNumber, Language language = Language.English)
+    {
+        return language switch
+        {
+
+            Language.English => $"Round <color=#F0BE61>{roundNumber}</color> completed",
+            Language.Russia => $"Раунд <color=#F0BE61>{roundNumber}</color> завершён",
             _ => $"Round {roundNumber}"
         };
     }

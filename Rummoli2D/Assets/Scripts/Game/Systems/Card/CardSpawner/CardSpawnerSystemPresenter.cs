@@ -51,6 +51,7 @@ public class CardSpawnerSystemPresenter : ICardSpawnerSystemEventsProvider, ICar
     #region Input
 
     public void Spawn(int playerId) => _model.Spawn(playerId);
+    public void Reset() => _model.Reset();
 
     #endregion
 }
@@ -58,6 +59,7 @@ public class CardSpawnerSystemPresenter : ICardSpawnerSystemEventsProvider, ICar
 public interface ICardSpawnerSystemProvider
 {
     public void Spawn(int playerId);
+    public void Reset();
 }
 
 public interface ICardSpawnerSystemEventsProvider

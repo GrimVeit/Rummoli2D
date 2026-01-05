@@ -16,14 +16,24 @@ public class RoundPhasePresentationSystemView : View
     [SerializeField] private float durationPhaseNameMove = 0.2f;
 
     #region Round
-    public void ShowRound(Action OnComplete)
+    public void ShowRoundOpen(Action OnComplete)
     {
-        roundPresentation.Show(durationRoundScale, OnComplete);
+        roundPresentation.ShowOpen(durationRoundScale, OnComplete);
     }
 
-    public void HideRound(Action OnComplete)
+    public void HideRoundOpen(Action OnComplete)
     {
-        roundPresentation.Hide(durationRoundScale, OnComplete);
+        roundPresentation.HideOpen(durationRoundScale, OnComplete);
+    }
+
+    public void ShowRoundComplete(Action OnComplete)
+    {
+        roundPresentation.ShowComplete(durationRoundScale, OnComplete);
+    }
+
+    public void HideRoundComplete(Action OnComplete)
+    {
+        roundPresentation.HideComplete(durationRoundScale, OnComplete);
     }
     #endregion
 
@@ -124,10 +134,11 @@ public class RoundPhasePresentationSystemView : View
 public class RoundPresentation
 {
     [SerializeField] private Transform transformRound;
+    [SerializeField] private Transform transformCompletedRound;
 
     private Tween tweenScale;
 
-    public void Show(float durationsScale, Action OnComplete)
+    public void ShowOpen(float durationsScale, Action OnComplete)
     {
         tweenScale?.Kill();
 
@@ -135,7 +146,7 @@ public class RoundPresentation
         tweenScale = transformRound.DOScale(1, durationsScale).OnComplete(() => OnComplete?.Invoke());
     }
 
-    public void Hide(float durationsScale, Action OnComplete)
+    public void HideOpen(float durationsScale, Action OnComplete)
     {
         tweenScale?.Kill();
         tweenScale?.Kill();
@@ -145,6 +156,27 @@ public class RoundPresentation
         {
             OnComplete?.Invoke();
             transformRound.gameObject.SetActive(false);
+        });
+    }
+
+    public void ShowComplete(float durationsScale, Action OnComplete)
+    {
+        tweenScale?.Kill();
+
+        transformCompletedRound.gameObject.SetActive(true);
+        tweenScale = transformCompletedRound.DOScale(1, durationsScale).OnComplete(() => OnComplete?.Invoke());
+    }
+
+    public void HideComplete(float durationsScale, Action OnComplete)
+    {
+        tweenScale?.Kill();
+        tweenScale?.Kill();
+
+        transformCompletedRound.gameObject.SetActive(true);
+        tweenScale = transformCompletedRound.DOScale(0, durationsScale).OnComplete(() =>
+        {
+            OnComplete?.Invoke();
+            transformCompletedRound.gameObject.SetActive(false);
         });
     }
 }
@@ -209,7 +241,7 @@ public class PhaseNamePresentation
         tweenScaleMain?.Kill();
 
         transformPhaseNameMove.gameObject.SetActive(true);
-        tweenScaleMain = transformPhaseNameMove.DOScale(1, durationsScale).OnComplete(() =>
+        tweenScaleMain = transformPhaseNameMove.DOScale(0, durationsScale).OnComplete(() =>
         {
             OnComplete?.Invoke();
             transformPhaseNameMove.gameObject.SetActive(false);

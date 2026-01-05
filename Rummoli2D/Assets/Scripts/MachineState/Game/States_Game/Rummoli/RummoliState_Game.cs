@@ -186,6 +186,9 @@ public class RummoliState_Game : IState
 
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
+        _storeCardRummoliProvider.NextCard();
+        _passCycle.Clear();
+
         //
 
         yield return HandleClosedSectorsRoutine();
@@ -199,9 +202,6 @@ public class RummoliState_Game : IState
             ChangeStateToOther();
             yield break;
         }
-
-        _storeCardRummoliProvider.NextCard();
-        _passCycle.Clear();
 
         yield return RequestCardRoutine();
     }
@@ -245,6 +245,11 @@ public class RummoliState_Game : IState
 
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
+        _awaitingRandomTwo = false;
+        _passCycle.Clear();
+        _storeCardRummoliProvider.ChooseSuit(card.CardSuit);
+        _currentPlayerIndex = playerId;
+
         //
 
         yield return HandleClosedSectorsRoutine();
@@ -258,11 +263,6 @@ public class RummoliState_Game : IState
             ChangeStateToOther();
             yield break;
         }
-
-        _awaitingRandomTwo = false;
-        _passCycle.Clear();
-        _storeCardRummoliProvider.ChooseSuit(card.CardSuit);
-        _currentPlayerIndex = playerId;
 
         yield return RequestCardRoutine();
     }
@@ -445,7 +445,7 @@ public class RummoliState_Game : IState
 
     private void ChangeStateToOther()
     {
-        Debug.LogWarning("GAME END!!!");
+        _stateProvider.EnterState(_stateProvider.GetState<RoundCompleteState_Game>());
     }
 }
 

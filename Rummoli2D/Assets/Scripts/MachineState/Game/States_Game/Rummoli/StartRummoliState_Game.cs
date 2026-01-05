@@ -67,11 +67,16 @@ public class StartRummoliState_Game : IState
 
         yield return new WaitForSeconds(0.3f);
 
-        ChangeStateToRummoli();
+        ChangeStateTEST();
     }
 
     private void ChangeStateToRummoli()
     {
         _stateProvider.EnterState(_stateProvider.GetState<RummoliState_Game>());
+    }
+
+    private void ChangeStateTEST()
+    {
+        _stateProvider.EnterState(_stateProvider.GetState<RoundCompleteState_Game>());
     }
 }

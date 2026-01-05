@@ -166,6 +166,11 @@ public class PlayerPeople : IPlayer
         _storeCardPlayerPresenter.RemoveCard(card);
     }
 
+    public void DeleteCards()
+    {
+        _storeCardPlayerPresenter.DeleteCards();
+    }
+
     //POKER-------------------------------------------------------------------------------------------------------
     public void ActiveChoose5Cards()
     {

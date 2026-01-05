@@ -46,6 +46,9 @@ public class ChooseRequestCard_PlayerPeople : IState
 
         _playerPeopleCardVisualInteractiveProvider.DeactivateInteractive();
 
+        if (_currentChooseCard != null)
+            _playerPeopleCardVisualProvider.Deselect(_currentChooseCard);
+
         _playerPeopleInputProvider.DeactivateChoose();
         _playerPeopleInputProvider.DeactivatePass();
     }

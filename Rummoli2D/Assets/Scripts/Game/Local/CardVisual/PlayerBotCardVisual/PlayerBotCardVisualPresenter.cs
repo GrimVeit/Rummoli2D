@@ -31,11 +31,13 @@ public class PlayerBotCardVisualPresenter
     {
         _model.OnAddCard += _view.AddCard;
         _model.OnRemoveCard += _view.RemoveCard;
+        _model.OnDeleteCards += _view.DeleteCards;
     }
 
     private void DeactivateEvents()
     {
         _model.OnAddCard -= _view.AddCard;
         _model.OnRemoveCard -= _view.RemoveCard;
+        _model.OnDeleteCards -= _view.DeleteCards;
     }
 }

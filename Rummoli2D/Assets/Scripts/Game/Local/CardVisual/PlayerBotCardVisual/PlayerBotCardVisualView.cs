@@ -68,6 +68,19 @@ public class PlayerBotCardVisualView : View, IIdentify
         UpdateHand();
     }
 
+    public void DeleteCards()
+    {
+        foreach (var card in cards)
+        {
+            Destroy(card.gameObject);
+        }
+
+        cards.Clear();
+        scrollIndex = 0;
+        ClampScroll();
+        UpdateHand();
+    }
+
     // =======================
     // SCROLL LOGIC
     // =======================

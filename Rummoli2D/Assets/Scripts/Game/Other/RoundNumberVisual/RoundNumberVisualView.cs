@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class RoundNumberVisualView : View
 {
-    [SerializeField] private TextMeshProUGUI textRound;
+    [SerializeField] private TextMeshProUGUI textRoundOpen;
+    [SerializeField] private TextMeshProUGUI textRoundCompleted;
 
-    public void SetName(string name)
+    public void SetNameOpenRound(string name)
     {
-        textRound.name = name;
+        textRoundOpen.text = name;
+    }
+
+    public void SetNameCompletedRound(string name)
+    {
+        textRoundCompleted.text = name;
     }
 }

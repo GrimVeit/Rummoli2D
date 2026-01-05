@@ -21,6 +21,7 @@ public interface IPlayer
     int CardCount { get; }
     void AddCard(ICard card);
     void RemoveCard(ICard card);
+    void DeleteCards();
 
     //Poker
     void ActiveChoose5Cards();
