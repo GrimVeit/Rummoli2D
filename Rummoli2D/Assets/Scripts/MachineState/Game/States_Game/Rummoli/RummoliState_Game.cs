@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RummoliState_Game : IState
@@ -20,6 +21,7 @@ public class RummoliState_Game : IState
 
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
+    private bool _isGameEnding = false;
 
     // 🔹 Тайминги (можно вынести в конфиг)
     private const float TURN_DELAY = 0.4f;
@@ -61,6 +63,7 @@ public class RummoliState_Game : IState
 
         _currentPlayerIndex = 0;
         _awaitingRandomTwo = false;
+        _isGameEnding = false;
         _passCycle.Clear();
 
         _cardRummoliVisualActivator.ActivateVisual();
@@ -89,11 +92,13 @@ public class RummoliState_Game : IState
 
         if (_storeCardRummoliProvider.CurrentCardData != null)
         {
+            _cardRummoliVisualActivator.ActivateVisual();
             SubscribeNextEvents(player);
             player.ActivateRequestCard(_storeCardRummoliProvider.CurrentCardData);
         }
         else
         {
+            _cardRummoliVisualActivator.DeactivateVisual();
             _awaitingRandomTwo = true;
             SubscribeRandomTwoEvents(player);
             player.ActivateRequestRandomTwo();
@@ -177,13 +182,23 @@ public class RummoliState_Game : IState
 
         _sectorConditionCheckerProvider.AddCard(playerId, card);
 
+        _cardRummoliVisualActivator.DeactivateVisual();
+
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
         //
 
         yield return HandleClosedSectorsRoutine();
 
+        yield return HandleRummoliWinRoutine(playerId);
+
         //
+
+        if (IsGameOver())
+        {
+            ChangeStateToOther();
+            yield break;
+        }
 
         _storeCardRummoliProvider.NextCard();
         _passCycle.Clear();
@@ -226,13 +241,23 @@ public class RummoliState_Game : IState
 
         _sectorConditionCheckerProvider.AddCard(playerId, card);
 
+        _cardRummoliVisualActivator.DeactivateVisual();
+
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
         //
 
         yield return HandleClosedSectorsRoutine();
 
+        yield return HandleRummoliWinRoutine(playerId);
+
         //
+
+        if (IsGameOver())
+        {
+            ChangeStateToOther();
+            yield break;
+        }
 
         _awaitingRandomTwo = false;
         _passCycle.Clear();
@@ -379,6 +404,22 @@ public class RummoliState_Game : IState
         yield return new WaitForSeconds(0.2f);
     }
 
+    private IEnumerator HandleRummoliWinRoutine(int playerId)
+    {
+        if(IsPlayerOutOfCards(GetPlayer(playerId)) == false) yield break;
+
+        if (_isGameEnding) yield break;
+
+        _isGameEnding = true;
+
+        const int RUMMOLI_SECTOR_INDEX = 8;
+
+        yield return HandleClosedSectorRoutine(
+            RUMMOLI_SECTOR_INDEX,
+            playerId
+        );
+    }
+
     private void ReturnBet(int playerId, int score)
     {
         var player = GetPlayer(playerId);
@@ -387,5 +428,24 @@ public class RummoliState_Game : IState
     }
 
     #endregion
+
+    #region Other
+
+    private bool IsPlayerOutOfCards(IPlayer player)
+    {
+        return player.CardCount == 0;
+    }
+
+    private bool IsGameOver()
+    {
+        return _storeCardRummoliProvider.IsFinished;
+    }
+
+    #endregion
+
+    private void ChangeStateToOther()
+    {
+        Debug.LogWarning("GAME END!!!");
+    }
 }
 

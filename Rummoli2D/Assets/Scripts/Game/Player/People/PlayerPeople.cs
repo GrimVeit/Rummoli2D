@@ -5,6 +5,7 @@ public class PlayerPeople : IPlayer
 {
     public int Id => _playerId;
     public string Name => _nicknamePresenter.Nickname;
+    public int CardCount => _storeCardPlayerPresenter.Cards.Count;
 
     private readonly PlayerPeopleStateMachine _playerPeopleStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;

@@ -33,6 +33,7 @@ public class StoreCardRummoliPresenter : IStoreCardRummoliProvider, IStoreCardRu
     #endregion
 
     #region Input
+    public bool IsFinished => _model.IsFinished;
     public CardData CurrentCardData{ get => _model.CurrentCardData; set => _model.CurrentCardData = value;
     }
     public CardData NextCard() => _model.NextCard();
@@ -50,6 +51,7 @@ public interface IStoreCardRummoliListener
 
 public interface IStoreCardRummoliProvider
 {
+    public bool IsFinished { get; }
     public CardData CurrentCardData { get; set; }
     public CardData NextCard();
     public CardData ChooseSuit(CardSuit suit);

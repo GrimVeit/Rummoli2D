@@ -5,6 +5,7 @@ public class PlayerBot : IPlayer
 {
     public int Id => _playerId;
     public string Name => _name;
+    public int CardCount => _storeCardPlayerPresenter.Cards.Count;
 
     private readonly PlayerBotStateMachine _playerBotStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;

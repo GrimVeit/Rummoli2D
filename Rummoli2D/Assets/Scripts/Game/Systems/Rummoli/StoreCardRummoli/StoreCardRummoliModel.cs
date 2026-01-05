@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class StoreCardRummoliModel
 {
-    private Dictionary<CardSuit, List<CardData>> _suits; // карты по мастям
-    private HashSet<CardSuit> _usedSuits;            // масти, полностью выложенные
+    public bool IsFinished { get; private set; }
 
-    public CardData CurrentCardData; // текущая карта для выкладывания
+    private readonly Dictionary<CardSuit, List<CardData>> _suits; // РєР°СЂС‚С‹ РїРѕ РјР°СЃС‚СЏРј
+    private readonly HashSet<CardSuit> _usedSuits;            // РјР°СЃС‚Рё, РїРѕР»РЅРѕСЃС‚СЊСЋ РІС‹Р»РѕР¶РµРЅРЅС‹Рµ
+
+    public CardData CurrentCardData; // С‚РµРєСѓС‰Р°СЏ РєР°СЂС‚Р° РґР»СЏ РІС‹РєР»Р°РґС‹РІР°РЅРёСЏ
 
     private readonly System.Random _random = new();
 
@@ -18,7 +20,7 @@ public class StoreCardRummoliModel
         _suits = new Dictionary<CardSuit, List<CardData>>();
         _usedSuits = new HashSet<CardSuit>();
 
-        // создаём все карты
+        // СЃРѕР·РґР°С‘Рј РІСЃРµ РєР°СЂС‚С‹
         foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
         {
             _suits[suit] = new List<CardData>();
@@ -33,6 +35,8 @@ public class StoreCardRummoliModel
 
     public void Initialize()
     {
+        IsFinished = false;
+
         CurrentCardData = _suits[CardSuit.Clubs].FirstOrDefault(c => c.Rank == CardRank.Two);
         OnCurrentCardDataChanged?.Invoke(CurrentCardData);
     }
@@ -49,6 +53,7 @@ public class StoreCardRummoliModel
             _usedSuits.Add(CurrentCardData.Suit);
             CurrentCardData = null;
             OnCurrentCardDataChanged?.Invoke(CurrentCardData);
+            CheckFinished();
             return null;
         }
 
@@ -64,7 +69,7 @@ public class StoreCardRummoliModel
         var suitCards = _suits[suit];
         if (suitCards.Count < 2) return null;
 
-        CurrentCardData = suitCards[1]; // тройка
+        CurrentCardData = suitCards[1]; // С‚СЂРѕР№РєР°
         OnCurrentCardDataChanged?.Invoke(CurrentCardData);
         return CurrentCardData;
     }
@@ -75,8 +80,12 @@ public class StoreCardRummoliModel
                                  .Cast<CardSuit>()
                                  .Where(s => !_usedSuits.Contains(s))
                                  .ToList();
-
-        if (!remainingSuits.Any()) return null;
+        
+        if (!remainingSuits.Any())
+        {
+            IsFinished = true;   // рџ‘€ Р¤РРќРђР›
+            return null;
+        }
 
         var suit = remainingSuits[_random.Next(remainingSuits.Count)];
         return ChooseSuit(suit);
@@ -86,6 +95,7 @@ public class StoreCardRummoliModel
     {
         _suits.Clear();
         _usedSuits.Clear();
+        IsFinished = false;
 
         foreach (CardSuit suit in Enum.GetValues(typeof(CardSuit)))
         {
@@ -100,6 +110,15 @@ public class StoreCardRummoliModel
 
         CurrentCardData = _suits[CardSuit.Clubs].FirstOrDefault(c => c.Rank == CardRank.Two);
     }
+
+    private void CheckFinished()
+    {
+        if (_usedSuits.Count == Enum.GetValues(typeof(CardSuit)).Length)
+        {
+            IsFinished = true;
+        }
+    }
+
 
     #region Output
 

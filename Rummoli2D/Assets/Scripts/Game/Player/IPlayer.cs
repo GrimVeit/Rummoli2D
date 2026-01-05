@@ -18,6 +18,7 @@ public interface IPlayer
     event Action OnApplyBet;
 
     //Cards
+    int CardCount { get; }
     void AddCard(ICard card);
     void RemoveCard(ICard card);
 
