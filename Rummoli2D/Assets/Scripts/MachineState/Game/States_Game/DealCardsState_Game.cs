@@ -10,7 +10,7 @@ public class DealCardsState_Game : IState
     private readonly ICardSpawnerSystemEventsProvider _cardSpawnerEventsProvider;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
     private readonly int _cardsPerPlayer;
-    private int _cardsDealt = 0;
+    private int _cardsDeal = 0;
 
     private IEnumerator timer;
 
@@ -26,6 +26,8 @@ public class DealCardsState_Game : IState
 
     public void EnterState()
     {
+        _cardsDeal = 0;
+
         Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
 
         _cardSpawnerEventsProvider.OnSpawn += OnCardSpawned;
@@ -58,9 +60,9 @@ public class DealCardsState_Game : IState
     private void OnCardSpawned(int playerIndex, ICard card)
     {
         GetPlayer(playerIndex).AddCard(card);
-        _cardsDealt++;
+        _cardsDeal++;
 
-        if (_cardsDealt >= _cardsPerPlayer * _players.Count)
+        if (_cardsDeal >= _cardsPerPlayer * _players.Count)
         {
             _cardBankPresentationSystemProvider.MoveToLayout("Normal", () =>
             {

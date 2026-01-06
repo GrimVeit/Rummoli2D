@@ -8,15 +8,17 @@ public class StartRummoliState_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public StartRummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot)
+    public StartRummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
         _playerPresentationProvider = playerPresentationProvider;
         _sceneRoot = sceneRoot;
+        _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
     }
 
     public void EnterState()
@@ -63,20 +65,15 @@ public class StartRummoliState_Game : IState
             yield return new WaitForSeconds(timeWait);
         }
 
-        //_sceneRoot.OpenRummoliTablePanel();
+        _cardBankPresentationSystemProvider.Show(() => _cardBankPresentationSystemProvider.ShowBalance());
 
         yield return new WaitForSeconds(0.3f);
 
-        ChangeStateTEST();
+        ChangeStateToRummoli();
     }
 
     private void ChangeStateToRummoli()
     {
         _stateProvider.EnterState(_stateProvider.GetState<RummoliState_Game>());
-    }
-
-    private void ChangeStateTEST()
-    {
-        _stateProvider.EnterState(_stateProvider.GetState<RoundCompleteState_Game>());
     }
 }

@@ -13,10 +13,11 @@ public class ReturnPlayersToStartState_Game : IState
     private readonly ICardSpawnerSystemProvider _cardSpawnerSystemProvider;
     private readonly ISectorConditionCheckerProvider _sectorConditionCheckerProvider;
     private readonly IStoreCardRummoliProvider _storeCardRummoliProvider;
+    private readonly IPlayerPokerProvider _playerPokerProvider;
 
     private IEnumerator timer;
     
-    public ReturnPlayersToStartState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider, ICardSpawnerSystemProvider cardSpawnerSystemProvider, ISectorConditionCheckerProvider sectorConditionCheckerProvider, IStoreCardRummoliProvider storeCardRummoliProvider, IBetSystemProvider betSystemProvider)
+    public ReturnPlayersToStartState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider, ICardSpawnerSystemProvider cardSpawnerSystemProvider, ISectorConditionCheckerProvider sectorConditionCheckerProvider, IStoreCardRummoliProvider storeCardRummoliProvider, IBetSystemProvider betSystemProvider, IPlayerPokerProvider playerPokerProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
@@ -27,6 +28,7 @@ public class ReturnPlayersToStartState_Game : IState
         _cardSpawnerSystemProvider = cardSpawnerSystemProvider;
         _sectorConditionCheckerProvider = sectorConditionCheckerProvider;
         _storeCardRummoliProvider = storeCardRummoliProvider;
+        _playerPokerProvider = playerPokerProvider;
     }
 
     public void EnterState()
@@ -97,8 +99,10 @@ public class ReturnPlayersToStartState_Game : IState
         for (int i = 0; i < _players.Count; i++)
         {
             _players[i].DeleteCards();
+            _playerPresentationSystemProvider.ShowCards(_players[i].Id);
         }
 
+        _playerPokerProvider.HideTable();
         _betSystemProvider.Reset();
         _cardSpawnerSystemProvider.Reset();
         _sectorConditionCheckerProvider.Reset();

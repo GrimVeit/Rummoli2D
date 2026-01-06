@@ -49,6 +49,8 @@ public class Choose5CardsState_PlayerPeople : IState
             _playerPeopleCardVisualProvider.Deselect(_cards[i]);
         }
 
+        _cards.Clear();
+
         _playerPeopleSubmitProvider.DeactivateChoose();
     }
 

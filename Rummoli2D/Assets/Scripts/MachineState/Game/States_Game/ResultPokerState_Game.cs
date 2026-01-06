@@ -57,6 +57,7 @@ public class ResultPokerState_Game : IState
         yield return new WaitForSeconds(0.2f);
 
         _cardBankPresentationSystemProvider.Hide();
+        _cardBankPresentationSystemProvider.HideBalance();
         _playerPokerProvider.ShowTable();
 
         yield return new WaitForSeconds(1f);

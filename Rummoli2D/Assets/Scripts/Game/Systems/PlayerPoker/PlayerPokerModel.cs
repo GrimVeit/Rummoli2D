@@ -24,7 +24,7 @@ public class PlayerPokerModel
     public void SetPlayer(int playerId, string name, List<ICard> cards)
     {
         var handRank = _pokerHandEvaluator.GetHandRank(cards);
-        var data = new PlayerPokerData(playerId, name, cards, handRank, RummolyNameUtility.GetHandRankName(handRank, _languageInfoProvider.CurrentLanguage));
+        var data = new PlayerPokerData(playerId, name, cards, handRank, NameLanguageUtility.GetHandRankName(handRank, _languageInfoProvider.CurrentLanguage));
         OnSetPlayer?.Invoke(data);
 
         _players.Add(data);

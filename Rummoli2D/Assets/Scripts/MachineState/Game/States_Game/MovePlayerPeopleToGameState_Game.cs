@@ -37,6 +37,7 @@ public class MovePlayerPeopleToGameState_Game : IState
 
     private IEnumerator Timer()
     {
+        _cardBankPresentationSystemProvider.MoveToLayout("Deal");
         _playerPresentationProvider.MoveToLayout(_playerPeople.Id, "Game");
 
         yield return new WaitForSeconds(0.1f);

@@ -9,16 +9,18 @@ public class RoundCompleteState_Game : IState
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public RoundCompleteState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider)
+    public RoundCompleteState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
         _sceneRoot = sceneRoot;
         _playerPresentationSystemProvider = presentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
+        _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
     }
 
     public void EnterState()
@@ -36,6 +38,8 @@ public class RoundCompleteState_Game : IState
 
     private IEnumerator Timer()
     {
+        _cardBankPresentationSystemProvider.Hide();
+        _cardBankPresentationSystemProvider.HideBalance();
         _sceneRoot.CloseRummoliTablePanel();
 
         yield return new WaitForSeconds(0.1f);

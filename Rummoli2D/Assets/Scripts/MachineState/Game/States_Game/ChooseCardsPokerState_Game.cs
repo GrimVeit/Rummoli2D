@@ -21,6 +21,8 @@ public class ChooseCardsPokerState_Game : IState
 
     public void EnterState()
     {
+        _currentCount = 0;
+
         Debug.Log($"ACTIVATE STATE: <color=red>{this.GetType()}</color>");
 
         _playerPokerProvider.SetCountPlayer(_players.Count);

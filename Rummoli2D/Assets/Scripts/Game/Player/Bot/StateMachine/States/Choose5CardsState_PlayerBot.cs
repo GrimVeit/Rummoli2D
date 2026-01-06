@@ -33,6 +33,8 @@ public class Choose5CardsState_PlayerBot : IState
     public void ExitState()
     {
         if (timer != null) Coroutines.Stop(timer);
+
+        _cards.Clear();
     }
 
     private IEnumerator Timer()

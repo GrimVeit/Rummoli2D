@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class RummolyNameUtility
+public static class NameLanguageUtility
 {
     public static string GetHandRankName(HandRank rank, Language language = Language.English)
     {
@@ -60,6 +60,17 @@ public static class RummolyNameUtility
             Language.English => $"Round <color=#F0BE61>{roundNumber}</color> completed",
             Language.Russia => $"Раунд <color=#F0BE61>{roundNumber}</color> завершён",
             _ => $"Round {roundNumber}"
+        };
+    }
+
+    public static string GetPassCountName(int currentPassCount, int total, Language language = Language.English)
+    {
+        return language switch
+        {
+
+            Language.English => $"Passes: {currentPassCount}/{total}",
+            Language.Russia => $"Пас: {currentPassCount}/{total}",
+            _ => $"Passes: {currentPassCount}/{total}"
         };
     }
 }

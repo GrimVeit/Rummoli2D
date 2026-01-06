@@ -225,6 +225,12 @@ public class RummoliState_Game : IState
             _passCycle.Clear();
         }
 
+        if (IsGameOver())
+        {
+            ChangeStateToOther();
+            yield break;
+        }
+
         AdvanceTurn();
         yield return RequestCardRoutine();
     }

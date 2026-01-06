@@ -38,14 +38,14 @@ public class RoundNumberVisualModel
     {
         _roundNumber = number;
 
-        OnChangeRoundName_Open?.Invoke(RummolyNameUtility.GetRoundName_Open(_roundNumber, _languageInfoProvider.CurrentLanguage));
-        OnChangeRoundName_Completed?.Invoke(RummolyNameUtility.GetRoundName_Complete(_roundNumber, _languageInfoProvider.CurrentLanguage));
+        OnChangeRoundName_Open?.Invoke(NameLanguageUtility.GetRoundName_Open(_roundNumber, _languageInfoProvider.CurrentLanguage));
+        OnChangeRoundName_Completed?.Invoke(NameLanguageUtility.GetRoundName_Complete(_roundNumber, _languageInfoProvider.CurrentLanguage));
     }
 
     private void ChangeLanguage(Language language)
     {
-        OnChangeRoundName_Open?.Invoke(RummolyNameUtility.GetRoundName_Open(_roundNumber, language));
-        OnChangeRoundName_Completed?.Invoke(RummolyNameUtility.GetRoundName_Complete(_roundNumber, language));
+        OnChangeRoundName_Open?.Invoke(NameLanguageUtility.GetRoundName_Open(_roundNumber, language));
+        OnChangeRoundName_Completed?.Invoke(NameLanguageUtility.GetRoundName_Complete(_roundNumber, language));
     }
 
     #region Output

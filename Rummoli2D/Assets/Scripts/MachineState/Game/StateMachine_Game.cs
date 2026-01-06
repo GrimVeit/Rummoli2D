@@ -42,10 +42,10 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(ChooseCardsPokerState_Game)] = new ChooseCardsPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
         states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, sceneRoot, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider);
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, sceneRoot);
-        states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, sceneRoot);
+        states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, sceneRoot, cardBankPresentationSystemProvider);
         states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, sceneRoot, betSystemEventsProvider);
-        states[typeof(RoundCompleteState_Game)] = new RoundCompleteState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider);
-        states[typeof(ReturnPlayersToStartState_Game)] = new ReturnPlayersToStartState_Game(this, players, sceneRoot, playerPresentationProvider, storeRoundNumberInfoProvider, cardSpawnerSystemProvider, sectorConditionCheckerProvider, storeCardRummoliProvider, betSystemProvider);
+        states[typeof(RoundCompleteState_Game)] = new RoundCompleteState_Game(this, players, sceneRoot, playerPresentationProvider, roundPhasePresentationSystemProvider, cardBankPresentationSystemProvider);
+        states[typeof(ReturnPlayersToStartState_Game)] = new ReturnPlayersToStartState_Game(this, players, sceneRoot, playerPresentationProvider, storeRoundNumberInfoProvider, cardSpawnerSystemProvider, sectorConditionCheckerProvider, storeCardRummoliProvider, betSystemProvider, playerPokerProvider);
     }
 
     public void Initialize()
