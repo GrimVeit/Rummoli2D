@@ -8,19 +8,19 @@ public class RoundState_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly IStoreRoundNumberProvider _storeRoundNumberProvider;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public RoundState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IStoreRoundNumberProvider storeRoundNumberProvider)
+    public RoundState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IStoreRoundNumberProvider storeRoundNumberProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
-        _sceneRoot = sceneRoot;
         _playerPresentationSystemProvider = presentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
         _storeRoundNumberProvider = storeRoundNumberProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -40,7 +40,7 @@ public class RoundState_Game : IState
 
     private IEnumerator Timer()
     {
-        _sceneRoot.CloseRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Hide();
 
         yield return new WaitForSeconds(0.1f);
 

@@ -8,17 +8,17 @@ public class MovePlayerPeopleToGameState_Game : IState
     private readonly IPlayer _playerPeople;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public MovePlayerPeopleToGameState_Game(IStateMachineProvider stateMachineProvider, IPlayer playerPeople, IPlayerPresentationSystemProvider playerPresentationProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, UIGameRoot sceneRoot)
+    public MovePlayerPeopleToGameState_Game(IStateMachineProvider stateMachineProvider, IPlayer playerPeople, IPlayerPresentationSystemProvider playerPresentationProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _stateMachineProvider = stateMachineProvider;
         _playerPeople = playerPeople;
         _playerPresentationProvider = playerPresentationProvider;
         _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
-        _sceneRoot = sceneRoot;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -42,7 +42,7 @@ public class MovePlayerPeopleToGameState_Game : IState
 
         yield return new WaitForSeconds(0.1f);
 
-        _sceneRoot.CloseRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Hide();
 
         yield return new WaitForSeconds(0.1f);
 

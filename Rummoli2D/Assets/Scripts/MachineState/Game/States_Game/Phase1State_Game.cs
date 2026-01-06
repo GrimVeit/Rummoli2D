@@ -8,17 +8,17 @@ public class Phase1State_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public Phase1State_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, UIGameRoot sceneRoot)
+    public Phase1State_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
-        _sceneRoot = sceneRoot;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -53,7 +53,7 @@ public class Phase1State_Game : IState
 
         yield return new WaitForSeconds(0.3f);
 
-        _sceneRoot.OpenRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Show();
 
         yield return new WaitForSeconds(0.1f);
 

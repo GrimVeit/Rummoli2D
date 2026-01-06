@@ -7,16 +7,16 @@ public class MovePlayersTableState_Game : IState
     private readonly IStateMachineProvider _stateProvider;
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
-    private readonly UIGameRoot _sceneRoot;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public MovePlayersTableState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot)
+    public MovePlayersTableState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
         _playerPresentationProvider = playerPresentationProvider;
-        _sceneRoot = sceneRoot;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -46,7 +46,7 @@ public class MovePlayersTableState_Game : IState
             yield return new WaitForSeconds(timeWait);
         }
 
-        _sceneRoot.OpenRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Show();
 
         yield return new WaitForSeconds(0.3f);
 

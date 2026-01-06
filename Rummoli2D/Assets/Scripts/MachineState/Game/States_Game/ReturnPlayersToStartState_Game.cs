@@ -7,21 +7,20 @@ public class ReturnPlayersToStartState_Game : IState
     private readonly IStateMachineProvider _machineProvider;
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly IStoreRoundNumberInfoProvider _storeRoundNumberInfoProvider;
     private readonly IBetSystemProvider _betSystemProvider;
     private readonly ICardSpawnerSystemProvider _cardSpawnerSystemProvider;
     private readonly ISectorConditionCheckerProvider _sectorConditionCheckerProvider;
     private readonly IStoreCardRummoliProvider _storeCardRummoliProvider;
     private readonly IPlayerPokerProvider _playerPokerProvider;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
     
-    public ReturnPlayersToStartState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider, ICardSpawnerSystemProvider cardSpawnerSystemProvider, ISectorConditionCheckerProvider sectorConditionCheckerProvider, IStoreCardRummoliProvider storeCardRummoliProvider, IBetSystemProvider betSystemProvider, IPlayerPokerProvider playerPokerProvider)
+    public ReturnPlayersToStartState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider, ICardSpawnerSystemProvider cardSpawnerSystemProvider, ISectorConditionCheckerProvider sectorConditionCheckerProvider, IStoreCardRummoliProvider storeCardRummoliProvider, IBetSystemProvider betSystemProvider, IPlayerPokerProvider playerPokerProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
-        _sceneRoot = sceneRoot;
         _betSystemProvider = betSystemProvider;
         _playerPresentationSystemProvider = presentationSystemProvider;
         _storeRoundNumberInfoProvider = storeRoundNumberInfoProvider;
@@ -29,6 +28,7 @@ public class ReturnPlayersToStartState_Game : IState
         _sectorConditionCheckerProvider = sectorConditionCheckerProvider;
         _storeCardRummoliProvider = storeCardRummoliProvider;
         _playerPokerProvider = playerPokerProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -61,7 +61,7 @@ public class ReturnPlayersToStartState_Game : IState
 
         yield return new WaitForSeconds(0.1f);
 
-        _sceneRoot.OpenRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Show();
 
         yield return new WaitForSeconds(0.1f);
 

@@ -9,15 +9,16 @@ public class RummoliState_Game : IState
     private readonly IStateMachineProvider _stateProvider;
     private readonly List<IPlayer> _players;
     private readonly IStoreCardRummoliProvider _storeCardRummoliProvider;
-    private readonly List<int> _passCycle;
     private readonly ICardRummoliVisualActivator _cardRummoliVisualActivator;
     private readonly IPlayerHighlightSystemProvider _highlightSystemProvider;
     private readonly IPlayerPopupEffectSystemProvider _popupEffectSystemProvider;
     private readonly ISectorConditionCheckerProvider _sectorConditionCheckerProvider;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IBetSystemProvider _betSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly IBetSystemEventsProvider _betSystemEventsProvider;
+    private readonly ICounterPassPlayerSystemProvider _counterPassPlayerSystemProvider;
+    private readonly ICounterPassPlayerSystemActivatorProvider _counterPassPlayerSystemActivatorProvider;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
@@ -38,21 +39,24 @@ public class RummoliState_Game : IState
         ISectorConditionCheckerProvider sectorConditionCheckerProvider,
         IPlayerPresentationSystemProvider playerPresentationSystemProvider,
         IBetSystemProvider betSystemProvider,
-        UIGameRoot sceneRoot,
-        IBetSystemEventsProvider betSystemEventsProvider)
+        IBetSystemEventsProvider betSystemEventsProvider,
+        ICounterPassPlayerSystemProvider counterPassPlayerSystemProvider,
+        ICounterPassPlayerSystemActivatorProvider counterPassPlayerSystemActivatorProvider,
+        IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
         _storeCardRummoliProvider = storeCardRummoliProvider;
-        _passCycle = new List<int>();
         _cardRummoliVisualActivator = cardRummoliVisualActivator;
         _highlightSystemProvider = highlightSystemProvider;
         _popupEffectSystemProvider = popupEffectSystemProvider;
         _sectorConditionCheckerProvider = sectorConditionCheckerProvider;
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _betSystemProvider = betSystemProvider;
-        _sceneRoot = sceneRoot;
         _betSystemEventsProvider = betSystemEventsProvider;
+        _counterPassPlayerSystemProvider = counterPassPlayerSystemProvider;
+        _counterPassPlayerSystemActivatorProvider = counterPassPlayerSystemActivatorProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     #region State
@@ -64,7 +68,8 @@ public class RummoliState_Game : IState
         _currentPlayerIndex = 0;
         _awaitingRandomTwo = false;
         _isGameEnding = false;
-        _passCycle.Clear();
+        _counterPassPlayerSystemProvider.SetTotalPlayers(_players.Count);
+        _counterPassPlayerSystemProvider.Reset();
 
         _cardRummoliVisualActivator.ActivateVisual();
         Coroutines.Start(RequestCardRoutine());
@@ -187,7 +192,7 @@ public class RummoliState_Game : IState
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
         _storeCardRummoliProvider.NextCard();
-        _passCycle.Clear();
+        _counterPassPlayerSystemActivatorProvider.DeactivateVisual(() => _counterPassPlayerSystemProvider.Reset());
 
         //
 
@@ -215,14 +220,15 @@ public class RummoliState_Game : IState
         _highlightSystemProvider.DeactivateHighlight(playerId);
         _popupEffectSystemProvider.ShowPass(playerId);
 
-        _passCycle.Add(playerId);
+        _counterPassPlayerSystemProvider.AddPass();
+        _counterPassPlayerSystemActivatorProvider.ActivateVisual();
 
         yield return new WaitForSeconds(PASS_DELAY);
 
-        if (_passCycle.Count == _players.Count)
+        if(_counterPassPlayerSystemProvider.AllPassed)
         {
             _storeCardRummoliProvider.NextCard();
-            _passCycle.Clear();
+            _counterPassPlayerSystemProvider.Reset();
         }
 
         if (IsGameOver())
@@ -252,7 +258,7 @@ public class RummoliState_Game : IState
         yield return new WaitForSeconds(CARD_LAID_DELAY);
 
         _awaitingRandomTwo = false;
-        _passCycle.Clear();
+        _counterPassPlayerSystemActivatorProvider.DeactivateVisual(() => _counterPassPlayerSystemProvider.Reset());
         _storeCardRummoliProvider.ChooseSuit(card.CardSuit);
         _currentPlayerIndex = playerId;
 
@@ -282,14 +288,15 @@ public class RummoliState_Game : IState
         _highlightSystemProvider.DeactivateHighlight(playerId);
         _popupEffectSystemProvider.ShowPass(playerId);
 
-        _passCycle.Add(playerId);
+        _counterPassPlayerSystemProvider.AddPass();
+        _counterPassPlayerSystemActivatorProvider.ActivateVisual();
 
         yield return new WaitForSeconds(PASS_DELAY);
 
-        if (_passCycle.Count == _players.Count)
+        if(_counterPassPlayerSystemProvider.AllPassed)
         {
             _storeCardRummoliProvider.ChooseRandomSuit();
-            _passCycle.Clear();
+            _counterPassPlayerSystemProvider.Reset();
         }
 
         AdvanceTurn();
@@ -368,9 +375,9 @@ public class RummoliState_Game : IState
 
         yield return new WaitForSeconds(0.2f);
 
-        _sceneRoot.OpenRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.MoveToLayout("Center");
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         _betSystemProvider.StartReturnBet(playerId, sectorIndex);
 
@@ -401,7 +408,7 @@ public class RummoliState_Game : IState
             yield return new WaitForSeconds(0.2f);
         }
 
-        _sceneRoot.CloseRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.MoveToLayout("Small");
 
         yield return new WaitForSeconds(0.2f);
 

@@ -8,19 +8,19 @@ public class RoundCompleteState_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public RoundCompleteState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, UIGameRoot sceneRoot, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
+    public RoundCompleteState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
-        _sceneRoot = sceneRoot;
         _playerPresentationSystemProvider = presentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
         _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -40,7 +40,7 @@ public class RoundCompleteState_Game : IState
     {
         _cardBankPresentationSystemProvider.Hide();
         _cardBankPresentationSystemProvider.HideBalance();
-        _sceneRoot.CloseRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Hide(() => _rummoliTablePresentationSystemProvider.MoveToLayout("Center"));
 
         yield return new WaitForSeconds(0.1f);
 

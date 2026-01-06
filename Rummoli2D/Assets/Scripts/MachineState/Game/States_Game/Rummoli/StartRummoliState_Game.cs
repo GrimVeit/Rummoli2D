@@ -7,18 +7,18 @@ public class StartRummoliState_Game : IState
     private readonly IStateMachineProvider _stateProvider;
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public StartRummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, UIGameRoot sceneRoot, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
+    public StartRummoliState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
         _playerPresentationProvider = playerPresentationProvider;
-        _sceneRoot = sceneRoot;
         _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -38,6 +38,8 @@ public class StartRummoliState_Game : IState
 
     private IEnumerator Timer(float timeWait)
     {
+        _rummoliTablePresentationSystemProvider.Show(() => _rummoliTablePresentationSystemProvider.MoveToLayout("Small"));
+
         int startIndex = Random.Range(0, _players.Count);
 
         for (int i = 0; i < _players.Count; i++)

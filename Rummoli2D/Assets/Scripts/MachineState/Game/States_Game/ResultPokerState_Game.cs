@@ -11,24 +11,24 @@ public class ResultPokerState_Game : IState
     private readonly IBetSystemEventsProvider _betSystemEventsProvider;
     private readonly IBetSystemProvider _betSystemProvider;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
+    private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private readonly List<IPlayer> _players;
     private  int _winnerPlayerId = -1;
 
     private IEnumerator timer;
 
-    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, UIGameRoot sceneRoot, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider)
+    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
         _playerPokerProvider = playerPokerProvider;
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _playerPokerListener = playerPokerListener;
-        _sceneRoot = sceneRoot;
         _betSystemEventsProvider = betSystemEventsProvider;
         _betSystemProvider = betSystemProvider;
         _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
+        _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
 
     public void EnterState()
@@ -87,7 +87,7 @@ public class ResultPokerState_Game : IState
         {
             _playerPresentationSystemProvider.ShowBalance(_winnerPlayerId);
         });
-        _sceneRoot.OpenRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Show();
 
         yield return new WaitForSeconds(0.7f);
 
@@ -99,7 +99,7 @@ public class ResultPokerState_Game : IState
 
         yield return new WaitForSeconds(0.5f);
 
-        _sceneRoot.CloseRummoliTablePanel();
+        _rummoliTablePresentationSystemProvider.Hide();
 
         ChangeStateToPhase2();
     }

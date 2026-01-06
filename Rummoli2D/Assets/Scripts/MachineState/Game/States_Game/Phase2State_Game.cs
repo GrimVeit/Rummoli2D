@@ -8,17 +8,15 @@ public class Phase2State_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
-    private readonly UIGameRoot _sceneRoot;
 
     private IEnumerator timer;
 
-    public Phase2State_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, UIGameRoot sceneRoot)
+    public Phase2State_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
-        _sceneRoot = sceneRoot;
     }
 
     public void EnterState()
