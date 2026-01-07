@@ -29,6 +29,7 @@ public class CardSpawnerSystemPresenter : ICardSpawnerSystemEventsProvider, ICar
         _view.OnSpawnCard += _model.SpawnEnd;
 
         _model.OnSpawnCard += _view.SpawnCard;
+        _model.OnChangeCardCount += _view.SetCardCount;
     }
 
     private void DeactivateEvents()
@@ -36,6 +37,7 @@ public class CardSpawnerSystemPresenter : ICardSpawnerSystemEventsProvider, ICar
         _view.OnSpawnCard -= _model.SpawnEnd;
 
         _model.OnSpawnCard -= _view.SpawnCard;
+        _model.OnChangeCardCount -= _view.SetCardCount;
     }
 
     #region Output

@@ -25,6 +25,8 @@ public class CardSpawnerSystemModel
         _cards.Remove(card);
 
         OnSpawnCard?.Invoke(playerId, card);
+
+        OnChangeCardCount?.Invoke(_cards.Count);
     }
 
     public void SpawnEnd(int playerId, ICard card)
@@ -45,6 +47,8 @@ public class CardSpawnerSystemModel
             var card = new Card(cardSO, cardTheme.GetSpriteCover(), cardTheme.GetSpriteFace(cardSO.CardSuit, cardSO.CardRank));
             _cards.Add(card);
         }
+
+        OnChangeCardCount?.Invoke(_cards.Count);
     }
 
     #region Output
@@ -52,6 +56,8 @@ public class CardSpawnerSystemModel
     public event Action<int, ICard> OnSpawnCard;
 
     public event Action<int, ICard> OnSpawnCardEnd;
+
+    public event Action<int> OnChangeCardCount;
 
     #endregion
 }

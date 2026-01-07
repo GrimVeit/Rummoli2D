@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CardSpawnerSystemView : View
@@ -10,6 +11,8 @@ public class CardSpawnerSystemView : View
     [SerializeField] private RectTransform transformFrom;
     [SerializeField] private CardSpawnerTargets cardSpawnerTargets;
     [SerializeField] private Canvas canvas;
+
+    [SerializeField] private TextMeshProUGUI textCardsCount;
 
     public void SpawnCard(int playerIndex, ICard card)
     {
@@ -24,6 +27,11 @@ public class CardSpawnerSystemView : View
             canvas,
             0.3f
         );
+    }
+
+    public void SetCardCount(int cardCount)
+    {
+        textCardsCount.text = $"x{cardCount}";
     }
 
     private void DestroyCard(int playerIndex, ICard card, CardSpawnerMove cardMove)

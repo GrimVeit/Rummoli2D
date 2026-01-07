@@ -125,7 +125,8 @@ public class PlayerPresentation
     [SerializeField] private List<PlayerPresentationTransform> playerPresentationTransforms = new();
 
     [Header("Object")]
-    [SerializeField] private Transform transformPlayer;
+    [SerializeField] private Transform transformPlayerParent;
+    [SerializeField] private Transform transformPlayerScale;
 
     [Header("Balance")]
     [SerializeField] private Transform transformBalance;
@@ -148,17 +149,17 @@ public class PlayerPresentation
     {
         tweenScalePlayer?.Kill();
 
-        transformPlayer.gameObject.SetActive(true);
-        tweenScalePlayer = transformPlayer.DOScale(1, speedScalePlayer).OnComplete(() => OnComplete?.Invoke());
+        transformPlayerScale.gameObject.SetActive(true);
+        tweenScalePlayer = transformPlayerScale.DOScale(1, speedScalePlayer).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void Hide(float speedScalePlayer, Action OnComplete)
     {
         tweenScalePlayer?.Kill();
 
-        tweenScalePlayer = transformPlayer.DOScale(0, speedScalePlayer).OnComplete(() =>
+        tweenScalePlayer = transformPlayerScale.DOScale(0, speedScalePlayer).OnComplete(() =>
         {
-            transformPlayer.gameObject.SetActive(false);
+            transformPlayerScale.gameObject.SetActive(false);
             OnComplete?.Invoke();
         });
     }
@@ -175,7 +176,7 @@ public class PlayerPresentation
             return;
         }
 
-        tweenMovePlayer = transformPlayer.DOLocalMove(transformMove.localPosition, speedMovePlayer).OnComplete(() => OnComplete?.Invoke());
+        tweenMovePlayer = transformPlayerParent.DOLocalMove(transformMove.localPosition, speedMovePlayer).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void ShowCards(float speedScaleCards, Action OnComplete)

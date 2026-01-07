@@ -8,7 +8,9 @@ public class CardBankPresentationSystemView : View
 {
     [SerializeField] private List<CardBankPresentationTransform> cardBankPresentationTransforms = new();
 
-    [SerializeField] private Transform transformCardBank;
+    [SerializeField] private Transform transformCardBankParent;
+    [SerializeField] private Transform transformCardBankScale;
+
     [SerializeField] private Transform transformBalance;
 
     [SerializeField] private float speedScaleCardBank;
@@ -23,17 +25,17 @@ public class CardBankPresentationSystemView : View
     {
         tweenScaleCardBank?.Kill();
 
-        transformCardBank.gameObject.SetActive(true);
-        tweenScaleCardBank = transformCardBank.DOScale(1, speedScaleCardBank).OnComplete(() => OnComplete?.Invoke());
+        transformCardBankScale.gameObject.SetActive(true);
+        tweenScaleCardBank = transformCardBankScale.DOScale(1, speedScaleCardBank).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void Hide(Action OnComplete)
     {
         tweenScaleCardBank?.Kill();
 
-        tweenScaleCardBank = transformCardBank.DOScale(0, speedScaleCardBank).OnComplete(() =>
+        tweenScaleCardBank = transformCardBankScale.DOScale(0, speedScaleCardBank).OnComplete(() =>
         {
-            transformCardBank.gameObject.SetActive(false);
+            transformCardBankScale.gameObject.SetActive(false);
             OnComplete?.Invoke();
         });
     }
@@ -50,7 +52,7 @@ public class CardBankPresentationSystemView : View
             return;
         }
 
-        tweenMoveCardBank = transformCardBank.DOLocalMove(transformMove.localPosition, speedMoveCardBank).OnComplete(() => OnComplete?.Invoke());
+        tweenMoveCardBank = transformCardBankParent.DOLocalMove(transformMove.localPosition, speedMoveCardBank).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void ShowBalance(Action OnComplete)

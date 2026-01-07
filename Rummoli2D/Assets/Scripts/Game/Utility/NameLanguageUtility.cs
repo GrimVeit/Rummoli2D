@@ -73,4 +73,50 @@ public static class NameLanguageUtility
             _ => $"Passes: {currentPassCount}/{total}"
         };
     }
+
+    public static string GetGameInfo_Description(GameDifficulty difficulty, Language language = Language.English)
+    {
+        return (difficulty, language) switch
+        {
+            // Лёгкий / Easy
+            (GameDifficulty.Easy, Language.Russia) =>
+                "Боты делают слабые ходы, могут часто пасовать, даже если нужная карта есть. При выборе покерной комбинации часто берут менее выгодные карты.",
+
+            (GameDifficulty.Easy, Language.English) =>
+                "Bots make weak moves and often pass, even if they have a playable card. When choosing poker hands, they often pick suboptimal cards.",
+
+            // Средний / Medium
+            (GameDifficulty.Medium, Language.Russia) =>
+                "Боты играют разумнее, иногда пропускают свои ходы, даже если нужная карта есть. При выборе покерной комбинации стараются выбирать более сильные карты, но иногда совершают ошибки.",
+
+            (GameDifficulty.Medium, Language.English) =>
+                "Bots play smarter and sometimes skip their turn, even if they have a playable card. When selecting poker hands, they usually pick stronger cards, but sometimes make mistakes.",
+
+            // Про / Hard
+            (GameDifficulty.Hard, Language.Russia) =>
+                "Боты почти всегда используют свои карты эффективно, почти не пропускают ходы и выбирают покерные комбинации максимально выгодно.",
+
+            (GameDifficulty.Hard, Language.English) =>
+                "Bots almost always use their cards efficiently, rarely pass, and select poker hands optimally.",
+
+            _ => ""
+        };
+    }
+
+    public static string GetGameInfo_Difficulty(GameDifficulty difficulty, Language language = Language.English)
+    {
+        return (difficulty, language) switch
+        {
+            (GameDifficulty.Easy, Language.Russia) => "Сложность: <color=#F0C8B1>Лёгкая</color>",
+            (GameDifficulty.Easy, Language.English) => "Difficulty: <color=#F0C8B1>Easy</color>",
+
+            (GameDifficulty.Medium, Language.Russia) => "Сложность: <color=#F0C8B1>Средняя</color>",
+            (GameDifficulty.Medium, Language.English) => "Difficulty: <color=#F0C8B1>Medium</color>",
+
+            (GameDifficulty.Hard, Language.Russia) => "Сложность: <color=#F0C8B1>Сложная</color>",
+            (GameDifficulty.Hard, Language.English) => "Difficulty: <color=#F0C8B1>Hard</color>",
+
+            _ => ""
+        };
+    }
 }

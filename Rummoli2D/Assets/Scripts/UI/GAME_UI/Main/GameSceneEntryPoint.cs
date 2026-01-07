@@ -40,6 +40,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private RoundNumberVisualPresenter roundNumberVisualPresenter;
     private CounterPassPlayerSystemPresenter counterPassPlayerSystemPresenter;
     private RummoliTablePresentationSystemPresenter rummoliTablePresentationSystemPresenter;
+    private GameInfoPresenter gameInfoPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -89,6 +90,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         roundNumberVisualPresenter = new RoundNumberVisualPresenter(new RoundNumberVisualModel(storeRoundNumberPresenter, storeRoundNumberPresenter, storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<RoundNumberVisualView>());
         counterPassPlayerSystemPresenter = new CounterPassPlayerSystemPresenter(new CounterPassPlayerSystemModel(storeLanguagePresenter), viewContainer.GetView<CounterPassPlayerSystemView>());
         rummoliTablePresentationSystemPresenter = new RummoliTablePresentationSystemPresenter(viewContainer.GetView<RummoliTablePresentationSystemView>());
+        gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter), viewContainer.GetView<GameInfoView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
@@ -117,7 +119,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             storeRoundNumberPresenter,
             counterPassPlayerSystemPresenter,
             counterPassPlayerSystemPresenter,
-            rummoliTablePresentationSystemPresenter);
+            rummoliTablePresentationSystemPresenter,
+            gameInfoPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -142,6 +145,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeRoundNumberPresenter.Initialize();
         roundNumberVisualPresenter.Initialize();
         counterPassPlayerSystemPresenter.Initialize();
+        gameInfoPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -213,6 +217,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeRoundNumberPresenter?.Dispose();
         roundNumberVisualPresenter?.Dispose();
         counterPassPlayerSystemPresenter?.Dispose();
+        gameInfoPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();
