@@ -119,4 +119,26 @@ public static class NameLanguageUtility
             _ => ""
         };
     }
+
+    public static string GetGameInfo_RoundCount(int count, Language language = Language.English)
+    {
+        return language switch
+        {
+
+            Language.English => $"Rounds: <color=#F0C8B1>{count}</color>",
+            Language.Russia => $"Раунды: <color=#F0C8B1>{count}</color>",
+            _ => $"Rounds: <color=#F0C8B1>{count}</color>"
+        };
+    }
+
+    public static string GetGameInfo_PlayersCount(int count, Language language = Language.English)
+    {
+        return language switch
+        {
+
+            Language.English => $"Players: <color=#F0C8B1>{count}</color>",
+            Language.Russia => $"Игроки: <color=#F0C8B1>{count}</color>",
+            _ => $"Players: <color=#F0C8B1>{count}</color>"
+        };
+    }
 }

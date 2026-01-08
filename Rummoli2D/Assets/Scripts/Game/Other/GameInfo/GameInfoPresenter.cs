@@ -31,12 +31,16 @@ public class GameInfoPresenter : IGameInfoVisualActivater
     {
         _model.OnSetDescription += _view.SetDescription;
         _model.OnSetDifficulty += _view.SetDifficulty;
+        _model.OnSetRoundCount += _view.SetRoundCount;
+        _model.OnSetPlayersCount += _view.SetPlayersCount;
     }
 
     private void DeactivateEvents()
     {
         _model.OnSetDescription -= _view.SetDescription;
         _model.OnSetDifficulty -= _view.SetDifficulty;
+        _model.OnSetRoundCount -= _view.SetRoundCount;
+        _model.OnSetPlayersCount -= _view.SetPlayersCount;
     }
 
     #region Input

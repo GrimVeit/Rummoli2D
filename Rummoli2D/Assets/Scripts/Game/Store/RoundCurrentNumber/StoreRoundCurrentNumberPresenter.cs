@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreRoundNumberPresenter : IStoreRoundNumberListener, IStoreRoundNumberInfoProvider, IStoreRoundNumberProvider
+public class StoreRoundCurrentNumberPresenter : IStoreRoundCurrentNumberListener, IStoreRoundCurrentNumberInfoProvider, IStoreRoundCurrentNumberProvider
 {
-    private readonly StoreRoundNumberModel _model;
+    private readonly StoreRoundCurrentNumberModel _model;
 
-    public StoreRoundNumberPresenter(StoreRoundNumberModel model)
+    public StoreRoundCurrentNumberPresenter(StoreRoundCurrentNumberModel model)
     {
         _model = model;
     }
@@ -34,24 +34,24 @@ public class StoreRoundNumberPresenter : IStoreRoundNumberListener, IStoreRoundN
 
     #region Input
 
-    public int RoundNumber => _model.RoundNumber;
+    public int RoundCurrentNumber => _model.RoundNumber;
 
     public void AddRound() => _model.AddRound();
 
     #endregion
 }
 
-public interface IStoreRoundNumberListener
+public interface IStoreRoundCurrentNumberListener
 {
     public event Action<int> OnRoundNumberChanged;
 }
 
-public interface IStoreRoundNumberInfoProvider
+public interface IStoreRoundCurrentNumberInfoProvider
 {
-    public int RoundNumber { get; }
+    public int RoundCurrentNumber { get; }
 }
 
-public interface IStoreRoundNumberProvider
+public interface IStoreRoundCurrentNumberProvider
 {
     public void AddRound();
 }

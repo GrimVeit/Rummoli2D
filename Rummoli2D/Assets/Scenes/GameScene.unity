@@ -24276,6 +24276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textDifficulty: {fileID: 871859865}
+  textRoundCount: {fileID: 1893263576}
+  textPlayersCount: {fileID: 52407240}
   textDescription: {fileID: 1603089350}
   fontAsset: {fileID: 284658831474601443, guid: 1afc3f77ea1778342a948d70a9e945e0, type: 2}
 --- !u!1 &1875343860

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StoreRoundNumberModel
+public class StoreRoundCurrentNumberModel
 {
     public int RoundNumber => _roundNumber;
 

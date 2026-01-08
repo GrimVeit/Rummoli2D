@@ -40,10 +40,6 @@ public class MenuEntryPoint : MonoBehaviour
     //------Shop------//
     private ShopScrollPresenter shopScrollPresenter;
 
-    private StoreChipPresenter storeChipPresenter;
-    private ChipBuyPresenter chipBuyPresenter;
-    private ChipCountVisualPresenter chipCountVisualPresenter;
-
     private StoreBackgroundPresenter storeBackgroundPresenter;
     private BackgroundBuyVisualPresenter backgroundBuyVisualPresenter;
     private BackgroundVisualPresenter backgroundVisualPresenter;
@@ -105,10 +101,6 @@ public class MenuEntryPoint : MonoBehaviour
 
                 shopScrollPresenter = new ShopScrollPresenter(new ShopScrollModel(), viewContainer.GetView<ShopScrollView>());
 
-                storeChipPresenter = new StoreChipPresenter(new StoreChipModel(chipGroup));
-                chipBuyPresenter = new ChipBuyPresenter(new ChipBuyModel(chipGroup, storeChipPresenter, bankPresenter, soundPresenter), viewContainer.GetView<ChipBuyView>());
-                chipCountVisualPresenter = new ChipCountVisualPresenter(new ChipCountVisualModel(storeChipPresenter), viewContainer.GetView<ChipCountVisualView>());
-
                 storeBackgroundPresenter = new StoreBackgroundPresenter(new StoreBackgroundModel());
                 backgroundBuyVisualPresenter = new BackgroundBuyVisualPresenter(new BackgroundBuyVisualModel(storeBackgroundPresenter, storeBackgroundPresenter, storeBackgroundPresenter, bankPresenter), viewContainer.GetView<BackgroundBuyVisualView>());
                 backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
@@ -137,6 +129,8 @@ public class MenuEntryPoint : MonoBehaviour
                 particleEffectMaterialPresenter.Initialize();
                 particleEffectMaterialPresenter.Activate();
 
+                Debug.Log("1");
+
                 sceneRoot.Initialize();
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
@@ -146,11 +140,15 @@ public class MenuEntryPoint : MonoBehaviour
                 avatarVisualPresenter_Main.Initialize();
                 avatarVisualPresenter_Update.Initialize();
 
+                Debug.Log("1");
+
                 rulesVisualPresenter.Initialize();
 
                 customSliderPresenter_Music.Initialize();
                 customSliderPresenter_Sound.Initialize();
                 volumeSettingsPresenter.Initialize();
+
+                Debug.Log("1");
 
                 storeTextTranslatePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
@@ -158,9 +156,7 @@ public class MenuEntryPoint : MonoBehaviour
 
                 shopScrollPresenter.Initialize();
 
-                chipBuyPresenter.Initialize();
-                chipCountVisualPresenter.Initialize();
-                storeChipPresenter.Initialize();
+                Debug.Log("1");
 
                 backgroundBuyVisualPresenter.Initialize();
                 storeBackgroundPresenter.Initialize();
@@ -168,6 +164,8 @@ public class MenuEntryPoint : MonoBehaviour
 
                 cardDesignBuyVisualPresenter.Initialize();
                 storeCardDesignPresenter.Initialize();
+
+                Debug.Log("1");
 
                 stateMachine.Initialize();
             }
@@ -248,10 +246,6 @@ public class MenuEntryPoint : MonoBehaviour
         textTranslatePresenter?.Dispose();
 
         shopScrollPresenter?.Dispose();
-
-        chipBuyPresenter.Dispose();
-        chipCountVisualPresenter.Dispose();
-        storeChipPresenter.Dispose();
 
         backgroundBuyVisualPresenter?.Dispose();
         storeBackgroundPresenter?.Dispose();

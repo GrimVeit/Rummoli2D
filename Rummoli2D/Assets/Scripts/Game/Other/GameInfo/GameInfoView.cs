@@ -8,6 +8,8 @@ using UnityEngine.TextCore.Text;
 public class GameInfoView : View
 {
     [SerializeField] private TextMeshProUGUI textDifficulty;
+    [SerializeField] private TextMeshProUGUI textRoundCount;
+    [SerializeField] private TextMeshProUGUI textPlayersCount;
     [SerializeField] private TextMeshProUGUI textDescription;
 
     [SerializeField] private Material fontAsset;
@@ -15,6 +17,16 @@ public class GameInfoView : View
     public void SetDifficulty(string text)
     {
         textDifficulty.text = text;
+    }
+
+    public void SetRoundCount(string text)
+    {
+        textRoundCount.text = text;
+    }
+
+    public void SetPlayersCount(string text)
+    {
+        textPlayersCount.text = text;
     }
 
     public void SetDescription(string text)

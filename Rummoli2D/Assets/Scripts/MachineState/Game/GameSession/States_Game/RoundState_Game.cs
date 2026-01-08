@@ -8,12 +8,12 @@ public class RoundState_Game : IState
     private readonly List<IPlayer> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
-    private readonly IStoreRoundNumberProvider _storeRoundNumberProvider;
+    private readonly IStoreRoundCurrentNumberProvider _storeRoundNumberProvider;
     private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
     private IEnumerator timer;
 
-    public RoundState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IStoreRoundNumberProvider storeRoundNumberProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
+    public RoundState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IStoreRoundCurrentNumberProvider storeRoundNumberProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
         _players = players;

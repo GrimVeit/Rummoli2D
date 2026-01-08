@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class RoundNumberVisualModel
 {
-    private readonly IStoreRoundNumberInfoProvider _roundNumberInfoProvider;
-    private readonly IStoreRoundNumberListener _roundNumberListener;
+    private readonly IStoreRoundCurrentNumberInfoProvider _roundNumberInfoProvider;
+    private readonly IStoreRoundCurrentNumberListener _roundNumberListener;
     private readonly IStoreLanguageInfoProvider _languageInfoProvider;
     private readonly IStoreLanguageListener _languageListener;
 
     private int _roundNumber;
 
-    public RoundNumberVisualModel(IStoreRoundNumberInfoProvider storeRoundNumberInfoProvider, IStoreRoundNumberListener storeRoundNumberListener, IStoreLanguageInfoProvider storeLanguageInfoProvider, IStoreLanguageListener storeLanguageListener)
+    public RoundNumberVisualModel(IStoreRoundCurrentNumberInfoProvider storeRoundNumberInfoProvider, IStoreRoundCurrentNumberListener storeRoundNumberListener, IStoreLanguageInfoProvider storeLanguageInfoProvider, IStoreLanguageListener storeLanguageListener)
     {
         _roundNumberInfoProvider = storeRoundNumberInfoProvider;
         _roundNumberListener = storeRoundNumberListener;
@@ -25,7 +25,7 @@ public class RoundNumberVisualModel
         _roundNumberListener.OnRoundNumberChanged += ChangeRoundNumber;
         _languageListener.OnChangeLanguage += ChangeLanguage;
 
-        ChangeRoundNumber(_roundNumberInfoProvider.RoundNumber);
+        ChangeRoundNumber(_roundNumberInfoProvider.RoundCurrentNumber);
     }
 
     public void Dispose()
