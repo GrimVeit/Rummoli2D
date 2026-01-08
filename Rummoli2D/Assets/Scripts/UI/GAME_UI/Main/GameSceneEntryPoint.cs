@@ -48,6 +48,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private PlayerBot playerBot_3;
     private PlayerBot playerBot_4;
 
+    private StateMachine_GameFlow stateMachine_GameFlow;
     private StateMachine_Game stateMachine;
 
     public void Run(UIRootView uIRootView)
@@ -92,12 +93,13 @@ public class GameSceneEntryPoint : MonoBehaviour
         rummoliTablePresentationSystemPresenter = new RummoliTablePresentationSystemPresenter(viewContainer.GetView<RummoliTablePresentationSystemView>());
         gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter), viewContainer.GetView<GameInfoView>());
 
-        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, sceneRoot, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
         playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, viewContainer);
 
+        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter);
         stateMachine = new StateMachine_Game
             (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3, playerBot_4 },
             sceneRoot,
@@ -119,8 +121,7 @@ public class GameSceneEntryPoint : MonoBehaviour
             storeRoundNumberPresenter,
             counterPassPlayerSystemPresenter,
             counterPassPlayerSystemPresenter,
-            rummoliTablePresentationSystemPresenter,
-            gameInfoPresenter);
+            rummoliTablePresentationSystemPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -154,6 +155,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_4.Initialize();
 
         stateMachine.Initialize();
+        stateMachine_GameFlow.Initialize();
     }
 
     private void ActivateEvents()
@@ -226,6 +228,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_4.Dispose();
 
         stateMachine?.Dispose();
+        stateMachine_GameFlow?.Dispose();
     }
 
     private void OnDestroy()

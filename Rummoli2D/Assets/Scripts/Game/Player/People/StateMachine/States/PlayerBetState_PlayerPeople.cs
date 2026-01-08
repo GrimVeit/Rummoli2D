@@ -10,6 +10,7 @@ public class PlayerBetState_PlayerPeople : IState
     private readonly IBetSystemProvider _betSystemProvider;
     private readonly IBetSystemInfoProvider _betSystemInfoProvider;
     private readonly IBetSystemEventsProvider _betSystemEventsProvider;
+    private readonly UIGameRoot _sceneRoot;
 
     private readonly int _playerIndex;
 
@@ -19,7 +20,8 @@ public class PlayerBetState_PlayerPeople : IState
         IScorePlayerProvider scorePlayerProvider,
         IBetSystemProvider betSystemProvider,
         IBetSystemInfoProvider betSystemInfoProvider,
-        IBetSystemEventsProvider betSystemEventsProvider)
+        IBetSystemEventsProvider betSystemEventsProvider,
+        UIGameRoot sceneRoot)
     {
         _playerIndex = playerIndex;
         _betSystemInteractiveActivatorProvider = betSystemInteractiveActivatorProvider;
@@ -27,6 +29,7 @@ public class PlayerBetState_PlayerPeople : IState
         _betSystemProvider = betSystemProvider;
         _betSystemInfoProvider = betSystemInfoProvider;
         _betSystemEventsProvider = betSystemEventsProvider;
+        _sceneRoot = sceneRoot;
     }
 
     public void EnterState()
@@ -35,6 +38,8 @@ public class PlayerBetState_PlayerPeople : IState
         _betSystemEventsProvider.OnAddBet += SubmitBet;
 
         _betSystemInteractiveActivatorProvider.ActivateInteractive();
+
+        _sceneRoot.OpenRightPanel();
     }
 
     public void ExitState()
@@ -54,7 +59,10 @@ public class PlayerBetState_PlayerPeople : IState
     private void ApplyBet(int playerIndex)
     {
         if (_playerIndex == playerIndex)
+        {
+            _sceneRoot.CloseRightPanel();
             OnApplyBet?.Invoke();
+        }
     }
 
     #region Output

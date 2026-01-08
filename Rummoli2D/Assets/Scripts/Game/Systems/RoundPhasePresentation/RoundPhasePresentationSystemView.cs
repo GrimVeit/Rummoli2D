@@ -202,7 +202,6 @@ public class PhaseTextPresentation
     public void Hide(float durationsScale, Action OnComplete)
     {
         tweenScale?.Kill();
-        tweenScale?.Kill();
 
         transformRound.gameObject.SetActive(true);
         tweenScale = transformRound.DOScale(0, durationsScale).OnComplete(() =>
@@ -219,6 +218,7 @@ public class PhaseNamePresentation
     public int PhaseNameId => phaseNameId;
 
     [SerializeField] private int phaseNameId;
+    [SerializeField] private Transform transformPhaseNameParent;
     [SerializeField] private Transform transformPhaseNameMove;
     [SerializeField] private Transform transformPhaseNameScale;
     [SerializeField] private List<PhaseNamePresentationTransform> phaseNameTransforms = new();
@@ -231,20 +231,19 @@ public class PhaseNamePresentation
     {
         tweenScaleMain?.Kill();
 
-        transformPhaseNameMove.gameObject.SetActive(true);
-        tweenScaleMain = transformPhaseNameMove.DOScale(1, durationsScale).OnComplete(() => OnComplete?.Invoke());
+        transformPhaseNameScale.gameObject.SetActive(true);
+        tweenScaleMain = transformPhaseNameScale.DOScale(1, durationsScale).OnComplete(() => OnComplete?.Invoke());
     }
 
     public void Hide(float durationsScale, Action OnComplete)
     {
         tweenScaleMain?.Kill();
-        tweenScaleMain?.Kill();
 
-        transformPhaseNameMove.gameObject.SetActive(true);
-        tweenScaleMain = transformPhaseNameMove.DOScale(0, durationsScale).OnComplete(() =>
+        transformPhaseNameScale.gameObject.SetActive(true);
+        tweenScaleMain = transformPhaseNameScale.DOScale(0, durationsScale).OnComplete(() =>
         {
             OnComplete?.Invoke();
-            transformPhaseNameMove.gameObject.SetActive(false);
+            transformPhaseNameScale.gameObject.SetActive(false);
         });
     }
 
@@ -261,8 +260,8 @@ public class PhaseNamePresentation
             return;
         }
 
-        transformPhaseNameScale.localScale = new Vector3(transformMove.Scale, transformMove.Scale, transformMove.Scale);
-        transformPhaseNameMove.localPosition = transformMove.TransformMove.localPosition;
+        transformPhaseNameMove.localScale = new Vector3(transformMove.Scale, transformMove.Scale, transformMove.Scale);
+        transformPhaseNameParent.localPosition = transformMove.TransformMove.localPosition;
     }
 
     public void MoveToLayout(string key, float speedMovePlayer, Action OnComplete = null)
@@ -278,8 +277,8 @@ public class PhaseNamePresentation
             return;
         }
 
-        tweenScaleOther = transformPhaseNameScale.DOScale(transformMove.Scale, speedMovePlayer);
-        tweenMove = transformPhaseNameMove.DOLocalMove(transformMove.TransformMove.localPosition, speedMovePlayer).OnComplete(() => OnComplete?.Invoke());
+        tweenScaleOther = transformPhaseNameMove.DOScale(transformMove.Scale, speedMovePlayer);
+        tweenMove = transformPhaseNameParent.DOLocalMove(transformMove.TransformMove.localPosition, speedMovePlayer).OnComplete(() => OnComplete?.Invoke());
     }
 
     private PhaseNamePresentationTransform GetPhaseNamePresentationTransform(string key)

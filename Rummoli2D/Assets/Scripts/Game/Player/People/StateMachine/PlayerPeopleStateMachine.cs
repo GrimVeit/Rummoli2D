@@ -19,22 +19,23 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitActivatorProvider,
-        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
+        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
+        UIGameRoot sceneRoot)
     {
-        var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
+        var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider, sceneRoot);
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerPeople)] = stateBet;
 
-        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider);
+        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider, sceneRoot);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerPeople)] = state5Cards;
 
-        var stateRequestCard = new ChooseRequestCard_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider);
+        var stateRequestCard = new ChooseRequestCard_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot);
         stateRequestCard.OnCardLaid += Choose_Next;
         stateRequestCard.OnPass += Pass_Next;
         states[typeof(ChooseRequestCard_PlayerPeople)] = stateRequestCard;
 
-        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider);
+        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot);
         stateRequestCardRandomTwo.OnCardLaid += Choose_RandomTwo;
         stateRequestCardRandomTwo.OnPass += Pass_RandomTwo;
         states[typeof(ChooseRequestRandomTwo_PlayerPeople)] = stateRequestCardRandomTwo;

@@ -19,11 +19,12 @@ public class PlayerPeople : IPlayer
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
 
     public PlayerPeople(
-        int playerIndex, 
+        int playerIndex,
         IPlayerHighlightSystemProvider highlightProvider,
         ISoundProvider soundProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         BetSystemPresenter betSystemPresenter,
+        UIGameRoot sceneRoot,
         ViewContainer viewContainer)
     {
         _playerId = playerIndex;
@@ -46,7 +47,8 @@ public class PlayerPeople : IPlayer
             _playerPeopleCardVisualPresenter,
             _playerPeopleInputPresenter,
             _playerPeopleInputPresenter,
-            cardPokerSelectorPlayerProvider);
+            cardPokerSelectorPlayerProvider,
+            sceneRoot);
     }
 
     public void Initialize()

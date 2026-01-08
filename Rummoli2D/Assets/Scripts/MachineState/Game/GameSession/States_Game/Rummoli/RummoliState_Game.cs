@@ -94,6 +94,7 @@ public class RummoliState_Game : IState
 
         var player = GetPlayer(_currentPlayerIndex);
         _highlightSystemProvider.ActivateHighlight(player.Id);
+            
 
         if (_storeCardRummoliProvider.CurrentCardData != null)
         {

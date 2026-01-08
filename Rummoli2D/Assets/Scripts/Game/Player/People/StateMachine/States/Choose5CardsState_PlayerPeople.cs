@@ -11,6 +11,7 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly IPlayerPeopleInputEventsProvider _playerPeopleSubmitEventsProvider;
     private readonly IPlayerPeopleInputActivatorProvider _playerPeopleSubmitProvider;
     private readonly ICardPokerSelectorPlayerProvider _cardPokerSelectorPlayerProvider;
+    private readonly UIGameRoot _sceneRoot;
     private readonly List<ICard> _cards = new();
 
     public Choose5CardsState_PlayerPeople
@@ -19,7 +20,8 @@ public class Choose5CardsState_PlayerPeople : IState
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
-        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider)
+        ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
+        UIGameRoot sceneRoot)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -27,6 +29,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _playerPeopleSubmitEventsProvider = playerPeopleSubmitEventsProvider;
         _playerPeopleSubmitProvider = playerPeopleSubmitProvider;
         _cardPokerSelectorPlayerProvider = cardPokerSelectorPlayerProvider;
+        _sceneRoot = sceneRoot;
     }
 
     public void EnterState()
@@ -35,6 +38,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _playerPeopleCardVisualEventsProvider.OnChooseCard += ChooseCard;
 
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
+        _sceneRoot.OpenRightPanel();
     }
 
     public void ExitState()
@@ -52,6 +56,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _cards.Clear();
 
         _playerPeopleSubmitProvider.DeactivateChoose();
+        _sceneRoot.CloseRightPanel();
     }
 
     private void ChooseCard(ICard card)
