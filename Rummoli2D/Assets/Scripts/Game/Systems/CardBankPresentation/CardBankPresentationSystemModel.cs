@@ -1,18 +1,30 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class CardBankPresentationSystemModel
 {
-    // Start is called before the first frame update
-    void Start()
+    private readonly IStoreCardDesignInfoProvider _cardDesignInfoProvider;
+
+    public CardBankPresentationSystemModel(IStoreCardDesignInfoProvider cardDesignInfoProvider)
     {
-        
+        _cardDesignInfoProvider = cardDesignInfoProvider;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize()
     {
-        
+        OnChooseDesign?.Invoke(_cardDesignInfoProvider.GetCardDesignIndex());
     }
+
+    public void Dispose()
+    {
+
+    }
+
+    #region Output
+
+    public event Action<int> OnChooseDesign;
+
+    #endregion
 }

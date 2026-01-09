@@ -11,13 +11,15 @@ public class CardSpawnerSystemView : View
     [SerializeField] private RectTransform transformFrom;
     [SerializeField] private CardSpawnerTargets cardSpawnerTargets;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private List<Sprite> sprites = new List<Sprite>();
 
     [SerializeField] private TextMeshProUGUI textCardsCount;
 
-    public void SpawnCard(int playerIndex, ICard card)
+    public void SpawnCard(int playerIndex, ICard card, int themeId)
     {
         var chip = Instantiate(cardSpawnerMovePrefab, transformSpawnParent);
-        chip.SetData(playerIndex, card);
+
+        chip.SetData(playerIndex, card, sprites[themeId]);
         chip.OnEndMove += DestroyCard;
 
         chip.MoveTo(

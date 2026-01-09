@@ -22,6 +22,11 @@ public class GameSceneEntryPoint : MonoBehaviour
     private SoundPresenter soundPresenter;
     private AvatarPresenter avatarPresenter;
 
+    private StoreCardDesignPresenter storeCardDesignPresenter;
+
+    private StoreBackgroundPresenter storeBackgroundPresenter;
+    private BackgroundVisualPresenter backgroundVisualPresenter;
+
     private PlayerPopupEffectSystemPresenter playerPopupEffectSystemPresenter;
     private StoreCardRummoliPresenter storeCardRummoliPresenter;
     private CardRummoliVisualPresenter cardRummoliVisualPresenter;
@@ -75,9 +80,14 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter = new BankPresenter(new BankModel(), viewContainer.GetView<BankView>());
         avatarPresenter = new AvatarPresenter(new AvatarModel(PlayerPrefsKeys.AVATAR), viewContainer.GetView<AvatarView>());
 
+        storeCardDesignPresenter = new StoreCardDesignPresenter(new StoreCardDesignModel());
+
+        storeBackgroundPresenter = new StoreBackgroundPresenter(new StoreBackgroundModel());
+        backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
+
         playerPopupEffectSystemPresenter = new PlayerPopupEffectSystemPresenter(viewContainer.GetView<PlayerPopupEffectSystemView>());
         storeCardRummoliPresenter = new StoreCardRummoliPresenter(new StoreCardRummoliModel());
-        cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO), viewContainer.GetView<CardRummoliVisualView>());
+        cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO, storeCardDesignPresenter), viewContainer.GetView<CardRummoliVisualView>());
         storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
         storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
         cardPokerHandSelectorPresenter = new CardPokerHandSelectorPresenter(new CardPokerHandSelectorModel(storeGameDifficultyPresenter));
@@ -85,8 +95,8 @@ public class GameSceneEntryPoint : MonoBehaviour
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
         playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
         roundPhasePresentationSystemPresenter = new RoundPhasePresentationSystemPresenter(new RoundPhasePresentationSystemModel(), viewContainer.GetView<RoundPhasePresentationSystemView>());
-        cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(), viewContainer.GetView<CardBankPresentationSystemView>());
-        cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO), viewContainer.GetView<CardSpawnerSystemView>());
+        cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(storeCardDesignPresenter), viewContainer.GetView<CardBankPresentationSystemView>());
+        cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO, storeCardDesignPresenter), viewContainer.GetView<CardSpawnerSystemView>());
         playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
         sectorConditionCheckerPresenter = new SectorConditionCheckerPresenter(new SectorConditionCheckerModel());
         storeRoundCurrentNumberPresenter = new StoreRoundCurrentNumberPresenter(new StoreRoundCurrentNumberModel());
@@ -141,11 +151,17 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter.Initialize();
         avatarPresenter.Initialize();
 
+        storeCardDesignPresenter.Initialize();
+
+        storeBackgroundPresenter.Initialize();
+        backgroundVisualPresenter.Initialize();
+
         storeLanguagePresenter.Initialize();
         storeGameDifficultyPresenter.Initialize();
         betSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
         playerPokerPresenter.Initialize();
+        cardBankPresentationSystemPresenter.Initialize();
         cardRummoliVisualPresenter.Initialize();
         storeCardRummoliPresenter.Initialize();
         storeRoundCurrentNumberPresenter.Initialize();
@@ -204,12 +220,18 @@ public class GameSceneEntryPoint : MonoBehaviour
         bankPresenter?.Dispose();
         avatarPresenter?.Dispose();
 
+        storeCardDesignPresenter?.Dispose();
+
+        storeBackgroundPresenter?.Dispose();
+        backgroundVisualPresenter?.Dispose();
+
         storeCardRummoliPresenter?.Dispose();
         storeLanguagePresenter?.Dispose();
         storeGameDifficultyPresenter.Dispose();
         betSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();
         playerPokerPresenter?.Dispose();
+        cardBankPresentationSystemPresenter?.Dispose();
         cardRummoliVisualPresenter?.Dispose();
         storeRoundCurrentNumberPresenter?.Dispose();
         storeRoundCountPresenter?.Dispose();

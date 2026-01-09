@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad642663755044b409f9e2c88be6d2ca, type: 3}
+  m_Name: Face_CLUBS_14(Ace)_Custom
+  m_EditorClassIdentifier: 
+  _cardSuit: 0
+  _cardRank: 14
+  spriteFace: {fileID: 21300000, guid: 1d49fcca60a402948a7f82249052e08e, type: 3}

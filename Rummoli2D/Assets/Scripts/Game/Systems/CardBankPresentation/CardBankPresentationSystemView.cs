@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardBankPresentationSystemView : View
 {
@@ -12,10 +13,13 @@ public class CardBankPresentationSystemView : View
     [SerializeField] private Transform transformCardBankScale;
 
     [SerializeField] private Transform transformBalance;
+    [SerializeField] private Image imageCover;
 
     [SerializeField] private float speedScaleCardBank;
     [SerializeField] private float speedMoveCardBank;
     [SerializeField] private float speedScaleBalance;
+
+    [SerializeField] private List<Sprite> sprites = new();
 
     private Tween tweenScaleCardBank;
     private Tween tweenMoveCardBank;
@@ -38,6 +42,11 @@ public class CardBankPresentationSystemView : View
             transformCardBankScale.gameObject.SetActive(false);
             OnComplete?.Invoke();
         });
+    }
+
+    public void SetDesign(int index)
+    {
+        imageCover.sprite = sprites[index];
     }
 
     public void MoveToLayout(string key, Action OnComplete = null)

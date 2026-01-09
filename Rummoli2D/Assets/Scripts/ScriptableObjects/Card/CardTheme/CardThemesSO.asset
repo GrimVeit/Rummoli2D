@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardThemes:
   - {fileID: 11400000, guid: e14dc569bcf4a6f49a03c34e19ecf8cd, type: 2}
+  - {fileID: 11400000, guid: 78de7d462bd49ea4cb8ac076b90887e2, type: 2}

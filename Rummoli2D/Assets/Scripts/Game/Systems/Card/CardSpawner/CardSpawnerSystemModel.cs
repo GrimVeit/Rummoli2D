@@ -7,13 +7,16 @@ public class CardSpawnerSystemModel
 {
     private readonly CardThemesSO _cardThemesSO;
     private readonly CardsSO _cardsSO;
+    private readonly IStoreCardDesignInfoProvider _storeCardDesignInfoProvider;
+    private readonly List<Theme> _themes = new() { Theme.Standard, Theme.Custom };
 
     private readonly List<ICard> _cards = new();
 
-    public CardSpawnerSystemModel(CardThemesSO cardThemesSO, CardsSO cardsSO)
+    public CardSpawnerSystemModel(CardThemesSO cardThemesSO, CardsSO cardsSO, IStoreCardDesignInfoProvider storeCardDesignInfoProvider)
     {
         _cardThemesSO = cardThemesSO;
         _cardsSO = cardsSO;
+        _storeCardDesignInfoProvider = storeCardDesignInfoProvider;
 
         Reset();
     }
@@ -24,7 +27,7 @@ public class CardSpawnerSystemModel
 
         _cards.Remove(card);
 
-        OnSpawnCard?.Invoke(playerId, card);
+        OnSpawnCard?.Invoke(playerId, card, _storeCardDesignInfoProvider.GetCardDesignIndex());
 
         OnChangeCardCount?.Invoke(_cards.Count);
     }
@@ -36,7 +39,7 @@ public class CardSpawnerSystemModel
 
     public void Reset()
     {
-        var cardTheme = _cardThemesSO.GetCardTheme(Theme.Standard);
+        var cardTheme = _cardThemesSO.GetCardTheme(_themes[_storeCardDesignInfoProvider.GetCardDesignIndex()]);
 
         _cards.Clear();
 
@@ -53,7 +56,7 @@ public class CardSpawnerSystemModel
 
     #region Output
 
-    public event Action<int, ICard> OnSpawnCard;
+    public event Action<int, ICard, int> OnSpawnCard;
 
     public event Action<int, ICard> OnSpawnCardEnd;
 

@@ -3,9 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CardSpawnerMove : MonoBehaviour
 {
+    [SerializeField] private Image imageFace;
+
     private RectTransform rectTransform;
     private int _playerIndex;
     private ICard _card;
@@ -15,10 +18,11 @@ public class CardSpawnerMove : MonoBehaviour
         rectTransform = GetComponent<RectTransform>();
     }
 
-    public void SetData(int playerIndex, ICard card)
+    public void SetData(int playerIndex, ICard card, Sprite sprite)
     {
         _playerIndex = playerIndex;
         _card = card;
+        imageFace.sprite = sprite;
     }
 
     public void MoveTo(

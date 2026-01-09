@@ -14,6 +14,30 @@ public class CardBankPresentationSystemPresenter : ICardBankPresentationSystemPr
         _view = view;
     }
 
+    public void Initialize()
+    {
+        ActivateEvents();
+
+        _model.Initialize();
+    }
+
+    public void Dispose()
+    {
+        DeactivateEvents();
+
+        _model.Dispose();
+    }
+
+    private void ActivateEvents()
+    {
+        _model.OnChooseDesign += _view.SetDesign;
+    }
+
+    private void DeactivateEvents()
+    {
+        _model.OnChooseDesign -= _view.SetDesign;
+    }
+
     #region Input
 
     public void Show(Action OnComplete = null) => _view.Show(OnComplete);

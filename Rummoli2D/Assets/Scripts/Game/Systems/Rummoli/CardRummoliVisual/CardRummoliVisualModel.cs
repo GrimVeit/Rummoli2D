@@ -7,11 +7,14 @@ public class CardRummoliVisualModel
 {
     private readonly CardThemesSO _cardThemesSO;
     private readonly IStoreCardRummoliListener _storeCardRummoliListener;
+    private readonly List<Theme> _themes = new() { Theme.Standard, Theme.Custom };
+    private readonly IStoreCardDesignInfoProvider _storeCardDesignInfoProvider;
 
-    public CardRummoliVisualModel(IStoreCardRummoliListener storeCardRummoliListener, CardThemesSO cardThemesSO)
+    public CardRummoliVisualModel(IStoreCardRummoliListener storeCardRummoliListener, CardThemesSO cardThemesSO, IStoreCardDesignInfoProvider storeCardDesignInfoProvider)
     {
         _cardThemesSO = cardThemesSO;
         _storeCardRummoliListener = storeCardRummoliListener;
+        _storeCardDesignInfoProvider = storeCardDesignInfoProvider;
 
         _storeCardRummoliListener.OnCurrentCardDataChanged += ChangeCurrentCardData;
     }
@@ -30,7 +33,7 @@ public class CardRummoliVisualModel
     {
         if (cardData == null) return;
 
-        var sprite = _cardThemesSO.GetCardTheme(Theme.Standard).GetSpriteFace(cardData.Suit, cardData.Rank);
+        var sprite = _cardThemesSO.GetCardTheme(_themes[_storeCardDesignInfoProvider.GetCardDesignIndex()]).GetSpriteFace(cardData.Suit, cardData.Rank);
 
         OnCurrentCardDataChanged?.Invoke(sprite);
     }
