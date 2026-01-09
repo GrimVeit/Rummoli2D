@@ -46,6 +46,9 @@ public class PlayerPeopleInputPresenter : IPlayerPeopleInputActivatorProvider, I
     public void ActivatePass() => _view.ActivatePass();
     public void DeactivatePass() => _view.DeactivatePass();
 
+    public void SetMainChoose() => _view.SetMainChoose();
+    public void SetMainPass() => _view.SetMainPass();
+
     #endregion
 }
 
@@ -56,6 +59,9 @@ public interface IPlayerPeopleInputActivatorProvider
 
     public void ActivatePass();
     public void DeactivatePass();
+
+    public void SetMainChoose();
+    public void SetMainPass();
 }
 
 public interface IPlayerPeopleInputEventsProvider

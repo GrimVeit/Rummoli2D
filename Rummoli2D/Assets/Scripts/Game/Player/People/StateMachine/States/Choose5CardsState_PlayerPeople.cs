@@ -8,8 +8,8 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly IPlayerPeopleCardVisualInteractiveActivatorProvider _playerPeopleCardVisualInteractiveProvider;
     private readonly IPlayerPeopleCardVisualEventsProvider _playerPeopleCardVisualEventsProvider;
     private readonly IPlayerPeopleCardVisualProvider _playerPeopleCardVisualProvider;
-    private readonly IPlayerPeopleInputEventsProvider _playerPeopleSubmitEventsProvider;
-    private readonly IPlayerPeopleInputActivatorProvider _playerPeopleSubmitProvider;
+    private readonly IPlayerPeopleInputEventsProvider _playerPeopleInputEventsProvider;
+    private readonly IPlayerPeopleInputActivatorProvider _playerPeopleInputProvider;
     private readonly ICardPokerSelectorPlayerProvider _cardPokerSelectorPlayerProvider;
     private readonly UIGameRoot _sceneRoot;
     private readonly List<ICard> _cards = new();
@@ -26,24 +26,25 @@ public class Choose5CardsState_PlayerPeople : IState
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
         _playerPeopleCardVisualProvider = playerPeopleCardVisualProvider;
-        _playerPeopleSubmitEventsProvider = playerPeopleSubmitEventsProvider;
-        _playerPeopleSubmitProvider = playerPeopleSubmitProvider;
+        _playerPeopleInputEventsProvider = playerPeopleSubmitEventsProvider;
+        _playerPeopleInputProvider = playerPeopleSubmitProvider;
         _cardPokerSelectorPlayerProvider = cardPokerSelectorPlayerProvider;
         _sceneRoot = sceneRoot;
     }
 
     public void EnterState()
     {
-        _playerPeopleSubmitEventsProvider.OnChoose += Submit;
+        _playerPeopleInputEventsProvider.OnChoose += Submit;
         _playerPeopleCardVisualEventsProvider.OnChooseCard += ChooseCard;
 
+        _playerPeopleInputProvider.SetMainChoose();
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
         _sceneRoot.OpenRightPanel();
     }
 
     public void ExitState()
     {
-        _playerPeopleSubmitEventsProvider.OnChoose -= Submit;
+        _playerPeopleInputEventsProvider.OnChoose -= Submit;
         _playerPeopleCardVisualEventsProvider.OnChooseCard -= ChooseCard;
 
         _playerPeopleCardVisualInteractiveProvider.DeactivateInteractive();
@@ -55,7 +56,7 @@ public class Choose5CardsState_PlayerPeople : IState
 
         _cards.Clear();
 
-        _playerPeopleSubmitProvider.DeactivateChoose();
+        _playerPeopleInputProvider.DeactivateChoose();
         _sceneRoot.CloseRightPanel();
     }
 
@@ -74,11 +75,11 @@ public class Choose5CardsState_PlayerPeople : IState
 
         if(_cards.Count == 5)
         {
-            _playerPeopleSubmitProvider.ActivateChoose();
+            _playerPeopleInputProvider.ActivateChoose();
         }
         else
         {
-            _playerPeopleSubmitProvider.DeactivateChoose();
+            _playerPeopleInputProvider.DeactivateChoose();
         }
     }
 

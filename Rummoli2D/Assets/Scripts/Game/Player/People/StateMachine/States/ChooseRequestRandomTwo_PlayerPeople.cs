@@ -36,6 +36,7 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
         _playerPeopleInputEventsProvider.OnPass += Pass;
         _playerPeopleCardVisualEventsProvider.OnChooseCard += ChooseCard;
 
+        _playerPeopleInputProvider.SetMainPass();
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
         _playerPeopleInputProvider.ActivatePass();
         _sceneRoot.OpenRightPanel();

@@ -15,6 +15,12 @@ public class PlayerPeopleInputView : View
     [SerializeField] private UIEffect effectButtonPass;
     [SerializeField] private Button buttonPass;
 
+    [Header("Transforms")]
+    [SerializeField] private Transform transformParentChoose;
+    [SerializeField] private Transform transformParentPass;
+    [SerializeField] private Transform transformMain;
+    [SerializeField] private Transform transformSecond;
+
     public void Initialize()
     {
         buttonChoose.onClick.AddListener(Choose);
@@ -33,6 +39,18 @@ public class PlayerPeopleInputView : View
         effectButtonPass.Dispose();
     }
 
+    public void SetMainPass()
+    {
+        transformParentChoose.transform.localPosition = transformSecond.transform.localPosition;
+        transformParentPass.transform.localPosition = transformMain.transform.localPosition;
+    }
+
+    public void SetMainChoose()
+    {
+        transformParentChoose.transform.localPosition = transformMain.transform.localPosition;
+        transformParentPass.transform.localPosition = transformSecond.transform.localPosition;
+    }
+
     #region Choose
 
     public void ActivateChoose()
@@ -49,7 +67,7 @@ public class PlayerPeopleInputView : View
 
     #endregion
 
-    #region Choose
+    #region Pass
 
     public void ActivatePass()
     {
