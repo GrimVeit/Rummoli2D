@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class ScorePlayerModel
 {
-    public int Score => _score;
+    public int TotalScore => _score;
+    public int TotalEarnedScore => _totalEarnedScore;
 
     private int _score = 0;
+    private int _totalEarnedScore = 0;
 
     public void SetScore(int score)
     {
@@ -18,6 +20,7 @@ public class ScorePlayerModel
     public void AddScore(int score)
     {
         _score += score;
+        _totalEarnedScore += score;
         OnAddScore?.Invoke(_score);
     }
 

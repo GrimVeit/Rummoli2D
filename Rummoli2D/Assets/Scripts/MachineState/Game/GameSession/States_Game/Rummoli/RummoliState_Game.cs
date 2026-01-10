@@ -80,6 +80,7 @@ public class RummoliState_Game : IState
         _betSystemEventsProvider.OnReturnBet -= ReturnBet;
 
         _cardRummoliVisualActivator.DeactivateVisual();
+        _counterPassPlayerSystemActivatorProvider.DeactivateVisual();
 
         UnsubscribeCurrentPlayerEvents();
     }

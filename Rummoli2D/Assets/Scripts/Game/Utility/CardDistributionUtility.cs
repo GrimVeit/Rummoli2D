@@ -8,10 +8,10 @@ public static class CardDistributionUtility
     {
         switch (totalPlayers)
         {
-            case 2: case 3: return 12;
-            case 4: return 10;
+            case 2: return 26;
+            case 3: return 17;
+            case 4: return 13;
             case 5: return 10;
-            case 6: return 6;
             default:
                 Debug.LogWarning("Unsupported number of players. Defaulting to 8 cards per player.");
                 return 8;

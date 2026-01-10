@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoundState_Game : IState
 {
     private readonly IStateMachineProvider _machineProvider;
-    private readonly List<IPlayer> _players;
+    private readonly List<IPlayerInfo> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
     private readonly IStoreRoundCurrentNumberProvider _storeRoundNumberProvider;
@@ -16,7 +17,7 @@ public class RoundState_Game : IState
     public RoundState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider presentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IStoreRoundCurrentNumberProvider storeRoundNumberProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
-        _players = players;
+        _players = players.Cast<IPlayerInfo>().ToList();
         _playerPresentationSystemProvider = presentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
         _storeRoundNumberProvider = storeRoundNumberProvider;

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ChooseCardsPokerState_Game : IState
@@ -9,12 +10,12 @@ public class ChooseCardsPokerState_Game : IState
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
 
     private int _currentCount = 0;
-    private readonly List<IPlayer> _players;
+    private readonly List<IPlayerPoker> _players;
 
     public ChooseCardsPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider)
     {
         _machineProvider = machineProvider;
-        _players = players;
+        _players = players.Cast<IPlayerPoker>().ToList();
         _playerPokerProvider = playerPokerProvider;
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
     }

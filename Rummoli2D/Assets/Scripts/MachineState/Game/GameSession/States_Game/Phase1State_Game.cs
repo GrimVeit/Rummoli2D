@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Phase1State_Game : IState
 {
     private readonly IStateMachineProvider _machineProvider;
-    private readonly List<IPlayer> _players;
+    private readonly List<IPlayerInfo> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationSystemProvider;
     private readonly IRoundPhasePresentationSystemProvider _roundPhasePresentationSystemProvider;
     private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
@@ -15,7 +16,7 @@ public class Phase1State_Game : IState
     public Phase1State_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IRoundPhasePresentationSystemProvider roundPhasePresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _machineProvider = machineProvider;
-        _players = players;
+        _players = players.Cast<IPlayerInfo>().ToList();
         _playerPresentationSystemProvider = playerPresentationSystemProvider;
         _roundPhasePresentationSystemProvider = roundPhasePresentationSystemProvider;
         _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;

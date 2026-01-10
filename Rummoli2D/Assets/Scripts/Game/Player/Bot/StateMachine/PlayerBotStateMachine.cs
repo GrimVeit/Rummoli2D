@@ -14,7 +14,8 @@ public class PlayerBotStateMachine : IStateMachineProvider
         IBetSystemProvider betSystemProvider,
         ICardPokerSelectorBotProvider cardPokerSelectorBotProvider,
         IScorePlayerProvider scorePlayerProvider,
-        IStoreCardInfoProvider storeCardInfoProvider)
+        IStoreCardInfoProvider storeCardInfoProvider,
+        IStoreGameDifficultyInfoProvider storeGameDifficultyInfoProvider)
     {
         var stateBet = new PlayerBetState_PlayerBot(playerIndex, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider);
         stateBet.OnApplyBet += ApplyBet;
@@ -24,12 +25,12 @@ public class PlayerBotStateMachine : IStateMachineProvider
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerBot)] = state5Cards;
 
-        var stateRequestCard = new ChooseRequestCard_PlayerBot(storeCardInfoProvider);
+        var stateRequestCard = new ChooseRequestCard_PlayerBot(storeCardInfoProvider, storeGameDifficultyInfoProvider);
         stateRequestCard.OnCardLaid += Choose_Next;
         stateRequestCard.OnPass += Pass_Next;
         states[typeof(ChooseRequestCard_PlayerBot)] = stateRequestCard;
 
-        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerBot(storeCardInfoProvider);
+        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerBot(storeCardInfoProvider, storeGameDifficultyInfoProvider);
         stateRequestCardRandomTwo.OnCardLaid += Choose_RandomTwo;
         stateRequestCardRandomTwo.OnPass += Pass_RandomTwo;
         states[typeof(ChooseRequestRandomTwo_PlayerBot)] = stateRequestCardRandomTwo;

@@ -6,6 +6,8 @@ public class PlayerBot : IPlayer
     public int Id => _playerId;
     public string Name => _name;
     public int CardCount => _storeCardPlayerPresenter.Cards.Count;
+    public int TotalScore => _scorePlayerPresenter.TotalScore;
+    public int TotalEarnedScore => _scorePlayerPresenter.TotalEarnedScore;
 
     private readonly PlayerBotStateMachine _playerBotStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;
@@ -23,6 +25,7 @@ public class PlayerBot : IPlayer
         IPlayerHighlightSystemProvider highlightProvider,
         ICardPokerSelectorBotProvider cardPlayerPresenter,
         BetSystemPresenter betSystemPresenter,
+        IStoreGameDifficultyInfoProvider storeGameDifficultyInfoProvider,
         ViewContainer viewContainer)
     {
         _playerId = playerIndex;
@@ -39,7 +42,8 @@ public class PlayerBot : IPlayer
             betSystemPresenter,
             cardPlayerPresenter,
             _scorePlayerPresenter,
-            _storeCardPlayerPresenter);
+            _storeCardPlayerPresenter,
+            storeGameDifficultyInfoProvider);
     }
 
     public void Initialize()
@@ -75,6 +79,20 @@ public class PlayerBot : IPlayer
     {
         add => _playerBotStateMachine.OnApplyBet += value;
         remove => _playerBotStateMachine.OnApplyBet -= value;
+    }
+
+    //SCORE---------------------------------------------------
+
+    public event Action<int> OnAddScore
+    {
+        add => _scorePlayerPresenter.OnAddScore += value;
+        remove => _scorePlayerPresenter.OnAddScore -= value;
+    }
+
+    public event Action<int> OnRemoveScore
+    {
+        add => _scorePlayerPresenter.OnRemoveScore += value;
+        remove => _scorePlayerPresenter.OnRemoveScore -= value;
     }
 
     //POKER---------------------------------------------------

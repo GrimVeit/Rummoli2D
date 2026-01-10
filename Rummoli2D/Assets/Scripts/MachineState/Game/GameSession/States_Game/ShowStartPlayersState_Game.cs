@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ShowStartPlayersState_Game : IState
 {
     private readonly IStateMachineProvider _stateProvider;
-    private readonly List<IPlayer> _players;
+    private readonly List<IPlayerInfo> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
 
     private IEnumerator timer;
@@ -13,7 +14,7 @@ public class ShowStartPlayersState_Game : IState
     public ShowStartPlayersState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider)
     {
         _stateProvider = stateProvider;
-        _players = players;
+        _players = players.Cast<IPlayerInfo>().ToList();
         _playerPresentationProvider = playerPresentationProvider;
     }
 

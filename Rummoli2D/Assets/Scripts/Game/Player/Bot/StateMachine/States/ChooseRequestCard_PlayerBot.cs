@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +7,8 @@ using Random = UnityEngine.Random;
 public class ChooseRequestCard_PlayerBot : IState
 {
     private readonly IStoreCardInfoProvider _storeCardInfoProvider;
-    
+    private readonly IStoreGameDifficultyInfoProvider _difficultyProvider;
+
     private CardData _currentCardData;
 
     private const float DECISION_DELAY_MIN = 0.5f;
@@ -15,15 +16,17 @@ public class ChooseRequestCard_PlayerBot : IState
 
     private IEnumerator timer;
 
-    public ChooseRequestCard_PlayerBot(IStoreCardInfoProvider storeCardInfoProvider)
+    public ChooseRequestCard_PlayerBot(
+        IStoreCardInfoProvider storeCardInfoProvider,
+        IStoreGameDifficultyInfoProvider difficultyProvider)
     {
         _storeCardInfoProvider = storeCardInfoProvider;
+        _difficultyProvider = difficultyProvider;
     }
 
     public void EnterState()
     {
-        if(timer != null) Coroutines.Stop(timer);
-
+        if (timer != null) Coroutines.Stop(timer);
         timer = ChooseRoutine();
         Coroutines.Start(timer);
     }
@@ -45,8 +48,6 @@ public class ChooseRequestCard_PlayerBot : IState
 
     #endregion
 
-    #region Internal Logic
-
     private IEnumerator ChooseRoutine()
     {
         yield return new WaitForSeconds(Random.Range(DECISION_DELAY_MIN, DECISION_DELAY_MAX));
@@ -54,25 +55,40 @@ public class ChooseRequestCard_PlayerBot : IState
         if (_currentCardData == null)
         {
             OnPass?.Invoke();
-            Debug.Log("[Bot] No current card, passing");
             yield break;
         }
 
-
         var cardToPlay = _storeCardInfoProvider.Cards
-            .FirstOrDefault(c => c.CardSuit == _currentCardData.Suit && c.CardRank == _currentCardData.Rank);
+            .FirstOrDefault(c =>
+                c.CardSuit == _currentCardData.Suit &&
+                c.CardRank == _currentCardData.Rank);
 
-        if (cardToPlay != null)
-        {
-            OnCardLaid?.Invoke(cardToPlay);
-            Debug.Log($"[Bot] Laid card: {_currentCardData.Suit} {_currentCardData.Rank}");
-        }
-        else
+        if (cardToPlay == null)
         {
             OnPass?.Invoke();
-            Debug.Log($"[Bot] Does not have card {_currentCardData.Suit} {_currentCardData.Rank}, passing");
+            yield break;
         }
+
+        if (ShouldMakeMistake())
+        {
+            OnPass?.Invoke();
+            Debug.Log($"[Bot] Has card but passed intentionally ({_difficultyProvider.GameDifficulty})");
+            yield break;
+        }
+
+        OnCardLaid?.Invoke(cardToPlay);
     }
 
-    #endregion
+    private bool ShouldMakeMistake()
+    {
+        float mistakeChance = _difficultyProvider.GameDifficulty switch
+        {
+            GameDifficulty.Easy => 0.30f,
+            GameDifficulty.Medium => 0.15f,
+            GameDifficulty.Hard => 0.02f,
+            _ => 0f
+        };
+
+        return Random.value < mistakeChance;
+    }
 }

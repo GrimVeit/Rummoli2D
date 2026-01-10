@@ -6,6 +6,8 @@ public class PlayerPeople : IPlayer
     public int Id => _playerId;
     public string Name => _nicknamePresenter.Nickname;
     public int CardCount => _storeCardPlayerPresenter.Cards.Count;
+    public int TotalScore => _scorePlayerPresenter.TotalScore;
+    public int TotalEarnedScore => _scorePlayerPresenter.TotalEarnedScore;
 
     private readonly PlayerPeopleStateMachine _playerPeopleStateMachine;
     private readonly IPlayerHighlightSystemProvider _highlightProvider;
@@ -88,6 +90,20 @@ public class PlayerPeople : IPlayer
     {
         add => _playerPeopleStateMachine.OnApplyBet += value;
         remove => _playerPeopleStateMachine.OnApplyBet -= value;
+    }
+
+    //SCORE---------------------------------------------------
+
+    public event Action<int> OnAddScore
+    {
+        add => _scorePlayerPresenter.OnAddScore += value;
+        remove => _scorePlayerPresenter.OnAddScore -= value;
+    }
+
+    public event Action<int> OnRemoveScore
+    {
+        add => _scorePlayerPresenter.OnRemoveScore += value;
+        remove => _scorePlayerPresenter.OnRemoveScore -= value;
     }
 
     //POKER---------------------------------------------------

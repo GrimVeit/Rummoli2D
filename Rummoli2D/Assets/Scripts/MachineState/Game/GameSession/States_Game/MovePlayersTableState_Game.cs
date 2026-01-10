@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MovePlayersTableState_Game : IState
 {
     private readonly IStateMachineProvider _stateProvider;
-    private readonly List<IPlayer> _players;
+    private readonly List<IPlayerInfo> _players;
     private readonly IPlayerPresentationSystemProvider _playerPresentationProvider;
     private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
 
@@ -14,7 +15,7 @@ public class MovePlayersTableState_Game : IState
     public MovePlayersTableState_Game(IStateMachineProvider stateProvider, List<IPlayer> players, IPlayerPresentationSystemProvider playerPresentationProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
     {
         _stateProvider = stateProvider;
-        _players = players;
+        _players = players.Cast<IPlayerInfo>().ToList();
         _playerPresentationProvider = playerPresentationProvider;
         _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
     }
