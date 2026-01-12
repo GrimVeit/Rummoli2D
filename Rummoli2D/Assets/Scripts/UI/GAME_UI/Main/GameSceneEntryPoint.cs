@@ -49,6 +49,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private RummoliTablePresentationSystemPresenter rummoliTablePresentationSystemPresenter;
     private ScoreEarnLeaderboardPresenter scoreEarnLeaderboardPresenter;
     private GameInfoPresenter gameInfoPresenter;
+    private PlayerSetupPresenter playerSetupPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -115,31 +116,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
         playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
 
-        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter);
-        stateMachine = new StateMachine_Game
-            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3},
-            sceneRoot,
-            playerPresentationSystemPresenter,
-            highlightSystemPresenter,
-            roundPhasePresentationSystemPresenter,
-            cardBankPresentationSystemPresenter,
-            cardSpawnerSystemPresenter,
-            cardSpawnerSystemPresenter,
-            playerPokerPresenter,
-            playerPokerPresenter,
-            betSystemPresenter,
-            betSystemPresenter,
-            storeCardRummoliPresenter,
-            cardRummoliVisualPresenter,
-            playerPopupEffectSystemPresenter,
-            sectorConditionCheckerPresenter,
-            storeRoundCurrentNumberPresenter,
-            storeRoundCurrentNumberPresenter,
-            counterPassPlayerSystemPresenter,
-            counterPassPlayerSystemPresenter,
-            rummoliTablePresentationSystemPresenter,
-            storeRoundCountPresenter,
-            scoreEarnLeaderboardPresenter);
+        playerSetupPresenter = new PlayerSetupPresenter(new PlayerSetupModel(storePlayersCountPresenter, playerPeople, new List<PlayerBot>() { playerBot_1, playerBot_2, playerBot_3, playerBot_4 }), viewContainer.GetView<PlayerSetupView>());
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -180,6 +157,34 @@ public class GameSceneEntryPoint : MonoBehaviour
         playerBot_2.Initialize();
         playerBot_3.Initialize();
         playerBot_4.Initialize();
+
+        playerSetupPresenter.Setup();
+        playerSetupPresenter.SetStartPositions(playerSetupPresenter.GetPlayers().Count);
+        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter);
+        stateMachine = new StateMachine_Game
+            (playerSetupPresenter.GetPlayers(),
+            sceneRoot,
+            playerPresentationSystemPresenter,
+            highlightSystemPresenter,
+            roundPhasePresentationSystemPresenter,
+            cardBankPresentationSystemPresenter,
+            cardSpawnerSystemPresenter,
+            cardSpawnerSystemPresenter,
+            playerPokerPresenter,
+            playerPokerPresenter,
+            betSystemPresenter,
+            betSystemPresenter,
+            storeCardRummoliPresenter,
+            cardRummoliVisualPresenter,
+            playerPopupEffectSystemPresenter,
+            sectorConditionCheckerPresenter,
+            storeRoundCurrentNumberPresenter,
+            storeRoundCurrentNumberPresenter,
+            counterPassPlayerSystemPresenter,
+            counterPassPlayerSystemPresenter,
+            rummoliTablePresentationSystemPresenter,
+            storeRoundCountPresenter,
+            scoreEarnLeaderboardPresenter);
 
         stateMachine.Initialize();
         stateMachine_GameFlow.Initialize();

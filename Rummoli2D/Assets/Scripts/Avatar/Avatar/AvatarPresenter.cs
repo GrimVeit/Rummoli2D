@@ -18,7 +18,7 @@ public class AvatarPresenter : IAvatarInfoProvider, IAvatarProvider, IAvatarEven
     {
         ActivateEvents();
 
-        //_model.Initialize();
+        _model.Initialize();
     }
 
     public void Dispose()

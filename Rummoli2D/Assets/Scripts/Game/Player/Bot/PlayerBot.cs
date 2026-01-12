@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class PlayerBot : IPlayer
 {
     public int Id => _playerId;
-    public string Name => _name;
+    public string Name => _nicknameBotPresenter.Nickname;
     public int CardCount => _storeCardPlayerPresenter.Cards.Count;
     public int TotalScore => _scorePlayerPresenter.TotalScore;
     public int TotalEarnedScore => _scorePlayerPresenter.TotalEarnedScore;
@@ -14,9 +14,10 @@ public class PlayerBot : IPlayer
 
     private readonly StoreCardPlayerPresenter _storeCardPlayerPresenter;
     private readonly PlayerBotCardVisualPresenter _playerBotCardVisualPresenter;
+    private readonly AvatarBotPresenter _avatarBotPresenter;
+    private readonly NicknameBotPresenter _nicknameBotPresenter;
 
     private readonly int _playerId;
-    private readonly string _name;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
 
     public PlayerBot(
@@ -29,11 +30,12 @@ public class PlayerBot : IPlayer
         ViewContainer viewContainer)
     {
         _playerId = playerIndex;
-        _name = name;
         _highlightProvider = highlightProvider;
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>($"Bot_{_playerId}"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerBotCardVisualPresenter = new PlayerBotCardVisualPresenter(new PlayerBotCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerBotCardVisualView>($"Bot_{_playerId}"));
+        _nicknameBotPresenter = new NicknameBotPresenter(new NicknameBotModel(), viewContainer.GetView<NicknameBotView>($"Bot_{_playerId}"));
+        _avatarBotPresenter = new AvatarBotPresenter(new AvatarBotModel(), viewContainer.GetView<AvatarBotView>($"Bot_{_playerId}"));
 
         _playerBotStateMachine = new PlayerBotStateMachine
             (playerIndex,
@@ -59,6 +61,8 @@ public class PlayerBot : IPlayer
 
         _scorePlayerPresenter.Initialize();
         _playerBotCardVisualPresenter.Initialize();
+        _nicknameBotPresenter.Initialize();
+        _avatarBotPresenter.Initialize();
     }
 
     public void Dispose()
@@ -74,7 +78,13 @@ public class PlayerBot : IPlayer
 
         _scorePlayerPresenter.Dispose();
         _playerBotCardVisualPresenter.Dispose();
+        _nicknameBotPresenter.Dispose();
+        _avatarBotPresenter.Dispose();
     }
+
+    public void SetAvatarIndex(int index) => _avatarBotPresenter.SetAvatarIndex(index);
+
+    public void SetNickname(string nickname) => _nicknameBotPresenter.SetNickname(nickname);
 
     #region API
 
