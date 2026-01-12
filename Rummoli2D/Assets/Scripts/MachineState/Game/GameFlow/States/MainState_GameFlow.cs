@@ -48,6 +48,6 @@ public class MainState_GameFlow : IState
 
     private void ChangeStateToResults()
     {
-
+        _machineProvider.EnterState(_machineProvider.GetState<ResultsState_GameFlow>());
     }
 }

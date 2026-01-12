@@ -47,6 +47,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private RoundNumberVisualPresenter roundNumberVisualPresenter;
     private CounterPassPlayerSystemPresenter counterPassPlayerSystemPresenter;
     private RummoliTablePresentationSystemPresenter rummoliTablePresentationSystemPresenter;
+    private ScoreEarnLeaderboardPresenter scoreEarnLeaderboardPresenter;
     private GameInfoPresenter gameInfoPresenter;
 
     private PlayerPeople playerPeople;
@@ -105,6 +106,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         roundNumberVisualPresenter = new RoundNumberVisualPresenter(new RoundNumberVisualModel(storeRoundCurrentNumberPresenter, storeRoundCurrentNumberPresenter, storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<RoundNumberVisualView>());
         counterPassPlayerSystemPresenter = new CounterPassPlayerSystemPresenter(new CounterPassPlayerSystemModel(storeLanguagePresenter), viewContainer.GetView<CounterPassPlayerSystemView>());
         rummoliTablePresentationSystemPresenter = new RummoliTablePresentationSystemPresenter(viewContainer.GetView<RummoliTablePresentationSystemView>());
+        scoreEarnLeaderboardPresenter = new ScoreEarnLeaderboardPresenter(new ScoreEarnLeaderboardModel(), viewContainer.GetView<ScoreEarnLeaderboardView>());
         gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter, storeRoundCountPresenter, storePlayersCountPresenter), viewContainer.GetView<GameInfoView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, sceneRoot, viewContainer);
@@ -115,7 +117,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter);
         stateMachine = new StateMachine_Game
-            (new List<IPlayer>() { playerPeople, playerBot_1},
+            (new List<IPlayer>() { playerPeople, playerBot_1, playerBot_2, playerBot_3},
             sceneRoot,
             playerPresentationSystemPresenter,
             highlightSystemPresenter,
@@ -136,7 +138,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             counterPassPlayerSystemPresenter,
             counterPassPlayerSystemPresenter,
             rummoliTablePresentationSystemPresenter,
-            storeRoundCountPresenter);
+            storeRoundCountPresenter,
+            scoreEarnLeaderboardPresenter);
 
         sceneRoot.SetSoundProvider(soundPresenter);
         sceneRoot.Activate();
@@ -169,6 +172,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storePlayersCountPresenter.Initialize();
         roundNumberVisualPresenter.Initialize();
         counterPassPlayerSystemPresenter.Initialize();
+        scoreEarnLeaderboardPresenter.Initialize();
         gameInfoPresenter.Initialize();
 
         playerPeople.Initialize();
@@ -238,6 +242,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storePlayersCountPresenter?.Dispose();
         roundNumberVisualPresenter?.Dispose();
         counterPassPlayerSystemPresenter?.Dispose();
+        scoreEarnLeaderboardPresenter?.Dispose();
         gameInfoPresenter?.Dispose();
 
         playerPeople.Dispose();

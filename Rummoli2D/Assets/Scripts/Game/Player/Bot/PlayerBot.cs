@@ -54,6 +54,9 @@ public class PlayerBot : IPlayer
         _playerBotStateMachine.OnCardLaid_RandomTwo += CardLiad_RandomTwo;
         _playerBotStateMachine.OnPass_RandomTwo += Pass_RandomTwo;
 
+        _scorePlayerPresenter.OnAddScore += OnAddScoreMethode;
+        _scorePlayerPresenter.OnRemoveScore += OnRemoveScoreMethode;
+
         _scorePlayerPresenter.Initialize();
         _playerBotCardVisualPresenter.Initialize();
     }
@@ -65,6 +68,9 @@ public class PlayerBot : IPlayer
         _playerBotStateMachine.OnPass_Next -= Pass_Next;
         _playerBotStateMachine.OnCardLaid_RandomTwo -= CardLiad_RandomTwo;
         _playerBotStateMachine.OnPass_RandomTwo -= Pass_RandomTwo;
+
+        _scorePlayerPresenter.OnAddScore -= OnAddScoreMethode;
+        _scorePlayerPresenter.OnRemoveScore -= OnRemoveScoreMethode;
 
         _scorePlayerPresenter.Dispose();
         _playerBotCardVisualPresenter.Dispose();
@@ -83,16 +89,18 @@ public class PlayerBot : IPlayer
 
     //SCORE---------------------------------------------------
 
-    public event Action<int> OnAddScore
+    public event Action<int, int> OnAddScore;
+
+    public event Action<int, int> OnRemoveScore;
+
+    private void OnAddScoreMethode(int score)
     {
-        add => _scorePlayerPresenter.OnAddScore += value;
-        remove => _scorePlayerPresenter.OnAddScore -= value;
+        OnAddScore?.Invoke(_playerId, score);
     }
 
-    public event Action<int> OnRemoveScore
+    private void OnRemoveScoreMethode(int score)
     {
-        add => _scorePlayerPresenter.OnRemoveScore += value;
-        remove => _scorePlayerPresenter.OnRemoveScore -= value;
+        OnAddScore?.Invoke(_playerId, score);
     }
 
     //POKER---------------------------------------------------

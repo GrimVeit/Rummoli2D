@@ -13,8 +13,8 @@ public interface IPlayerScore
 {
     int TotalScore { get; }
     int TotalEarnedScore { get; }
-    event Action<int> OnAddScore;
-    event Action<int> OnRemoveScore;
+    event Action<int, int> OnAddScore;
+    event Action<int, int> OnRemoveScore;
     void SetScore(int score);
     void AddScore(int score);
 }

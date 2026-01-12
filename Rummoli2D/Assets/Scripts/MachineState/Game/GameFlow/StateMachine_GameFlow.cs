@@ -16,6 +16,7 @@ public class StateMachine_GameFlow : IStateMachineProvider
         states[typeof(StartState_GameFlow)] = new StartState_GameFlow(this, sceneRoot, gameInfoVisualActivater);
         states[typeof(MainState_GameFlow)] = new MainState_GameFlow(this, sceneRoot);
         states[typeof(PauseState_GameFlow)] = new PauseState_GameFlow(this, sceneRoot);
+        states[typeof(ResultsState_GameFlow)] = new ResultsState_GameFlow(this, sceneRoot);
     }
 
     public void Initialize()

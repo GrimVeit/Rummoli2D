@@ -16,6 +16,7 @@ public class UIGameRoot : UIRoot
     [SerializeField] private RightPanel_Game rightPanel;
 
     [SerializeField] private PausePanel_Game pausePanel;
+    [SerializeField] private ResultsPanel_Game resultsPanel;
 
     private ISoundProvider _soundProvider;
 
@@ -37,6 +38,7 @@ public class UIGameRoot : UIRoot
         rightPanel.Initialize();
 
         pausePanel.Initialize();
+        resultsPanel.Initialize();
     }
 
     public void Activate()
@@ -49,6 +51,7 @@ public class UIGameRoot : UIRoot
         rightPanel.OnClickToResults += HandleClickToResults_Right;
 
         pausePanel.OnClickToResume += HandleClickToResume_Pause;
+        resultsPanel.OnClickToResume += HandleClickToResume_Results;
     }
 
     public void Deactivate()
@@ -61,6 +64,7 @@ public class UIGameRoot : UIRoot
         rightPanel.OnClickToResults -= HandleClickToResults_Right;
 
         pausePanel.OnClickToResume -= HandleClickToResume_Pause;
+        resultsPanel.OnClickToResume -= HandleClickToResume_Results;
 
         if (currentPanel != null)
             CloseOtherPanel(currentPanel);
@@ -79,6 +83,7 @@ public class UIGameRoot : UIRoot
         rightPanel.Dispose();
 
         pausePanel.Dispose();
+        resultsPanel.Dispose();
     }
 
     #region Input
@@ -263,6 +268,23 @@ public class UIGameRoot : UIRoot
     }
 
 
+
+
+    public void OpenResultsPanel()
+    {
+        if (resultsPanel.IsActive) return;
+
+        OpenOtherPanel(resultsPanel);
+    }
+
+    public void CloseResultsPanel()
+    {
+        if (!resultsPanel.IsActive) return;
+
+        CloseOtherPanel(resultsPanel);
+    }
+
+
     #endregion
 
 
@@ -333,6 +355,21 @@ public class UIGameRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToResume_Pause?.Invoke();
+    }
+
+    #endregion
+
+
+
+    #region Results
+
+    public event Action OnClickToResume_Results;
+
+    private void HandleClickToResume_Results()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToResume_Results?.Invoke();
     }
 
     #endregion
