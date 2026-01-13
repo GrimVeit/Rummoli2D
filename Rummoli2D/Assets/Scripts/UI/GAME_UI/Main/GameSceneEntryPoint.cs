@@ -49,6 +49,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private RummoliTablePresentationSystemPresenter rummoliTablePresentationSystemPresenter;
     private ScoreEarnLeaderboardPresenter scoreEarnLeaderboardPresenter;
     private GameInfoPresenter gameInfoPresenter;
+    private HintSystemPresenter hintSystemPresenter;
     private PlayerSetupPresenter playerSetupPresenter;
 
     private PlayerPeople playerPeople;
@@ -109,8 +110,9 @@ public class GameSceneEntryPoint : MonoBehaviour
         rummoliTablePresentationSystemPresenter = new RummoliTablePresentationSystemPresenter(viewContainer.GetView<RummoliTablePresentationSystemView>());
         scoreEarnLeaderboardPresenter = new ScoreEarnLeaderboardPresenter(new ScoreEarnLeaderboardModel(), viewContainer.GetView<ScoreEarnLeaderboardView>());
         gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter, storeRoundCountPresenter, storePlayersCountPresenter), viewContainer.GetView<GameInfoView>());
+        hintSystemPresenter = new HintSystemPresenter(new HintSystemModel(storeLanguagePresenter), viewContainer.GetView<HintSystemView>());
 
-        playerPeople = new PlayerPeople(0, highlightSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, sceneRoot, viewContainer);
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, hintSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, sceneRoot, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
         playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
         playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
@@ -151,6 +153,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         counterPassPlayerSystemPresenter.Initialize();
         scoreEarnLeaderboardPresenter.Initialize();
         gameInfoPresenter.Initialize();
+        hintSystemPresenter.Initialize();
 
         playerPeople.Initialize();
         playerBot_1.Initialize();
@@ -160,7 +163,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         playerSetupPresenter.Setup();
         playerSetupPresenter.SetStartPositions(playerSetupPresenter.GetPlayers().Count);
-        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter);
+        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter, hintSystemPresenter);
         stateMachine = new StateMachine_Game
             (playerSetupPresenter.GetPlayers(),
             sceneRoot,
@@ -249,6 +252,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         counterPassPlayerSystemPresenter?.Dispose();
         scoreEarnLeaderboardPresenter?.Dispose();
         gameInfoPresenter?.Dispose();
+        hintSystemPresenter?.Dispose();
 
         playerPeople.Dispose();
         playerBot_1.Dispose();

@@ -23,6 +23,7 @@ public class PlayerPeople : IPlayer
     public PlayerPeople(
         int playerIndex,
         IPlayerHighlightSystemProvider highlightProvider,
+        IHintSystemProvider hintSystemProvider,
         ISoundProvider soundProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         BetSystemPresenter betSystemPresenter,
@@ -50,6 +51,7 @@ public class PlayerPeople : IPlayer
             _playerPeopleInputPresenter,
             _playerPeopleInputPresenter,
             cardPokerSelectorPlayerProvider,
+            hintSystemProvider,
             sceneRoot);
     }
 

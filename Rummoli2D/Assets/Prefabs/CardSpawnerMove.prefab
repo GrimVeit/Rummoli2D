@@ -89,3 +89,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   imageFace: {fileID: 5811924855244214595}
+  rectTransform: {fileID: 2230490269425615809}

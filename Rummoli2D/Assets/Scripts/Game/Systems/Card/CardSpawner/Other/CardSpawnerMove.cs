@@ -8,15 +8,9 @@ using UnityEngine.UI;
 public class CardSpawnerMove : MonoBehaviour
 {
     [SerializeField] private Image imageFace;
-
-    private RectTransform rectTransform;
+    [SerializeField] private RectTransform rectTransform;
     private int _playerIndex;
     private ICard _card;
-
-    private void Awake()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
 
     public void SetData(int playerIndex, ICard card, Sprite sprite)
     {

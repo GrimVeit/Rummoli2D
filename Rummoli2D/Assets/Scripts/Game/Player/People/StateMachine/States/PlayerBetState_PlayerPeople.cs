@@ -10,6 +10,7 @@ public class PlayerBetState_PlayerPeople : IState
     private readonly IBetSystemProvider _betSystemProvider;
     private readonly IBetSystemInfoProvider _betSystemInfoProvider;
     private readonly IBetSystemEventsProvider _betSystemEventsProvider;
+    private readonly IHintSystemProvider _hintSystemProvider;
     private readonly UIGameRoot _sceneRoot;
 
     private readonly int _playerIndex;
@@ -21,7 +22,8 @@ public class PlayerBetState_PlayerPeople : IState
         IBetSystemProvider betSystemProvider,
         IBetSystemInfoProvider betSystemInfoProvider,
         IBetSystemEventsProvider betSystemEventsProvider,
-        UIGameRoot sceneRoot)
+        UIGameRoot sceneRoot,
+        IHintSystemProvider hintSystemProvider)
     {
         _playerIndex = playerIndex;
         _betSystemInteractiveActivatorProvider = betSystemInteractiveActivatorProvider;
@@ -30,6 +32,7 @@ public class PlayerBetState_PlayerPeople : IState
         _betSystemInfoProvider = betSystemInfoProvider;
         _betSystemEventsProvider = betSystemEventsProvider;
         _sceneRoot = sceneRoot;
+        _hintSystemProvider = hintSystemProvider;
     }
 
     public void EnterState()
@@ -40,6 +43,7 @@ public class PlayerBetState_PlayerPeople : IState
         _betSystemInteractiveActivatorProvider.ActivateInteractive();
 
         _sceneRoot.OpenRightPanel();
+        _hintSystemProvider.Show("ContributeSectors");
     }
 
     public void ExitState()
@@ -48,6 +52,7 @@ public class PlayerBetState_PlayerPeople : IState
         _betSystemEventsProvider.OnAddBet -= SubmitBet;
 
         _betSystemInteractiveActivatorProvider.DeactivateInteractive();
+        _hintSystemProvider.Hide("ContributeSectors");
     }
 
     private void SubmitBet(int playerIndex, int sectorIndex)

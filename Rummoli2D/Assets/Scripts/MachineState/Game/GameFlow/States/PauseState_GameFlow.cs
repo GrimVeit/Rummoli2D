@@ -6,11 +6,13 @@ public class PauseState_GameFlow : IState
 {
     private readonly IStateMachineProvider _machineProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly IHintSystemActivatorProvider _hintSystemActivatorProvider;
 
-    public PauseState_GameFlow(IStateMachineProvider machineProvider, UIGameRoot sceneRoot)
+    public PauseState_GameFlow(IStateMachineProvider machineProvider, UIGameRoot sceneRoot, IHintSystemActivatorProvider hintSystemActivatorProvider)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
+        _hintSystemActivatorProvider = hintSystemActivatorProvider;
     }
 
     public void EnterState()
@@ -19,6 +21,7 @@ public class PauseState_GameFlow : IState
 
         _sceneRoot.OpenPausePanel();
         _sceneRoot.CloseRightPanel();
+        _hintSystemActivatorProvider.HideAll();
     }
 
     public void ExitState()
@@ -27,6 +30,7 @@ public class PauseState_GameFlow : IState
 
         _sceneRoot.ClosePausePanel();
         _sceneRoot.OpenRightPanel();
+        _hintSystemActivatorProvider.ShowAll();
     }
 
     private void ChangeStateToMain()

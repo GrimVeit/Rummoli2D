@@ -20,9 +20,10 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitActivatorProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
+        IHintSystemProvider hintSystemProvider,
         UIGameRoot sceneRoot)
     {
-        var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider, sceneRoot);
+        var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider, sceneRoot, hintSystemProvider);
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerPeople)] = stateBet;
 
