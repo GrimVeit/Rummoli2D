@@ -32,6 +32,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private CardRummoliVisualPresenter cardRummoliVisualPresenter;
     private StoreLanguagePresenter storeLanguagePresenter;
     private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
+    private TextTranslatePresenter textTranslatePresenter;
     private CardPokerHandSelectorPresenter cardPokerHandSelectorPresenter;
     private BetSystemPresenter betSystemPresenter;
     private HighlightSystemPresenter highlightSystemPresenter;
@@ -92,6 +93,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeCardRummoliPresenter = new StoreCardRummoliPresenter(new StoreCardRummoliModel());
         cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO, storeCardDesignPresenter), viewContainer.GetView<CardRummoliVisualView>());
         storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
+        textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<TextTranslateView>());
         storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
         cardPokerHandSelectorPresenter = new CardPokerHandSelectorPresenter(new CardPokerHandSelectorModel(storeGameDifficultyPresenter));
         betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
@@ -139,6 +141,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         backgroundVisualPresenter.Initialize();
 
         storeLanguagePresenter.Initialize();
+        textTranslatePresenter.Initialize();
         storeGameDifficultyPresenter.Initialize();
         betSystemPresenter.Initialize();
         cardSpawnerSystemPresenter.Initialize();
@@ -239,6 +242,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         storeCardRummoliPresenter?.Dispose();
         storeLanguagePresenter?.Dispose();
+        textTranslatePresenter?.Dispose();
         storeGameDifficultyPresenter.Dispose();
         betSystemPresenter?.Dispose();
         cardSpawnerSystemPresenter?.Dispose();

@@ -37,7 +37,7 @@ public class GameEntryPoint
 
     private void Run()
     {
-        HandleGoToMainMenu();
+        coroutines.StartCoroutine(LoadAndStartMainMenu());
     }
 
 
@@ -45,19 +45,21 @@ public class GameEntryPoint
         where TSceneEntry : MonoBehaviour
     {
         if (showLoading)
+        {
             yield return rootView.ShowLoadingScreen(0);
-
-        if (showLoading)
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.4f);
+        }
 
         yield return SceneManager.LoadSceneAsync(scene);
-        yield return new WaitForEndOfFrame();
 
         var sceneEntryPoint = Object.FindObjectOfType<TSceneEntry>();
         setup?.Invoke(sceneEntryPoint);
 
         if (showLoading)
+        {
+            yield return new WaitForSeconds(0.6f);
             yield return rootView.HideLoadingScreen(0);
+        }
     }
 
     #region Загрузка конкретных сцен

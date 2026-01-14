@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BetAddChip : MonoBehaviour
 {
+    [SerializeField] private RectTransform rectTransform;
+
     private int _playerIndex;
     private int _sectorIndex;
 
@@ -15,11 +17,33 @@ public class BetAddChip : MonoBehaviour
         _sectorIndex = sectorIndex;
     }
 
-    public void MoveTo(Transform from, Transform to, float duration)
+    public void MoveTo(RectTransform from, RectTransform to, RectTransform localParent, Canvas canvas, float duration)
     {
-        transform.localPosition = from.localPosition;
+        if (from != null)
+        {
+            rectTransform.localPosition = ConvertToLocal(from, localParent, canvas);
+        }
 
-        transform.DOLocalMove(to.localPosition, duration).OnComplete(() => OnEndMove?.Invoke(_playerIndex, _sectorIndex, this));
+        rectTransform.DOLocalMove(to.localPosition, duration).OnComplete(() => OnEndMove?.Invoke(_playerIndex, _sectorIndex, this));
+    }
+
+    private Vector2 ConvertToLocal(
+        RectTransform target,
+        RectTransform localParent,
+        Canvas canvas
+    )
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            localParent,
+            RectTransformUtility.WorldToScreenPoint(
+                canvas.worldCamera,
+                target.position
+            ),
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+
+        return localPoint;
     }
 
     #region Output

@@ -11,6 +11,7 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
     private readonly IPlayerPeopleInputEventsProvider _playerPeopleInputEventsProvider;
     private readonly IPlayerPeopleInputActivatorProvider _playerPeopleInputProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly IHintSystemProvider _hintSystemProvider;
 
     private ICard _currentChooseCard = null;
 
@@ -20,7 +21,8 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
-        UIGameRoot sceneRoot)
+        UIGameRoot sceneRoot,
+        IHintSystemProvider hintSystemProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -28,6 +30,7 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
         _playerPeopleInputEventsProvider = playerPeopleSubmitEventsProvider;
         _playerPeopleInputProvider = playerPeopleSubmitProvider;
         _sceneRoot = sceneRoot;
+        _hintSystemProvider = hintSystemProvider;
     }
 
     public void EnterState()
@@ -40,6 +43,7 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
         _playerPeopleInputProvider.ActivatePass();
         _sceneRoot.OpenRightPanel();
+        _hintSystemProvider.Show("ChooseRandomTwo");
     }
 
     public void ExitState()
@@ -56,6 +60,7 @@ public class ChooseRequestRandomTwo_PlayerPeople : IState
         _playerPeopleInputProvider.DeactivateChoose();
         _playerPeopleInputProvider.DeactivatePass();
         _sceneRoot.CloseRightPanel();
+        _hintSystemProvider.Hide("ChooseRandomTwo");
     }
 
     private void ChooseCard(ICard card)

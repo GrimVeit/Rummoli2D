@@ -13,6 +13,7 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly ICardPokerSelectorPlayerProvider _cardPokerSelectorPlayerProvider;
     private readonly UIGameRoot _sceneRoot;
     private readonly List<ICard> _cards = new();
+    private readonly IHintSystemProvider _hintSystemProvider;
 
     public Choose5CardsState_PlayerPeople
         (IPlayerPeopleCardVisualInteractiveActivatorProvider playerPeopleCardVisualInteractiveProvider, 
@@ -21,7 +22,8 @@ public class Choose5CardsState_PlayerPeople : IState
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
-        UIGameRoot sceneRoot)
+        UIGameRoot sceneRoot,
+        IHintSystemProvider hintSystemProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -30,6 +32,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _playerPeopleInputProvider = playerPeopleSubmitProvider;
         _cardPokerSelectorPlayerProvider = cardPokerSelectorPlayerProvider;
         _sceneRoot = sceneRoot;
+        _hintSystemProvider = hintSystemProvider;
     }
 
     public void EnterState()
@@ -40,6 +43,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _playerPeopleInputProvider.SetMainChoose();
         _playerPeopleCardVisualInteractiveProvider.ActivateInteractive();
         _sceneRoot.OpenRightPanel();
+        _hintSystemProvider.Show("ChoosePokerCards");
     }
 
     public void ExitState()
@@ -58,6 +62,7 @@ public class Choose5CardsState_PlayerPeople : IState
 
         _playerPeopleInputProvider.DeactivateChoose();
         _sceneRoot.CloseRightPanel();
+        _hintSystemProvider.Hide("ChoosePokerCards");
     }
 
     private void ChooseCard(ICard card)

@@ -25,6 +25,11 @@ public class HintVisual : MonoBehaviour
         _text.text = text;
     }
 
+    public void SetAlignment(TextAlignmentOptions textAlignmentOptions)
+    {
+        _text.alignment = textAlignmentOptions;
+    }
+
     public void SetSize(Vector2 size)
     {
         _rectTransform.sizeDelta = size;

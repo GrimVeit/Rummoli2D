@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class BetReturnChip : MonoBehaviour
 {
+    [SerializeField] private RectTransform rectTransform;
+
     private int _playerIndex;
     private int _score;
 
@@ -15,11 +17,32 @@ public class BetReturnChip : MonoBehaviour
         _score = score;
     }
 
-    public void MoveTo(Transform from, Transform to, float duration)
+    public void MoveTo(RectTransform from, RectTransform to, RectTransform localParent, Canvas canvas, float duration)
     {
-        transform.localPosition = from.localPosition;
+        rectTransform.localPosition = from.localPosition;
 
-        transform.DOLocalMove(to.localPosition, duration).OnComplete(() => OnEndMove?.Invoke(_playerIndex, _score, this));
+        Vector2 targetLocalPos = ConvertToLocal(to, localParent, canvas);
+
+        rectTransform.DOLocalMove(targetLocalPos, duration).OnComplete(() => OnEndMove?.Invoke(_playerIndex, _score, this));
+    }
+
+    private Vector2 ConvertToLocal(
+        RectTransform target,
+        RectTransform localParent,
+        Canvas canvas
+    )
+    {
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            localParent,
+            RectTransformUtility.WorldToScreenPoint(
+                canvas.worldCamera,
+                target.position
+            ),
+            canvas.worldCamera,
+            out Vector2 localPoint
+        );
+
+        return localPoint;
     }
 
     #region Output

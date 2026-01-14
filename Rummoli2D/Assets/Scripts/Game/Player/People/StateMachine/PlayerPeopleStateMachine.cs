@@ -27,16 +27,16 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerPeople)] = stateBet;
 
-        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider, sceneRoot);
+        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider, sceneRoot, hintSystemProvider);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerPeople)] = state5Cards;
 
-        var stateRequestCard = new ChooseRequestCard_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot);
+        var stateRequestCard = new ChooseRequestCard_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot, hintSystemProvider);
         stateRequestCard.OnCardLaid += Choose_Next;
         stateRequestCard.OnPass += Pass_Next;
         states[typeof(ChooseRequestCard_PlayerPeople)] = stateRequestCard;
 
-        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot);
+        var stateRequestCardRandomTwo = new ChooseRequestRandomTwo_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, sceneRoot, hintSystemProvider);
         stateRequestCardRandomTwo.OnCardLaid += Choose_RandomTwo;
         stateRequestCardRandomTwo.OnPass += Pass_RandomTwo;
         states[typeof(ChooseRequestRandomTwo_PlayerPeople)] = stateRequestCardRandomTwo;

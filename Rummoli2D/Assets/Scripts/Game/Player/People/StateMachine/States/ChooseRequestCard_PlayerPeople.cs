@@ -11,6 +11,7 @@ public class ChooseRequestCard_PlayerPeople : IState
     private readonly IPlayerPeopleInputEventsProvider _playerPeopleInputEventsProvider;
     private readonly IPlayerPeopleInputActivatorProvider _playerPeopleInputProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly IHintSystemProvider _hintSystemProvider;
 
     private ICard _currentChooseCard = null;
     private CardData _currentCardData;
@@ -21,7 +22,8 @@ public class ChooseRequestCard_PlayerPeople : IState
         IPlayerPeopleCardVisualProvider playerPeopleCardVisualProvider,
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
-        UIGameRoot sceneRoot)
+        UIGameRoot sceneRoot,
+        IHintSystemProvider hintSystemProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -29,6 +31,7 @@ public class ChooseRequestCard_PlayerPeople : IState
         _playerPeopleInputEventsProvider = playerPeopleSubmitEventsProvider;
         _playerPeopleInputProvider = playerPeopleSubmitProvider;
         _sceneRoot = sceneRoot;
+        _hintSystemProvider = hintSystemProvider;
     }
 
     public void EnterState()
@@ -42,6 +45,7 @@ public class ChooseRequestCard_PlayerPeople : IState
         _playerPeopleInputProvider.ActivatePass();
 
         _sceneRoot.OpenRightPanel();
+        _hintSystemProvider.Show("ChooseNextCard");
     }
 
     public void ExitState()
@@ -59,6 +63,7 @@ public class ChooseRequestCard_PlayerPeople : IState
         _playerPeopleInputProvider.DeactivatePass();
 
         _sceneRoot.CloseRightPanel();
+        _hintSystemProvider.Hide("ChooseNextCard");
     }
 
     public void SetCardData(CardData cardData)

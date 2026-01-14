@@ -9,7 +9,8 @@ public class BetSystemView : View
 {
     [SerializeField] private BetAddChip chipAddBetPrefab;
     [SerializeField] private BetReturnChip chipReturnBetPrefab;
-    [SerializeField] private Transform transformSpawnParent;
+    [SerializeField] private RectTransform transformSpawnParent;
+    [SerializeField] private Canvas canvas;
 
     [SerializeField] private PlayerTransforms playerTransforms;
     [SerializeField] private Sectors sectors;
@@ -48,7 +49,7 @@ public class BetSystemView : View
         var chip = Instantiate(chipAddBetPrefab, transformSpawnParent);
         chip.SetData(playerIndex, sectorIndex);
         chip.OnEndMove += DestroyAddBetChip;
-        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), 0.5f);
+        chip.MoveTo(playerTransforms.GetTransformPlayer(playerIndex), sectors.GetTransformSector(sectorIndex), transformSpawnParent, canvas, 0.5f);
     }
 
     private void DestroyAddBetChip(int playerIndex, int sectorIndex, BetAddChip chip)
@@ -69,7 +70,7 @@ public class BetSystemView : View
         var chip = Instantiate(chipReturnBetPrefab, transformSpawnParent);
         chip.SetData(playerIndex, score);
         chip.OnEndMove += DestroyReturnBetChip;
-        chip.MoveTo(sectors.GetTransformSector(sectorIndex), playerTransforms.GetTransformPlayer(playerIndex), 0.5f);
+        chip.MoveTo(sectors.GetTransformSector(sectorIndex), playerTransforms.GetTransformPlayer(playerIndex), transformSpawnParent, canvas, 0.5f);
     }
 
     private void DestroyReturnBetChip(int playerIndex, int sectorIndex, BetReturnChip chip)
@@ -102,7 +103,7 @@ public class PlayerTransforms
 {
     [SerializeField] private List<PlayerTransform> betPlayerTransforms = new List<PlayerTransform>();
 
-    public Transform GetTransformPlayer(int playerIndex)
+    public RectTransform GetTransformPlayer(int playerIndex)
     {
         return betPlayerTransforms.Find(data => data.PlayerIndex == playerIndex).Transform;
     }
@@ -112,10 +113,10 @@ public class PlayerTransforms
 public class PlayerTransform
 {
     [SerializeField] private int playerIndex;
-    [SerializeField] private Transform transformPlayer;
+    [SerializeField] private RectTransform transformPlayer;
 
     public int PlayerIndex => playerIndex;
-    public Transform Transform => transformPlayer;
+    public RectTransform Transform => transformPlayer;
 }
 
 
@@ -170,7 +171,7 @@ public class Sectors
         return sectors.Find(data => data.SectorIndex == index);
     }
 
-    public Transform GetTransformSector(int index)
+    public RectTransform GetTransformSector(int index)
     {
         return GetSector(index).Transform;
     }
@@ -191,12 +192,12 @@ public class Sectors
 public class Sector
 {
     [SerializeField] private int sectorIndex;
-    [SerializeField] private Transform transform;
+    [SerializeField] private RectTransform transform;
     [SerializeField] private TextMeshProUGUI textCount;
     [SerializeField] private Button buttonSector;
 
     public int SectorIndex => sectorIndex;
-    public Transform Transform => transform;
+    public RectTransform Transform => transform;
 
     public void Initialize()
     {

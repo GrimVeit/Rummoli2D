@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEngine;
 
@@ -36,6 +37,7 @@ public class HintSystemView : View
         HintVisual visual = Instantiate(hintVisualPrefab, transformSpawn);
 
         visual.transform.localPosition = hintData.TransformSpawn.localPosition;
+        visual.SetAlignment(hintData.TextAlignment.ToTMP());
         visual.SetSize(hintData.SizeDelta);
         visual.SetText(text);
         visual.SetFontSize(hintData.FontSize);
@@ -54,6 +56,8 @@ public class HintSystemView : View
         }
 
         hintPrefab.Delete();
+
+        _spawnedHints.Remove(key);
     }
 
     public void ShowAll()
@@ -109,12 +113,14 @@ public class HintConfig
     [SerializeField] private Transform transformSpawn;
     [SerializeField] private int fontSize;
     [SerializeField] private HintTexts hintTexts;
+    [SerializeField] private HintAlignment textAlignment;
 
     public string Key => key;
     public Vector2 SizeDelta => sizeDelta;
     public Transform TransformSpawn => transformSpawn;
     public int FontSize => fontSize;
     public string GetText(Language language) => hintTexts.GetTextByLanguage(language);
+    public HintAlignment TextAlignment => textAlignment;
 }
 
 [System.Serializable]
@@ -143,4 +149,16 @@ public class HintText
 
     public Language Language => language;
     public string Text => text;
+}
+public enum HintAlignment
+{
+    TopLeft,
+    Top,
+    TopRight,
+    Left,
+    Center,
+    Right,
+    BottomLeft,
+    Bottom,
+    BottomRight
 }
