@@ -5,14 +5,14 @@ using UnityEngine;
 public class StartState_Game : IState
 {
     private readonly IStateMachineProvider _machineProvider;
-    private readonly UIGameRoot _sceneRoot;
     private readonly IScoreEarnLeaderboardProvider _scoreEarnLeaderboardProvider;
     private readonly List<IPlayer> _players;
 
-    public StartState_Game(IStateMachineProvider machineProvider, UIGameRoot sceneRoot, IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider, List<IPlayer> players)
+    private IEnumerator timer;
+
+    public StartState_Game(IStateMachineProvider machineProvider, IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider, List<IPlayer> players)
     {
         _machineProvider = machineProvider;
-        _sceneRoot = sceneRoot;
         _scoreEarnLeaderboardProvider = scoreEarnLeaderboardProvider;
         _players = players;
     }
@@ -21,12 +21,22 @@ public class StartState_Game : IState
     {
         _scoreEarnLeaderboardProvider.RegisterPlayers(_players);
 
-        _sceneRoot.OnClickToPlay_Start += ChangeStateToShowStartPlayers;
+        if(timer != null) Coroutines.Stop(timer);
+
+        timer = Timer();
+        Coroutines.Start(timer);
     }
 
     public void ExitState()
     {
-        _sceneRoot.OnClickToPlay_Start -= ChangeStateToShowStartPlayers;
+        if (timer != null) Coroutines.Stop(timer);
+    }
+
+    private IEnumerator Timer()
+    {
+        yield return new WaitForSeconds(1f);
+
+        ChangeStateToShowStartPlayers();
     }
 
     private void ChangeStateToShowStartPlayers()

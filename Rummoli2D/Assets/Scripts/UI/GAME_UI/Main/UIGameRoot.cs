@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class UIGameRoot : UIRoot
 {
-    [SerializeField] private StartPanel_Game startPanel;
     [SerializeField] private PlayersPanel_Game playersPanel;
     [SerializeField] private RummoliTablePanel_Game rummoliTablePanel;
     [SerializeField] private CardBankPanel_Game cardBankPanel;
@@ -27,7 +26,6 @@ public class UIGameRoot : UIRoot
 
     public void Initialize()
     {
-        startPanel.Initialize();
         playersPanel.Initialize();
         rummoliTablePanel.Initialize();
         cardBankPanel.Initialize();
@@ -43,8 +41,6 @@ public class UIGameRoot : UIRoot
 
     public void Activate()
     {
-        startPanel.OnClickToPlay += HandleClickToPlay_Start;
-
         leftPanel.OnClickToExit += HandleClickToExit_Left;
 
         rightPanel.OnClickToPause += HandleClickToPause_Right;
@@ -56,8 +52,6 @@ public class UIGameRoot : UIRoot
 
     public void Deactivate()
     {
-        startPanel.OnClickToPlay -= HandleClickToPlay_Start;
-
         leftPanel.OnClickToExit -= HandleClickToExit_Left;
 
         rightPanel.OnClickToPause -= HandleClickToPause_Right;
@@ -72,7 +66,6 @@ public class UIGameRoot : UIRoot
 
     public void Dispose()
     {
-        startPanel.Dispose();
         playersPanel.Dispose();
         rummoliTablePanel.Dispose();
         cardBankPanel.Dispose();
@@ -87,21 +80,6 @@ public class UIGameRoot : UIRoot
     }
 
     #region Input
-
-    public void OpenStartPanel()
-    {
-        if(startPanel.IsActive) return;
-
-        OpenOtherPanel(startPanel);
-    }
-
-    public void CloseStartPanel()
-    {
-        if(!startPanel.IsActive) return;
-
-        CloseOtherPanel(startPanel);
-    }
-
 
 
 
@@ -292,20 +270,6 @@ public class UIGameRoot : UIRoot
 
 
     #region Output
-
-
-    #region Start
-
-    public event Action OnClickToPlay_Start;
-
-    private void HandleClickToPlay_Start()
-    {
-        _soundProvider.PlayOneShot("Click");
-
-        OnClickToPlay_Start?.Invoke();
-    }
-
-    #endregion
 
 
     #region Left

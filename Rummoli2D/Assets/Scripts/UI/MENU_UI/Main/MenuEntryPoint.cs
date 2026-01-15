@@ -32,9 +32,20 @@ public class MenuEntryPoint : MonoBehaviour
     private CustomSliderPresenter customSliderPresenter_Music;
     private VolumeSettingsPresenter volumeSettingsPresenter;
 
-    private StoreLanguagePresenter storeTextTranslatePresenter;
+    private StoreLanguagePresenter storeLanguagePresenter;
     private LanguageChangePresenter textTranslateChangePresenter;
     private TextTranslatePresenter textTranslatePresenter;
+
+    private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
+    private GameDifficultyVisualPresenter gameDifficultyVisualPresenter;
+
+    private StorePlayersCountPresenter storePlayersCountPresenter;
+    private PlayersCountVisualPresenter playersCountVisualPresenter;
+
+    private StoreRoundCountPresenter storeRoundCountPresenter;
+    private RoundCountVisualPresenter roundCountVisualPresenter;
+
+    private TextEffectHideShowPresenter textEffectHideShowPresenter;
 
     //------Shop------//
     private ShopScrollPresenter shopScrollPresenter;
@@ -93,10 +104,19 @@ public class MenuEntryPoint : MonoBehaviour
                 customSliderPresenter_Sound = new CustomSliderPresenter(new CustomSliderModel(soundPresenter), viewContainer.GetView<CustomSliderView>("Sound"));
                 volumeSettingsPresenter = new VolumeSettingsPresenter(new VolumeSettingsModel(soundPresenter, customSliderPresenter_Sound, customSliderPresenter_Music));
 
-                storeTextTranslatePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
-                textTranslateChangePresenter = new LanguageChangePresenter(new LanguageChangeModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<LanguageChangeView>());
-                textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeTextTranslatePresenter, storeTextTranslatePresenter), viewContainer.GetView<TextTranslateView>());
+                storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
+                textTranslateChangePresenter = new LanguageChangePresenter(new LanguageChangeModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<LanguageChangeView>());
+                textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<TextTranslateView>());
+                textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
+                storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
+                gameDifficultyVisualPresenter = new GameDifficultyVisualPresenter(new GameDifficultyVisualModel(storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeLanguagePresenter, textEffectHideShowPresenter, storeLanguagePresenter), viewContainer.GetView<GameDifficultyVisualView>());
+
+                storePlayersCountPresenter = new StorePlayersCountPresenter(new StorePlayersCountModel(PlayerPrefsKeys.PLAYERS_COUNT));
+                playersCountVisualPresenter = new PlayersCountVisualPresenter(new PlayersCountVisualModel(storePlayersCountPresenter, storePlayersCountPresenter, storePlayersCountPresenter), viewContainer.GetView<PlayersCountVisualView>());
+
+                storeRoundCountPresenter = new StoreRoundCountPresenter(new StoreRoundCountModel(PlayerPrefsKeys.ROUND_COUNT));
+                roundCountVisualPresenter = new RoundCountVisualPresenter(new RoundCountVisualModel(storeRoundCountPresenter, storeRoundCountPresenter, storeRoundCountPresenter), viewContainer.GetView<RoundCountVisualView>());
 
                 shopScrollPresenter = new ShopScrollPresenter(new ShopScrollModel(), viewContainer.GetView<ShopScrollView>());
 
@@ -114,7 +134,8 @@ public class MenuEntryPoint : MonoBehaviour
                 firebaseAuthenticationPresenter,
                 firebaseDatabasePresenter,
                 rulesVisualPresenter,
-                shopScrollPresenter);
+                shopScrollPresenter,
+                textEffectHideShowPresenter);
 
                 sceneRoot.SetSoundProvider(soundPresenter);
                 sceneRoot.Activate();
@@ -131,11 +152,17 @@ public class MenuEntryPoint : MonoBehaviour
                 Debug.Log("1");
 
                 sceneRoot.Initialize();
+
+                Debug.Log("1");
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
+
+                Debug.Log("1");
                 avatarPresenter.Initialize();
                 firebaseAuthenticationPresenter.Initialize();
                 firebaseDatabasePresenter.Initialize();
+
+                Debug.Log("1");
                 avatarVisualPresenter_Main.Initialize();
                 avatarVisualPresenter_Update.Initialize();
 
@@ -149,9 +176,18 @@ public class MenuEntryPoint : MonoBehaviour
 
                 Debug.Log("1");
 
-                storeTextTranslatePresenter.Initialize();
+                storeLanguagePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
                 textTranslatePresenter.Initialize();
+
+                storeGameDifficultyPresenter.Initialize();
+                gameDifficultyVisualPresenter.Initialize();
+
+                storePlayersCountPresenter.Initialize();
+                playersCountVisualPresenter.Initialize();
+
+                storeRoundCountPresenter.Initialize();
+                roundCountVisualPresenter.Initialize();
 
                 shopScrollPresenter.Initialize();
 
@@ -188,14 +224,12 @@ public class MenuEntryPoint : MonoBehaviour
 
     private void ActivateTransitions()
     {
-        sceneRoot.OnClickToPlay_Main += HandleClickToGame;
-        sceneRoot.OnClickToPlay_Balance += HandleClickToGame;
+        sceneRoot.OnClickToPlay_NewGame += HandleClickToGame;
     }
 
     private void DeactivateTransitions()
     {
-        sceneRoot.OnClickToPlay_Main -= HandleClickToGame;
-        sceneRoot.OnClickToPlay_Balance -= HandleClickToGame;
+        sceneRoot.OnClickToPlay_NewGame -= HandleClickToGame;
     }
 
     private void Deactivate()
@@ -240,9 +274,18 @@ public class MenuEntryPoint : MonoBehaviour
         customSliderPresenter_Sound?.Dispose();
         volumeSettingsPresenter?.Dispose();
 
-        storeTextTranslatePresenter?.Dispose();
+        storeLanguagePresenter?.Dispose();
         textTranslateChangePresenter?.Dispose();
         textTranslatePresenter?.Dispose();
+
+        storeGameDifficultyPresenter?.Dispose();
+        gameDifficultyVisualPresenter?.Dispose();
+
+        storePlayersCountPresenter?.Dispose();
+        playersCountVisualPresenter?.Dispose();
+
+        storeRoundCountPresenter?.Dispose();
+        roundCountVisualPresenter?.Dispose();
 
         shopScrollPresenter?.Dispose();
 

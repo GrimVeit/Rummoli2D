@@ -36,6 +36,8 @@ public class StoreRoundCountPresenter : IStoreRoundCountProvider, IStoreRoundCou
 
     public int RoundsCount => _model.RoundsCount;
     public void SetRoundsCount(int count) => _model.SetRoundsCount(count);
+    public void IncreaseRoundsCount() => _model.IncreaseRoundsCount();
+    public void DecreaseRoundsCount() => _model.DecreaseRoundsCount();
 
     #endregion
 }
@@ -43,6 +45,8 @@ public class StoreRoundCountPresenter : IStoreRoundCountProvider, IStoreRoundCou
 public interface IStoreRoundCountProvider
 {
     public void SetRoundsCount(int count);
+    public void IncreaseRoundsCount();
+    public void DecreaseRoundsCount();
 }
 
 public interface IStoreRoundCountInfoProvider

@@ -36,6 +36,8 @@ public class StorePlayersCountPresenter : IStorePlayersCountProvider, IStorePlay
 
     public int PlayersCount => _model.PlayersCount;
     public void SetPlayersCount(int count) => _model.SetPlayersCount(count);
+    public void IncreasePlayersCount() => _model.IncreasePlayersCount();
+    public void DecreasePlayersCount() => _model.DecreasePlayersCount();
 
     #endregion
 }
@@ -43,6 +45,8 @@ public class StorePlayersCountPresenter : IStorePlayersCountProvider, IStorePlay
 public interface IStorePlayersCountProvider
 {
     public void SetPlayersCount(int count);
+    public void IncreasePlayersCount();
+    public void DecreasePlayersCount();
 }
 
 public interface IStorePlayersCountInfoProvider

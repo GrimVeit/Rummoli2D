@@ -8,6 +8,7 @@ public class UIMainMenuRoot : UIRoot
     [SerializeField] private ProfilePanel_Menu profilePanel;
     [SerializeField] private BalancePanel_Menu balancePanel;
     [SerializeField] private SettingsPanel_Menu settingsPanel;
+    [SerializeField] private NewGamePanel_Menu newGamePanel;
 
     [Header("Shop")]
     [SerializeField] private ShopPanel_Game shopPanel;
@@ -32,6 +33,7 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Initialize();
         balancePanel.Initialize();
         settingsPanel.Initialize();
+        newGamePanel.Initialize();
 
         shopPanel.Initialize();
         shopBackgroundPanel.Initialize();
@@ -50,7 +52,10 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.OnClickToBalance += HandleClickToBalance_Main;
         mainPanel.OnClickToSettings += HandleClickToSettings_Main;
         mainPanel.OnClickToShop += HandleClickToShop_Main;
-        mainPanel.OnClickToPlay += HandleClickToPlay_Main;
+        mainPanel.OnClickToNewGame += HandleClickToNewGame_Main;
+
+        newGamePanel.OnClickToPlay += HandleClickToPlay_NewGame;
+        newGamePanel.OnClickToBack += HandleClickToBack_NewGame;
 
         rulesPanel.OnClickToBack += HandleClickToBack_Rules;
         profilePanel.OnClickToBack += HandleClickToBack_Profile;
@@ -72,7 +77,10 @@ public class UIMainMenuRoot : UIRoot
         mainPanel.OnClickToBalance -= HandleClickToBalance_Main;
         mainPanel.OnClickToSettings -= HandleClickToSettings_Main;
         mainPanel.OnClickToShop -= HandleClickToShop_Main;
-        mainPanel.OnClickToPlay -= HandleClickToPlay_Main;
+        mainPanel.OnClickToNewGame -= HandleClickToNewGame_Main;
+
+        newGamePanel.OnClickToPlay -= HandleClickToPlay_NewGame;
+        newGamePanel.OnClickToBack -= HandleClickToBack_NewGame;
 
         rulesPanel.OnClickToBack -= HandleClickToBack_Rules;
         profilePanel.OnClickToBack -= HandleClickToBack_Profile;
@@ -93,6 +101,7 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Dispose();
         balancePanel.Dispose();
         settingsPanel.Dispose();
+        newGamePanel.Dispose();
 
         shopPanel.Dispose();
         shopBackgroundPanel.Dispose();
@@ -116,6 +125,24 @@ public class UIMainMenuRoot : UIRoot
         if (!mainPanel.IsActive) return;
 
         CloseOtherPanel(mainPanel);
+    }
+
+
+
+
+
+    public void OpenNewGamePanel()
+    {
+        if (newGamePanel.IsActive) return;
+
+        OpenOtherPanel(newGamePanel);
+    }
+
+    public void CloseNewGamePanel()
+    {
+        if (!newGamePanel.IsActive) return;
+
+        CloseOtherPanel(newGamePanel);
     }
 
 
@@ -263,7 +290,7 @@ public class UIMainMenuRoot : UIRoot
     public event Action OnClickToBalance_Main;
     public event Action OnClickToSettings_Main;
     public event Action OnClickToShop_Main;
-    public event Action OnClickToPlay_Main;
+    public event Action OnClickToNewGame_Main;
 
     private void HandleClickToRules_Main()
     {
@@ -300,11 +327,32 @@ public class UIMainMenuRoot : UIRoot
         OnClickToShop_Main?.Invoke();
     }
 
-    private void HandleClickToPlay_Main()
+    private void HandleClickToNewGame_Main()
     {
         _soundProvider.PlayOneShot("Click");
 
-        OnClickToPlay_Main?.Invoke();
+        OnClickToNewGame_Main?.Invoke();
+    }
+
+    #endregion
+
+    #region RulesPanel
+
+    public event Action OnClickToPlay_NewGame;
+    public event Action OnClickToBack_NewGame;
+
+    private void HandleClickToPlay_NewGame()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToPlay_NewGame?.Invoke();
+    }
+
+    private void HandleClickToBack_NewGame()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBack_NewGame?.Invoke();
     }
 
     #endregion

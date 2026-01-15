@@ -16,7 +16,8 @@ public class StateMachine_Menu : IStateMachineProvider
         FirebaseAuthenticationPresenter firebaseAuthenticationPresenter,
         FirebaseDatabasePresenter firebaseDatabasePresenter,
         IRulesVisualProvider rulesVisualProvider,
-        IShopScrollProvider shopScrollProvider)
+        IShopScrollProvider shopScrollProvider,
+        ITextEffectHideShowActivator textEffectHideShowActivator)
     {
         states[typeof(CheckAuthorizationState_Menu)] = new CheckAuthorizationState_Menu(this, firebaseAuthenticationPresenter);
         states[typeof(NameAndAvatarInputState_Menu)] = new NameAndAvatarInputState_Menu(this, sceneRoot, nicknamePresenter, firebaseAuthenticationPresenter, firebaseDatabasePresenter, avatarPresenter);
@@ -26,6 +27,7 @@ public class StateMachine_Menu : IStateMachineProvider
         states[typeof(StartMainState_Menu)] = new StartMainState_Menu(this, firebaseDatabasePresenter, firebaseAuthenticationPresenter);
         states[typeof(MainState_Menu)] = new MainState_Menu(this, sceneRoot);
 
+        states[typeof(NewGameState_Menu)] = new NewGameState_Menu(this, sceneRoot, textEffectHideShowActivator);
         states[typeof(RulesState_Menu)] = new RulesState_Menu(this, sceneRoot, rulesVisualProvider);
         states[typeof(ProfileState_Menu)] = new ProfileState_Menu(this, sceneRoot);
         states[typeof(BalanceState_Menu)] = new BalanceState_Menu(this, sceneRoot);

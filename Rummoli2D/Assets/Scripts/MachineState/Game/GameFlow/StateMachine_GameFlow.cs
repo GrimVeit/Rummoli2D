@@ -11,12 +11,12 @@ public class StateMachine_GameFlow : IStateMachineProvider
 
     public StateMachine_GameFlow
         (UIGameRoot sceneRoot,
-        IGameInfoVisualActivater gameInfoVisualActivater,
+        ITextEffectHideShowActivator textEffectHideShowActivator,
         IHintSystemActivatorProvider hintSystemActivatorProvider)
     {
-        states[typeof(StartState_GameFlow)] = new StartState_GameFlow(this, sceneRoot, gameInfoVisualActivater);
+        states[typeof(StartState_GameFlow)] = new StartState_GameFlow(this, sceneRoot);
         states[typeof(MainState_GameFlow)] = new MainState_GameFlow(this, sceneRoot);
-        states[typeof(PauseState_GameFlow)] = new PauseState_GameFlow(this, sceneRoot, hintSystemActivatorProvider);
+        states[typeof(PauseState_GameFlow)] = new PauseState_GameFlow(this, sceneRoot, hintSystemActivatorProvider, textEffectHideShowActivator);
         states[typeof(ResultsState_GameFlow)] = new ResultsState_GameFlow(this, sceneRoot, hintSystemActivatorProvider);
     }
 

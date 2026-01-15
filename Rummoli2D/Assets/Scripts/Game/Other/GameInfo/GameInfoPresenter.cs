@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameInfoPresenter : IGameInfoVisualActivater
+public class GameInfoPresenter
 {
     private readonly GameInfoModel _model;
     private readonly GameInfoView _view;
@@ -42,18 +42,5 @@ public class GameInfoPresenter : IGameInfoVisualActivater
         _model.OnSetRoundCount -= _view.SetRoundCount;
         _model.OnSetPlayersCount -= _view.SetPlayersCount;
     }
-
-    #region Input
-
-    public void ActivateVisual() => _view.ActivateVisual();
-    public void DeactivateVisual() => _view.DeactivateVisual();
-
-    #endregion
-}
-
-public interface IGameInfoVisualActivater
-{
-    public void ActivateVisual();
-    public void DeactivateVisual();
 }
 

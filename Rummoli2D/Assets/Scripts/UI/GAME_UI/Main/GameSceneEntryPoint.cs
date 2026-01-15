@@ -52,6 +52,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private GameInfoPresenter gameInfoPresenter;
     private HintSystemPresenter hintSystemPresenter;
     private PlayerSetupPresenter playerSetupPresenter;
+    private TextEffectHideShowPresenter textEffectHideShowPresenter;
 
     private PlayerPeople playerPeople;
     private PlayerBot playerBot_1;
@@ -113,6 +114,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         scoreEarnLeaderboardPresenter = new ScoreEarnLeaderboardPresenter(new ScoreEarnLeaderboardModel(), viewContainer.GetView<ScoreEarnLeaderboardView>());
         gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter, storeRoundCountPresenter, storePlayersCountPresenter), viewContainer.GetView<GameInfoView>());
         hintSystemPresenter = new HintSystemPresenter(new HintSystemModel(storeLanguagePresenter), viewContainer.GetView<HintSystemView>());
+        textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, hintSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, sceneRoot, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
@@ -166,7 +168,7 @@ public class GameSceneEntryPoint : MonoBehaviour
 
         playerSetupPresenter.Setup();
         playerSetupPresenter.SetStartPositions(playerSetupPresenter.GetPlayers().Count);
-        stateMachine_GameFlow = new(sceneRoot, gameInfoPresenter, hintSystemPresenter);
+        stateMachine_GameFlow = new(sceneRoot, textEffectHideShowPresenter, hintSystemPresenter);
         stateMachine = new StateMachine_Game
             (playerSetupPresenter.GetPlayers(),
             sceneRoot,

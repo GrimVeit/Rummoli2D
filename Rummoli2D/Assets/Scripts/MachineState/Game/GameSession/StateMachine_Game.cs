@@ -34,7 +34,7 @@ public class StateMachine_Game : IStateMachineProvider
         IStoreRoundCountInfoProvider storeRoundCountInfoProvider,
         IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider)
     {
-        states[typeof(StartState_Game)] = new StartState_Game(this, sceneRoot, scoreEarnLeaderboardProvider, players);
+        states[typeof(StartState_Game)] = new StartState_Game(this, scoreEarnLeaderboardProvider, players);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
         states[typeof(MovePlayersTableState_Game)] = new MovePlayersTableState_Game(this, players, playerPresentationProvider, rummoliTablePresentationSystemProvider);
         states[typeof(StartingBalanceState_Game)] = new StartingBalanceState_Game(this, players, playerPresentationProvider);

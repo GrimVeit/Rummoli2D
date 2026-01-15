@@ -11,7 +11,7 @@ public class MainPanel_Menu : MovePanel
     [SerializeField] private Button buttonBalance;
     [SerializeField] private Button buttonSettings;
     [SerializeField] private Button buttonShop;
-    [SerializeField] private Button buttonPlay;
+    [SerializeField] private Button buttonNewGame;
 
     [SerializeField] private List<UIEffectCombination> uIEffectCombinations = new List<UIEffectCombination>();
 
@@ -24,7 +24,7 @@ public class MainPanel_Menu : MovePanel
         buttonProfile.onClick.AddListener(() => OnClickToProfile?.Invoke());
         buttonSettings.onClick.AddListener(() => OnClickToSettings?.Invoke());
         buttonShop.onClick.AddListener(() => OnClickToShop?.Invoke());
-        buttonPlay.onClick.AddListener(() => OnClickToPlay?.Invoke());
+        buttonNewGame.onClick.AddListener(() => OnClickToNewGame?.Invoke());
 
         uIEffectCombinations.ForEach(data => data.Initialize());
     }
@@ -38,7 +38,7 @@ public class MainPanel_Menu : MovePanel
         buttonProfile.onClick.RemoveListener(() => OnClickToProfile?.Invoke());
         buttonSettings.onClick.RemoveListener(() => OnClickToSettings?.Invoke());
         buttonShop.onClick.RemoveListener(() => OnClickToShop?.Invoke());
-        buttonPlay.onClick.RemoveListener(() => OnClickToPlay?.Invoke());
+        buttonNewGame.onClick.RemoveListener(() => OnClickToNewGame?.Invoke());
 
         uIEffectCombinations.ForEach(data => data.Dispose());
     }
@@ -64,7 +64,7 @@ public class MainPanel_Menu : MovePanel
     public event Action OnClickToProfile;
     public event Action OnClickToSettings;
     public event Action OnClickToShop;
-    public event Action OnClickToPlay;
+    public event Action OnClickToNewGame;
 
     #endregion
 }

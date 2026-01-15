@@ -87,7 +87,7 @@ public static class NameLanguageUtility
 
             // —редний / Medium
             (GameDifficulty.Medium, Language.Russia) =>
-                "Ѕоты играют разумнее, иногда пропускают свои ходы, даже если нужна€ карта есть. ѕри выборе покерной комбинации стараютс€ выбирать более сильные карты, но иногда совершают ошибки.",
+                "Ѕоты играют разумнее, иногда пропускают свои ходы, даже если нужна€ карта есть. ѕри выборе покерной комбинации стараютс€ выбирать хорошие карты, но иногда совершают ошибки.",
 
             (GameDifficulty.Medium, Language.English) =>
                 "Bots play smarter and sometimes skip their turn, even if they have a playable card. When selecting poker hands, they usually pick stronger cards, but sometimes make mistakes.",

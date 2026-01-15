@@ -7,6 +7,9 @@ public class StorePlayersCountModel
 {
     public int PlayersCount => _playersCount;
 
+    private const int _MinPlayersCount = 2;
+    private const int _MaxPlayersCount = 5;
+
     private readonly string _key;
     private int _playersCount;
 
@@ -27,7 +30,35 @@ public class StorePlayersCountModel
 
     public void SetPlayersCount(int count)
     {
-        _playersCount = count;
+        if(count < _MinPlayersCount || count > _MaxPlayersCount)
+        {
+            _playersCount = _MinPlayersCount;
+        }
+
+        OnPlayersCountChanged?.Invoke(_playersCount);
+    }
+
+    public void IncreasePlayersCount()
+    {
+        _playersCount += 1;
+
+        if(_playersCount > _MaxPlayersCount)
+        {
+            _playersCount = _MaxPlayersCount;
+        }
+
+        OnPlayersCountChanged?.Invoke(_playersCount);
+    }
+
+    public void DecreasePlayersCount()
+    {
+        _playersCount -= 1;
+
+        if (_playersCount < _MinPlayersCount)
+        {
+            _playersCount = _MinPlayersCount;
+        }
+
         OnPlayersCountChanged?.Invoke(_playersCount);
     }
 
