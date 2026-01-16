@@ -20,6 +20,8 @@ public class RoundPhasePresentationSystemPresenter : IRoundPhasePresentationSyst
     public void HideRoundOpen(Action OnComplete = null) => _view.HideRoundOpen(OnComplete);
     public void ShowRoundComplete(Action OnComplete = null) => _view.ShowRoundComplete(OnComplete);
     public void HideRoundComplete(Action OnComplete = null) => _view.HideRoundComplete(OnComplete);
+    public void ShowFinish(Action OnComplete = null) => _view.ShowFinish(OnComplete);
+    public void HideFinish(Action OnComplete = null) => _view.HideFinish(OnComplete);
 
 
     public void ShowTextPhase(int phaseId, Action OnComplete = null) => _view.ShowTextPhase(phaseId, OnComplete);
@@ -40,6 +42,8 @@ public interface IRoundPhasePresentationSystemProvider
     public void HideRoundOpen(Action OnComplete = null);
     public void ShowRoundComplete(Action OnComplete = null);
     public void HideRoundComplete(Action OnComplete = null);
+    public void ShowFinish(Action OnComplete = null);
+    public void HideFinish(Action OnComplete = null);
 
 
     public void ShowTextPhase(int phaseId, Action OnComplete = null);

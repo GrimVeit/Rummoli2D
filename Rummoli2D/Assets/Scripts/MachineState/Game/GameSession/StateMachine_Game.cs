@@ -32,7 +32,8 @@ public class StateMachine_Game : IStateMachineProvider
         ICounterPassPlayerSystemActivatorProvider counterPassPlayerSystemActivatorProvider,
         IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider,
         IStoreRoundCountInfoProvider storeRoundCountInfoProvider,
-        IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider)
+        IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider,
+        IScoreEarnWinnerProvider scoreEarnWinnerProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, scoreEarnLeaderboardProvider, players);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
@@ -51,6 +52,9 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, betSystemEventsProvider, counterPassPlayerSystemProvider, counterPassPlayerSystemActivatorProvider, rummoliTablePresentationSystemProvider);
         states[typeof(RoundCompleteState_Game)] = new RoundCompleteState_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider);
         states[typeof(ReturnPlayersToStartState_Game)] = new ReturnPlayersToStartState_Game(this, players, playerPresentationProvider, storeRoundNumberInfoProvider, cardSpawnerSystemProvider, sectorConditionCheckerProvider, storeCardRummoliProvider, betSystemProvider, playerPokerProvider, rummoliTablePresentationSystemProvider, storeRoundCountInfoProvider);
+
+        states[typeof(AllRoundsCompleteState_Game)] = new AllRoundsCompleteState_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, storeRoundNumberProvider, rummoliTablePresentationSystemProvider);
+        states[typeof(FinishState_Game)] = new FinishState_Game(this, sceneRoot, scoreEarnWinnerProvider);
     }
 
     public void Initialize()

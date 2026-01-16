@@ -12,12 +12,14 @@ public class StateMachine_GameFlow : IStateMachineProvider
     public StateMachine_GameFlow
         (UIGameRoot sceneRoot,
         ITextEffectHideShowActivator textEffectHideShowActivator,
-        IHintSystemActivatorProvider hintSystemActivatorProvider)
+        IHintSystemActivatorProvider hintSystemActivatorProvider,
+        IScoreEarnWinnerListener scoreEarnWinnerListener)
     {
         states[typeof(StartState_GameFlow)] = new StartState_GameFlow(this, sceneRoot);
-        states[typeof(MainState_GameFlow)] = new MainState_GameFlow(this, sceneRoot);
+        states[typeof(MainState_GameFlow)] = new MainState_GameFlow(this, sceneRoot, scoreEarnWinnerListener);
         states[typeof(PauseState_GameFlow)] = new PauseState_GameFlow(this, sceneRoot, hintSystemActivatorProvider, textEffectHideShowActivator);
         states[typeof(ResultsState_GameFlow)] = new ResultsState_GameFlow(this, sceneRoot, hintSystemActivatorProvider);
+        states[typeof(FinishState_GameFlow)] = new FinishState_GameFlow(this, sceneRoot);
     }
 
     public void Initialize()

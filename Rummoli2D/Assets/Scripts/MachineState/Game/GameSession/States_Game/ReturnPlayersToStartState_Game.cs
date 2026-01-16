@@ -110,11 +110,11 @@ public class ReturnPlayersToStartState_Game : IState
         _sectorConditionCheckerProvider.Reset();
         _storeCardRummoliProvider.Reset();
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
 
         if(_storeRoundNumberInfoProvider.RoundCurrentNumber >= _storeRoundCountInfoProvider.RoundsCount)
         {
-            ChangeStateToFinish();
+            ChangeStateToAllRoundsComplete();
         }
         else
         {
@@ -122,9 +122,9 @@ public class ReturnPlayersToStartState_Game : IState
         }
     }
 
-    private void ChangeStateToFinish()
+    private void ChangeStateToAllRoundsComplete()
     {
-        Debug.Log("FINISH");
+        _machineProvider.EnterState(_machineProvider.GetState<AllRoundsCompleteState_Game>());
     }
 
     private void ChangeStateToRoundState()

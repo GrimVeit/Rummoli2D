@@ -92,6 +92,16 @@ public class UIMainMenuRoot : UIRoot
 
         if (currentPanel != null)
             CloseOtherPanel(currentPanel);
+
+        CloseBalancePanel();
+        CloseLoadRegistrationPanel();
+        CloseMainPanel();
+        CloseNewGamePanel();
+        CloseProfilePanel();
+        CloseRegistrationPanel();
+        CloseRulesPanel();
+        CloseSettingsPanel();
+        CloseShopPanel();
     }
 
     public void Dispose()

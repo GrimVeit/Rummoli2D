@@ -19,6 +19,7 @@ public class PlayerPeople : IPlayer
 
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
+    private readonly IMoneyProvider _moneyProvider;
 
     public PlayerPeople(
         int playerIndex,
@@ -27,6 +28,7 @@ public class PlayerPeople : IPlayer
         ISoundProvider soundProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         BetSystemPresenter betSystemPresenter,
+        IMoneyProvider moneyProvider,
         UIGameRoot sceneRoot,
         ViewContainer viewContainer)
     {
@@ -37,6 +39,7 @@ public class PlayerPeople : IPlayer
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
         _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(viewContainer.GetView<PlayerPeopleInputView>());
+        _moneyProvider = moneyProvider;
 
         _playerPeopleStateMachine = new PlayerPeopleStateMachine
             (playerIndex, 
@@ -232,6 +235,12 @@ public class PlayerPeople : IPlayer
     public void DeactivateRequestRandomTwo()
     {
         _playerPeopleStateMachine.ExitState(_playerPeopleStateMachine.GetState<ChooseRequestRandomTwo_PlayerPeople>());
+    }
+
+    //Money
+    public void SendMoney(int count)
+    {
+        _moneyProvider.SendMoney(count);
     }
 
     #endregion

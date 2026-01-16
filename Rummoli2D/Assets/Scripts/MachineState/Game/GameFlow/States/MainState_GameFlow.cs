@@ -6,17 +6,20 @@ public class MainState_GameFlow : IState
 {
     private readonly IStateMachineProvider _machineProvider;
     private readonly UIGameRoot _sceneRoot;
+    private readonly IScoreEarnWinnerListener _scoreEarnWinnerListener;
 
-    public MainState_GameFlow(IStateMachineProvider machineProvider, UIGameRoot sceneRoot)
+    public MainState_GameFlow(IStateMachineProvider machineProvider, UIGameRoot sceneRoot, IScoreEarnWinnerListener scoreEarnWinnerListener)
     {
         _machineProvider = machineProvider;
         _sceneRoot = sceneRoot;
+        _scoreEarnWinnerListener = scoreEarnWinnerListener;
     }
 
     public void EnterState()
     {
         _sceneRoot.OnClickToPause_Right += ChangeStateToPause;
         _sceneRoot.OnClickToResults_Right += ChangeStateToResults;
+        _scoreEarnWinnerListener.OnEndEarn += ChangeStateToFinish;
 
         _sceneRoot.OpenCardBankPanel();
         _sceneRoot.OpenPlayersPanel();
@@ -31,6 +34,7 @@ public class MainState_GameFlow : IState
     {
         _sceneRoot.OnClickToPause_Right -= ChangeStateToPause;
         _sceneRoot.OnClickToResults_Right -= ChangeStateToResults;
+        _scoreEarnWinnerListener.OnEndEarn -= ChangeStateToFinish;
 
         _sceneRoot.CloseCardBankPanel();
         _sceneRoot.ClosePlayersPanel();
@@ -49,5 +53,10 @@ public class MainState_GameFlow : IState
     private void ChangeStateToResults()
     {
         _machineProvider.EnterState(_machineProvider.GetState<ResultsState_GameFlow>());
+    }
+
+    private void ChangeStateToFinish()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<FinishState_GameFlow>());
     }
 }

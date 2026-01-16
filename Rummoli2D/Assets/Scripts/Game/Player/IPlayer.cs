@@ -53,6 +53,11 @@ public interface IPlayerRummoli
     event Action<int> OnPass_RandomTwo;
 }
 
+public interface IPlayerMoney
+{
+    void SendMoney(int count);
+}
+
 // Составной интерфейс, "для чистоты"
 public interface IPlayer :
     IPlayerInfo,
@@ -60,7 +65,8 @@ public interface IPlayer :
     IPlayerBet,
     IPlayerCards,
     IPlayerPoker,
-    IPlayerRummoli
+    IPlayerRummoli,
+    IPlayerMoney
 {
 }
 

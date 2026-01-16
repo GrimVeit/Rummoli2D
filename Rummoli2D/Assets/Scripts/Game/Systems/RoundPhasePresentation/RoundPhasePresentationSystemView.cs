@@ -35,6 +35,16 @@ public class RoundPhasePresentationSystemView : View
     {
         roundPresentation.HideComplete(durationRoundScale, OnComplete);
     }
+
+    public void ShowFinish(Action OnComplete)
+    {
+        roundPresentation.ShowFinish(durationRoundScale, OnComplete);
+    }
+
+    public void HideFinish(Action OnComplete)
+    {
+        roundPresentation.HideFinish(durationRoundScale, OnComplete);
+    }
     #endregion
 
     #region TextPhase
@@ -135,6 +145,7 @@ public class RoundPresentation
 {
     [SerializeField] private Transform transformRound;
     [SerializeField] private Transform transformCompletedRound;
+    [SerializeField] private Transform transformAllRoundsCompleted;
 
     private Tween tweenScale;
 
@@ -148,7 +159,6 @@ public class RoundPresentation
 
     public void HideOpen(float durationsScale, Action OnComplete)
     {
-        tweenScale?.Kill();
         tweenScale?.Kill();
 
         transformRound.gameObject.SetActive(true);
@@ -170,13 +180,32 @@ public class RoundPresentation
     public void HideComplete(float durationsScale, Action OnComplete)
     {
         tweenScale?.Kill();
-        tweenScale?.Kill();
 
         transformCompletedRound.gameObject.SetActive(true);
         tweenScale = transformCompletedRound.DOScale(0, durationsScale).OnComplete(() =>
         {
             OnComplete?.Invoke();
             transformCompletedRound.gameObject.SetActive(false);
+        });
+    }
+
+    public void ShowFinish(float durationsScale, Action OnComplete)
+    {
+        tweenScale?.Kill();
+
+        transformAllRoundsCompleted.gameObject.SetActive(true);
+        tweenScale = transformAllRoundsCompleted.DOScale(1, durationsScale).OnComplete(() => OnComplete?.Invoke());
+    }
+
+    public void HideFinish(float durationsScale, Action OnComplete)
+    {
+        tweenScale?.Kill();
+
+        transformAllRoundsCompleted.gameObject.SetActive(true);
+        tweenScale = transformAllRoundsCompleted.DOScale(0, durationsScale).OnComplete(() =>
+        {
+            OnComplete?.Invoke();
+            transformAllRoundsCompleted.gameObject.SetActive(false);
         });
     }
 }

@@ -17,6 +17,9 @@ public class UIGameRoot : UIRoot
     [SerializeField] private PausePanel_Game pausePanel;
     [SerializeField] private ResultsPanel_Game resultsPanel;
 
+    [SerializeField] private FinishResultsPanel_Game finishResultsPanel;
+    [SerializeField] private FinishButtonsPanel_Game finishButtonsPanel;
+
     private ISoundProvider _soundProvider;
 
     public void SetSoundProvider(ISoundProvider soundProvider)
@@ -37,6 +40,9 @@ public class UIGameRoot : UIRoot
 
         pausePanel.Initialize();
         resultsPanel.Initialize();
+
+        finishResultsPanel.Initialize();
+        finishButtonsPanel.Initialize();
     }
 
     public void Activate()
@@ -48,6 +54,9 @@ public class UIGameRoot : UIRoot
 
         pausePanel.OnClickToResume += HandleClickToResume_Pause;
         resultsPanel.OnClickToResume += HandleClickToResume_Results;
+
+        finishButtonsPanel.OnClickToExit += HandleClickToExit_FinishButtons;
+        finishButtonsPanel.OnClickToNewGame += HandleClickToNewGame_FinishButtons;
     }
 
     public void Deactivate()
@@ -60,8 +69,24 @@ public class UIGameRoot : UIRoot
         pausePanel.OnClickToResume -= HandleClickToResume_Pause;
         resultsPanel.OnClickToResume -= HandleClickToResume_Results;
 
+        finishButtonsPanel.OnClickToExit -= HandleClickToExit_FinishButtons;
+        finishButtonsPanel.OnClickToNewGame -= HandleClickToNewGame_FinishButtons;
+
         if (currentPanel != null)
             CloseOtherPanel(currentPanel);
+
+        CloseCardBankPanel();
+        CloseFinishButtonsPanel();
+        CloseFinishResultsPanel();
+        CloseLeftPanel();
+        ClosePausePanel();
+        ClosePlayersPanel();
+        ClosePokerPanel();
+        CloseResultsPanel();
+        CloseRightPanel();
+        CloseRoundPanel();
+        CloseRummoliPanel();
+        CloseRummoliTablePanel();
     }
 
     public void Dispose()
@@ -77,6 +102,9 @@ public class UIGameRoot : UIRoot
 
         pausePanel.Dispose();
         resultsPanel.Dispose();
+
+        finishResultsPanel.Dispose();
+        finishButtonsPanel.Dispose();
     }
 
     #region Input
@@ -263,6 +291,41 @@ public class UIGameRoot : UIRoot
     }
 
 
+
+
+
+    public void OpenFinishResultsPanel()
+    {
+        if (finishResultsPanel.IsActive) return;
+
+        OpenOtherPanel(finishResultsPanel);
+    }
+
+    public void CloseFinishResultsPanel()
+    {
+        if (!finishResultsPanel.IsActive) return;
+
+        CloseOtherPanel(finishResultsPanel);
+    }
+
+
+
+
+    public void OpenFinishButtonsPanel()
+    {
+        if(finishButtonsPanel.IsActive) return;
+
+        OpenOtherPanel(finishButtonsPanel);
+    }
+
+    public void CloseFinishButtonsPanel()
+    {
+        if(!finishButtonsPanel.IsActive) return;
+
+        CloseOtherPanel(finishButtonsPanel);
+    }
+
+
     #endregion
 
 
@@ -334,6 +397,27 @@ public class UIGameRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToResume_Results?.Invoke();
+    }
+
+    #endregion
+
+    #region FinishButtons
+
+    public event Action OnClickToExit_FinishButtons;
+    public event Action OnClickToNewGame_FinishButtons;
+
+    private void HandleClickToExit_FinishButtons()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToExit_FinishButtons?.Invoke();
+    }
+
+    private void HandleClickToNewGame_FinishButtons()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToNewGame_FinishButtons?.Invoke();
     }
 
     #endregion

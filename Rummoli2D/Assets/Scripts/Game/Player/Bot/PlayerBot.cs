@@ -233,6 +233,12 @@ public class PlayerBot : IPlayer
         _playerBotStateMachine.ExitState(_playerBotStateMachine.GetState<ChooseRequestRandomTwo_PlayerBot>());
     }
 
+    //Money
+    public void SendMoney(int count)
+    {
+
+    }
+
     #endregion
 
     #endregion
