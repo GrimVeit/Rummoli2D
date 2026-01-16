@@ -8,6 +8,7 @@ public class UIMainMenuRoot : UIRoot
     [SerializeField] private ProfilePanel_Menu profilePanel;
     [SerializeField] private BalancePanel_Menu balancePanel;
     [SerializeField] private SettingsPanel_Menu settingsPanel;
+    [SerializeField] private LeaderboardPanel_Menu leaderboardPanel;
     [SerializeField] private NewGamePanel_Menu newGamePanel;
 
     [Header("Shop")]
@@ -33,6 +34,7 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Initialize();
         balancePanel.Initialize();
         settingsPanel.Initialize();
+        leaderboardPanel.Initialize();
         newGamePanel.Initialize();
 
         shopPanel.Initialize();
@@ -47,6 +49,7 @@ public class UIMainMenuRoot : UIRoot
     {
         registrationPanel.OnClickToRegistrate += HandleClickToRegistrate_Registration;
 
+        mainPanel.OnClickToLeaderboard += HandleClickToLeaderboard_Main;
         mainPanel.OnClickToRules += HandleClickToRules_Main;
         mainPanel.OnClickToProfile += HandleClickToProfile_Main;
         mainPanel.OnClickToBalance += HandleClickToBalance_Main;
@@ -57,6 +60,7 @@ public class UIMainMenuRoot : UIRoot
         newGamePanel.OnClickToPlay += HandleClickToPlay_NewGame;
         newGamePanel.OnClickToBack += HandleClickToBack_NewGame;
 
+        leaderboardPanel.OnClickToBack += HandleClickToBack_Leaderboard;
         rulesPanel.OnClickToBack += HandleClickToBack_Rules;
         profilePanel.OnClickToBack += HandleClickToBack_Profile;
         balancePanel.OnClickToBack += HandleClickToBack_Balance;
@@ -71,7 +75,7 @@ public class UIMainMenuRoot : UIRoot
     {
         registrationPanel.OnClickToRegistrate -= HandleClickToRegistrate_Registration;
 
-
+        mainPanel.OnClickToLeaderboard -= HandleClickToLeaderboard_Main;
         mainPanel.OnClickToRules -= HandleClickToRules_Main;
         mainPanel.OnClickToProfile -= HandleClickToProfile_Main;
         mainPanel.OnClickToBalance -= HandleClickToBalance_Main;
@@ -82,6 +86,7 @@ public class UIMainMenuRoot : UIRoot
         newGamePanel.OnClickToPlay -= HandleClickToPlay_NewGame;
         newGamePanel.OnClickToBack -= HandleClickToBack_NewGame;
 
+        leaderboardPanel.OnClickToBack -= HandleClickToBack_Leaderboard;
         rulesPanel.OnClickToBack -= HandleClickToBack_Rules;
         profilePanel.OnClickToBack -= HandleClickToBack_Profile;
         balancePanel.OnClickToBack -= HandleClickToBack_Balance;
@@ -111,6 +116,7 @@ public class UIMainMenuRoot : UIRoot
         profilePanel.Dispose();
         balancePanel.Dispose();
         settingsPanel.Dispose();
+        leaderboardPanel.Dispose();
         newGamePanel.Dispose();
 
         shopPanel.Dispose();
@@ -229,6 +235,24 @@ public class UIMainMenuRoot : UIRoot
 
 
 
+
+    public void OpenLeaderboardPanel()
+    {
+        if (leaderboardPanel.IsActive) return;
+
+        OpenOtherPanel(leaderboardPanel);
+    }
+
+    public void CloseLeaderboardPanel()
+    {
+        if (!leaderboardPanel.IsActive) return;
+
+        CloseOtherPanel(leaderboardPanel);
+    }
+
+
+
+
     public void OpenShopPanel()
     {
         if (shopPanel.IsActive) return;
@@ -295,12 +319,20 @@ public class UIMainMenuRoot : UIRoot
 
     #region MainPanel
 
+    public event Action OnClickToLeaderboard_Main;
     public event Action OnClickToRules_Main;
     public event Action OnClickToProfile_Main;
     public event Action OnClickToBalance_Main;
     public event Action OnClickToSettings_Main;
     public event Action OnClickToShop_Main;
     public event Action OnClickToNewGame_Main;
+
+    private void HandleClickToLeaderboard_Main()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToLeaderboard_Main?.Invoke();
+    }
 
     private void HandleClickToRules_Main()
     {
@@ -346,7 +378,7 @@ public class UIMainMenuRoot : UIRoot
 
     #endregion
 
-    #region RulesPanel
+    #region NewGame
 
     public event Action OnClickToPlay_NewGame;
     public event Action OnClickToBack_NewGame;
@@ -363,6 +395,19 @@ public class UIMainMenuRoot : UIRoot
         _soundProvider.PlayOneShot("Click");
 
         OnClickToBack_NewGame?.Invoke();
+    }
+
+    #endregion
+
+    #region LeaderboardPanel
+
+    public event Action OnClickToBack_Leaderboard;
+
+    private void HandleClickToBack_Leaderboard()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBack_Leaderboard?.Invoke();
     }
 
     #endregion

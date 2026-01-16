@@ -23,7 +23,7 @@ public class FirebaseDatabaseModel
 
     public string Nickname { get; private set; }
     public int Avatar { get; private set; } = 0;
-    public int ScoreLaurel { get; private set; }
+    public int Score { get; private set; }
 
     private List<UserData> userRecordsDictionary = new List<UserData>();
 
@@ -39,7 +39,7 @@ public class FirebaseDatabaseModel
 
     public void Initialize()
     {
-        ScoreLaurel = PlayerPrefs.GetInt(PlayerPrefsKeys.SCORE_LAUREL);
+        Score = PlayerPrefs.GetInt(PlayerPrefsKeys.SCORE);
         Nickname = PlayerPrefs.GetString(PlayerPrefsKeys.NICKNAME);
         Avatar = PlayerPrefs.GetInt(PlayerPrefsKeys.AVATAR);
     }
@@ -52,7 +52,7 @@ public class FirebaseDatabaseModel
     public void CreateNewAccountInServer()
     {
         Nickname = auth.CurrentUser.Email.Split('@')[0];
-        ScoreLaurel = 0;
+        Score = 0;
         UserData user = new(Nickname, 0, Avatar);
         string json = JsonUtility.ToJson(user);
 
@@ -77,7 +77,7 @@ public class FirebaseDatabaseModel
 
     public void SaveChangesToServer()
     {
-        UserData user = new(Nickname, ScoreLaurel, Avatar);
+        UserData user = new(Nickname, Score, Avatar);
         string json = JsonUtility.ToJson(user);
         databaseReference.Child("Users").Child(auth.CurrentUser.UserId).SetRawJsonValueAsync(json);
     }
@@ -184,7 +184,7 @@ public class FirebaseDatabaseModel
     private IEnumerator GetUsersRecords()
     {
         //var task = databaseReference.Child("Users").OrderByChild("Record").LimitToFirst(15).GetValueAsync();
-        var task = databaseReference.Child("Users").OrderByChild("Record").LimitToLast(8).GetValueAsync();
+        var task = databaseReference.Child("Users").OrderByChild("Record").LimitToLast(10).GetValueAsync();
 
         yield return new WaitUntil(() => task.IsCompleted);
 

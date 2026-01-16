@@ -17,6 +17,7 @@ public class MainState_Menu : IState
     {
         Debug.Log("<color=red>ACTIVATE STATE - MAIN STATE / MENU</color>");
 
+        _sceneRoot.OnClickToLeaderboard_Main += ChangeStateToLeaderboard;
         _sceneRoot.OnClickToRules_Main += ChangeStateToRules;
         _sceneRoot.OnClickToProfile_Main += ChangeStateToProfile;
         _sceneRoot.OnClickToBalance_Main += ChangeStateToBalance;
@@ -29,6 +30,7 @@ public class MainState_Menu : IState
 
     public void ExitState()
     {
+        _sceneRoot.OnClickToLeaderboard_Main -= ChangeStateToLeaderboard;
         _sceneRoot.OnClickToRules_Main -= ChangeStateToRules;
         _sceneRoot.OnClickToProfile_Main -= ChangeStateToProfile;
         _sceneRoot.OnClickToBalance_Main -= ChangeStateToBalance;
@@ -42,6 +44,11 @@ public class MainState_Menu : IState
     private void ChangeStateToNewGame()
     {
         _machineProvider.EnterState(_machineProvider.GetState<NewGameState_Menu>());
+    }
+
+    private void ChangeStateToLeaderboard()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<LeaderboardState_Menu>());
     }
 
     private void ChangeStateToRules()

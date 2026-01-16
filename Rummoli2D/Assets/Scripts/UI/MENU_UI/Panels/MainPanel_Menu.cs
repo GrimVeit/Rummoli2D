@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class MainPanel_Menu : MovePanel
 {
+    [SerializeField] private Button buttonLeaderboard;
     [SerializeField] private Button buttonRules;
     [SerializeField] private Button buttonProfile;
     [SerializeField] private Button buttonBalance;
@@ -19,6 +20,7 @@ public class MainPanel_Menu : MovePanel
     {
         base.Initialize();
 
+        buttonLeaderboard.onClick.AddListener(() => OnClickToLeaderboard?.Invoke());
         buttonRules.onClick.AddListener(() => OnClickToRules?.Invoke());
         buttonBalance.onClick.AddListener(() => OnClickToBalance?.Invoke());
         buttonProfile.onClick.AddListener(() => OnClickToProfile?.Invoke());
@@ -33,6 +35,7 @@ public class MainPanel_Menu : MovePanel
     {
         base.Dispose();
 
+        buttonLeaderboard.onClick.RemoveListener(() => OnClickToLeaderboard?.Invoke());
         buttonRules.onClick.RemoveListener(() => OnClickToRules?.Invoke());
         buttonBalance.onClick.RemoveListener(() => OnClickToBalance?.Invoke());
         buttonProfile.onClick.RemoveListener(() => OnClickToProfile?.Invoke());
@@ -59,6 +62,7 @@ public class MainPanel_Menu : MovePanel
 
     #region Output
 
+    public event Action OnClickToLeaderboard;
     public event Action OnClickToRules;
     public event Action OnClickToBalance;
     public event Action OnClickToProfile;

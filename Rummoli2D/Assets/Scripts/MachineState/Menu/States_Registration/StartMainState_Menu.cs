@@ -27,7 +27,7 @@ public class StartMainState_Menu : IState
         if (_firebaseAuthenticationPresenter.IsAuthorization())
         {
             _firebaseDatabasePresenter.SaveChangeToServer();
-            //_firebaseDatabasePresenter.DisplayUsersRecords();
+            _firebaseDatabasePresenter.DisplayUsersRecords();
         }
 
         ChangeStateToMain();

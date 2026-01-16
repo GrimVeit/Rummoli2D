@@ -8,8 +8,7 @@ public static class PlayerPrefsKeys
     public const string KEY_VOLUME_SOUND = "KEY_VOLUME_SOUND";
     public const string KEY_VOLUME_MUSIC = "KEY_VOLUME_MUSIC";
 
-    public const string SCORE_RECORD_DOOR = "SCORE_RECORD_DOOR";
-    public const string SCORE_LAUREL = "SCORE_LAUREL";
+    public const string SCORE = "SCORE";
     public const string AVATAR = "AVATAR";
     public const string NICKNAME = "NICKNAME";
 

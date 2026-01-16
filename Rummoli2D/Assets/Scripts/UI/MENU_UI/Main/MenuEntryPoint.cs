@@ -25,6 +25,7 @@ public class MenuEntryPoint : MonoBehaviour
     private FirebaseDatabasePresenter firebaseDatabasePresenter;
     private AvatarVisualPresenter avatarVisualPresenter_Main;
     private AvatarVisualPresenter avatarVisualPresenter_Update;
+    private LeaderboardPresenter leaderboardPresenter;
 
     private RulesVisualPresenter rulesVisualPresenter;
 
@@ -97,6 +98,7 @@ public class MenuEntryPoint : MonoBehaviour
                 firebaseDatabasePresenter = new FirebaseDatabasePresenter(new FirebaseDatabaseModel(firebaseAuth, databaseReference, bankPresenter));
                 avatarVisualPresenter_Main = new AvatarVisualPresenter(new AvatarVisualModel(avatarPresenter, avatarPresenter, avatarPresenter, soundPresenter), viewContainer.GetView<AvatarVisualView>("Registration"));
                 avatarVisualPresenter_Update = new AvatarVisualPresenter(new AvatarVisualModel(avatarPresenter, avatarPresenter, avatarPresenter, soundPresenter), viewContainer.GetView<AvatarVisualView>("Update"));
+                leaderboardPresenter = new LeaderboardPresenter(new LeaderboardModel(firebaseDatabasePresenter), viewContainer.GetView<LeaderboardView>());
 
                 rulesVisualPresenter = new RulesVisualPresenter(new RulesVisualModel(), viewContainer.GetView<RulesVisualView>());
 
@@ -158,6 +160,7 @@ public class MenuEntryPoint : MonoBehaviour
                 nicknamePresenter.Initialize();
 
                 Debug.Log("1");
+                leaderboardPresenter.Initialize();
                 avatarPresenter.Initialize();
                 firebaseAuthenticationPresenter.Initialize();
                 firebaseDatabasePresenter.Initialize();
@@ -266,6 +269,7 @@ public class MenuEntryPoint : MonoBehaviour
         avatarVisualPresenter_Main?.Dispose();
         avatarVisualPresenter_Update?.Dispose();
         avatarPresenter?.Dispose();
+        leaderboardPresenter?.Dispose();
 
         rulesVisualPresenter?.Dispose();
 
