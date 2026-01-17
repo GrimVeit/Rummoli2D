@@ -19,6 +19,7 @@ public class BalanceState_Menu : IState
 
         _sceneRoot.OnClickToShop_Balance += ChangeStateToShop;
         _sceneRoot.OnClickToBack_Balance += ChangeStateToMain;
+        _sceneRoot.OnClickToPlay_Balance += ChangeStateToNewGame;
 
         _sceneRoot.OpenBalancePanel();
     }
@@ -27,6 +28,7 @@ public class BalanceState_Menu : IState
     {
         _sceneRoot.OnClickToShop_Balance -= ChangeStateToShop;
         _sceneRoot.OnClickToBack_Balance -= ChangeStateToMain;
+        _sceneRoot.OnClickToPlay_Balance -= ChangeStateToNewGame;
 
         _sceneRoot.CloseBalancePanel();
     }
@@ -39,5 +41,10 @@ public class BalanceState_Menu : IState
     private void ChangeStateToShop()
     {
         _machineProvider.EnterState(_machineProvider.GetState<ShopState_Menu>());
+    }
+
+    private void ChangeStateToNewGame()
+    {
+        _machineProvider.EnterState(_machineProvider.GetState<NewGameState_Menu>());
     }
 }
