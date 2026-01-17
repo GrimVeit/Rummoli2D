@@ -37,6 +37,9 @@ public class MenuEntryPoint : MonoBehaviour
     private LanguageChangePresenter textTranslateChangePresenter;
     private TextTranslatePresenter textTranslatePresenter;
 
+    private StoreProgressScorePresenter storeProgressScorePresenter;
+    private ProgressScoreVisualPresenter progressScoreVisualPresenter;
+
     private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
     private GameDifficultyVisualPresenter gameDifficultyVisualPresenter;
 
@@ -111,6 +114,9 @@ public class MenuEntryPoint : MonoBehaviour
                 textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<TextTranslateView>());
                 textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
+                storeProgressScorePresenter = new StoreProgressScorePresenter(new StoreProgressScoreModel(PlayerPrefsKeys.SCORE));
+                progressScoreVisualPresenter = new ProgressScoreVisualPresenter(new ProgressScoreVisualModel(storeProgressScorePresenter, storeProgressScorePresenter), viewContainer.GetView<ProgressScoreVisualView>());
+
                 storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
                 gameDifficultyVisualPresenter = new GameDifficultyVisualPresenter(new GameDifficultyVisualModel(storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeLanguagePresenter, textEffectHideShowPresenter, storeLanguagePresenter), viewContainer.GetView<GameDifficultyVisualView>());
 
@@ -182,6 +188,9 @@ public class MenuEntryPoint : MonoBehaviour
                 storeLanguagePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
                 textTranslatePresenter.Initialize();
+
+                storeProgressScorePresenter.Initialize();
+                progressScoreVisualPresenter.Initialize();
 
                 storeGameDifficultyPresenter.Initialize();
                 gameDifficultyVisualPresenter.Initialize();
@@ -281,6 +290,9 @@ public class MenuEntryPoint : MonoBehaviour
         storeLanguagePresenter?.Dispose();
         textTranslateChangePresenter?.Dispose();
         textTranslatePresenter?.Dispose();
+
+        storeProgressScorePresenter?.Dispose();
+        progressScoreVisualPresenter?.Dispose();
 
         storeGameDifficultyPresenter?.Dispose();
         gameDifficultyVisualPresenter?.Dispose();
