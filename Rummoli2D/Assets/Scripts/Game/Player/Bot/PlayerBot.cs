@@ -239,6 +239,11 @@ public class PlayerBot : IPlayer
 
     }
 
+    public void SendProgressScore(int count)
+    {
+
+    }
+
     #endregion
 
     #endregion

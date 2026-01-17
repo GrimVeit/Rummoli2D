@@ -39,6 +39,7 @@ public class MenuEntryPoint : MonoBehaviour
 
     private StoreProgressScorePresenter storeProgressScorePresenter;
     private ProgressScoreVisualPresenter progressScoreVisualPresenter;
+    private ResetProgressBarPresenter resetProgressBarPresenter;
 
     private StoreGameDifficultyPresenter storeGameDifficultyPresenter;
     private GameDifficultyVisualPresenter gameDifficultyVisualPresenter;
@@ -116,6 +117,7 @@ public class MenuEntryPoint : MonoBehaviour
 
                 storeProgressScorePresenter = new StoreProgressScorePresenter(new StoreProgressScoreModel(PlayerPrefsKeys.SCORE));
                 progressScoreVisualPresenter = new ProgressScoreVisualPresenter(new ProgressScoreVisualModel(storeProgressScorePresenter, storeProgressScorePresenter), viewContainer.GetView<ProgressScoreVisualView>());
+                resetProgressBarPresenter = new ResetProgressBarPresenter(new ResetProgressBarModel(), viewContainer.GetView<ResetProgressBarView>());
 
                 storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
                 gameDifficultyVisualPresenter = new GameDifficultyVisualPresenter(new GameDifficultyVisualModel(storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeLanguagePresenter, textEffectHideShowPresenter, storeLanguagePresenter), viewContainer.GetView<GameDifficultyVisualView>());
@@ -143,7 +145,10 @@ public class MenuEntryPoint : MonoBehaviour
                 firebaseDatabasePresenter,
                 rulesVisualPresenter,
                 shopScrollPresenter,
-                textEffectHideShowPresenter);
+                textEffectHideShowPresenter,
+                resetProgressBarPresenter,
+                resetProgressBarPresenter,
+                storeProgressScorePresenter);
 
                 sceneRoot.SetSoundProvider(soundPresenter);
                 sceneRoot.Activate();
@@ -191,6 +196,7 @@ public class MenuEntryPoint : MonoBehaviour
 
                 storeProgressScorePresenter.Initialize();
                 progressScoreVisualPresenter.Initialize();
+                resetProgressBarPresenter.Initialize();
 
                 storeGameDifficultyPresenter.Initialize();
                 gameDifficultyVisualPresenter.Initialize();
@@ -293,6 +299,7 @@ public class MenuEntryPoint : MonoBehaviour
 
         storeProgressScorePresenter?.Dispose();
         progressScoreVisualPresenter?.Dispose();
+        resetProgressBarPresenter?.Dispose();
 
         storeGameDifficultyPresenter?.Dispose();
         gameDifficultyVisualPresenter?.Dispose();

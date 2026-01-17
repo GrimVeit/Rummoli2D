@@ -17,7 +17,10 @@ public class StateMachine_Menu : IStateMachineProvider
         FirebaseDatabasePresenter firebaseDatabasePresenter,
         IRulesVisualProvider rulesVisualProvider,
         IShopScrollProvider shopScrollProvider,
-        ITextEffectHideShowActivator textEffectHideShowActivator)
+        ITextEffectHideShowActivator textEffectHideShowActivator,
+        IResetProgressBarListener resetProgressBarListener,
+        IResetProgressBarProvider resetProgressBarProvider,
+        IStoreProgressScoreProvider storeProgressScoreProvider)
     {
         states[typeof(CheckAuthorizationState_Menu)] = new CheckAuthorizationState_Menu(this, firebaseAuthenticationPresenter);
         states[typeof(NameAndAvatarInputState_Menu)] = new NameAndAvatarInputState_Menu(this, sceneRoot, nicknamePresenter, firebaseAuthenticationPresenter, firebaseDatabasePresenter, avatarPresenter);
@@ -32,7 +35,8 @@ public class StateMachine_Menu : IStateMachineProvider
         states[typeof(RulesState_Menu)] = new RulesState_Menu(this, sceneRoot, rulesVisualProvider);
         states[typeof(ProfileState_Menu)] = new ProfileState_Menu(this, sceneRoot);
         states[typeof(BalanceState_Menu)] = new BalanceState_Menu(this, sceneRoot);
-        states[typeof(SettingsState_Menu)] = new SettingsState_Menu(this, sceneRoot);
+        states[typeof(SettingsState_Menu)] = new SettingsState_Menu(this, sceneRoot, resetProgressBarListener);
+        states[typeof(ResetProgressState_Menu)] = new ResetProgressState_Menu(this, sceneRoot, resetProgressBarProvider, textEffectHideShowActivator, storeProgressScoreProvider);
         states[typeof(ShopState_Menu)] = new ShopState_Menu(this, sceneRoot, shopScrollProvider);
     }
 

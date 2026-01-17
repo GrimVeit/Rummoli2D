@@ -27,6 +27,7 @@ public class GameSceneEntryPoint : MonoBehaviour
     private StoreBackgroundPresenter storeBackgroundPresenter;
     private BackgroundVisualPresenter backgroundVisualPresenter;
 
+    private StoreProgressScorePresenter storeProgressScorePresenter;
     private PlayerPopupEffectSystemPresenter playerPopupEffectSystemPresenter;
     private StoreCardRummoliPresenter storeCardRummoliPresenter;
     private CardRummoliVisualPresenter cardRummoliVisualPresenter;
@@ -90,6 +91,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeBackgroundPresenter = new StoreBackgroundPresenter(new StoreBackgroundModel());
         backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
 
+        storeProgressScorePresenter = new StoreProgressScorePresenter(new StoreProgressScoreModel(PlayerPrefsKeys.SCORE));
         playerPopupEffectSystemPresenter = new PlayerPopupEffectSystemPresenter(viewContainer.GetView<PlayerPopupEffectSystemView>());
         storeCardRummoliPresenter = new StoreCardRummoliPresenter(new StoreCardRummoliModel());
         cardRummoliVisualPresenter = new CardRummoliVisualPresenter(new CardRummoliVisualModel(storeCardRummoliPresenter, cardThemesSO, storeCardDesignPresenter), viewContainer.GetView<CardRummoliVisualView>());
@@ -116,7 +118,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         hintSystemPresenter = new HintSystemPresenter(new HintSystemModel(storeLanguagePresenter), viewContainer.GetView<HintSystemView>());
         textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
-        playerPeople = new PlayerPeople(0, highlightSystemPresenter, hintSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, bankPresenter, sceneRoot, viewContainer);
+        playerPeople = new PlayerPeople(0, highlightSystemPresenter, hintSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, bankPresenter, storeProgressScorePresenter, sceneRoot, viewContainer);
         playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
         playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
         playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
@@ -142,6 +144,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeBackgroundPresenter.Initialize();
         backgroundVisualPresenter.Initialize();
 
+        storeProgressScorePresenter.Initialize();
         storeLanguagePresenter.Initialize();
         textTranslatePresenter.Initialize();
         storeGameDifficultyPresenter.Initialize();
@@ -249,6 +252,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeBackgroundPresenter?.Dispose();
         backgroundVisualPresenter?.Dispose();
 
+        storeProgressScorePresenter?.Dispose();
         storeCardRummoliPresenter?.Dispose();
         storeLanguagePresenter?.Dispose();
         textTranslatePresenter?.Dispose();

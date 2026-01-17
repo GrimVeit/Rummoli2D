@@ -9,6 +9,7 @@ public class UIMainMenuRoot : UIRoot
     [SerializeField] private BalancePanel_Menu balancePanel;
     [SerializeField] private SettingsPanel_Menu settingsPanel;
     [SerializeField] private LeaderboardPanel_Menu leaderboardPanel;
+    [SerializeField] private ResetGlobalPanel_Menu resetGlobalPanel;
     [SerializeField] private NewGamePanel_Menu newGamePanel;
 
     [Header("Shop")]
@@ -35,6 +36,7 @@ public class UIMainMenuRoot : UIRoot
         balancePanel.Initialize();
         settingsPanel.Initialize();
         leaderboardPanel.Initialize();
+        resetGlobalPanel.Initialize();
         newGamePanel.Initialize();
 
         shopPanel.Initialize();
@@ -60,6 +62,8 @@ public class UIMainMenuRoot : UIRoot
         newGamePanel.OnClickToPlay += HandleClickToPlay_NewGame;
         newGamePanel.OnClickToBack += HandleClickToBack_NewGame;
 
+        resetGlobalPanel.OnClickToBack += HandleClickToBack_ResetProgress;
+        resetGlobalPanel.OnClickToReset += HandleClickToReset_ResetProgress;
         leaderboardPanel.OnClickToBack += HandleClickToBack_Leaderboard;
         rulesPanel.OnClickToBack += HandleClickToBack_Rules;
         profilePanel.OnClickToBack += HandleClickToBack_Profile;
@@ -86,6 +90,8 @@ public class UIMainMenuRoot : UIRoot
         newGamePanel.OnClickToPlay -= HandleClickToPlay_NewGame;
         newGamePanel.OnClickToBack -= HandleClickToBack_NewGame;
 
+        resetGlobalPanel.OnClickToBack -= HandleClickToBack_ResetProgress;
+        resetGlobalPanel.OnClickToReset -= HandleClickToReset_ResetProgress;
         leaderboardPanel.OnClickToBack -= HandleClickToBack_Leaderboard;
         rulesPanel.OnClickToBack -= HandleClickToBack_Rules;
         profilePanel.OnClickToBack -= HandleClickToBack_Profile;
@@ -117,6 +123,7 @@ public class UIMainMenuRoot : UIRoot
         balancePanel.Dispose();
         settingsPanel.Dispose();
         leaderboardPanel.Dispose();
+        resetGlobalPanel.Dispose();
         newGamePanel.Dispose();
 
         shopPanel.Dispose();
@@ -230,6 +237,25 @@ public class UIMainMenuRoot : UIRoot
         if (!settingsPanel.IsActive) return;
 
         CloseOtherPanel(settingsPanel);
+    }
+
+
+
+
+
+
+    public void OpenResetProgressPanel()
+    {
+        if(resetGlobalPanel.IsActive) return;
+
+        OpenOtherPanel(resetGlobalPanel);
+    }
+
+    public void CloseResetProgressPanel()
+    {
+        if (!resetGlobalPanel.IsActive) return;
+
+        CloseOtherPanel(resetGlobalPanel);
     }
 
 
@@ -398,6 +424,28 @@ public class UIMainMenuRoot : UIRoot
     }
 
     #endregion
+
+    #region LeaderboardPanel
+
+    public event Action OnClickToBack_ResetProgress;
+    public event Action OnClickToReset_ResetProgress;
+
+    private void HandleClickToBack_ResetProgress()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToBack_ResetProgress?.Invoke();
+    }
+
+    private void HandleClickToReset_ResetProgress()
+    {
+        _soundProvider.PlayOneShot("Click");
+
+        OnClickToReset_ResetProgress?.Invoke();
+    }
+
+    #endregion
+
 
     #region LeaderboardPanel
 

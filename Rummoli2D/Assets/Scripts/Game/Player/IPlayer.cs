@@ -56,6 +56,7 @@ public interface IPlayerRummoli
 public interface IPlayerMoney
 {
     void SendMoney(int count);
+    void SendProgressScore(int count);
 }
 
 // Составной интерфейс, "для чистоты"

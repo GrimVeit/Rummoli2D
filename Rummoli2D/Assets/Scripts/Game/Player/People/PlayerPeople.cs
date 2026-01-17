@@ -20,6 +20,7 @@ public class PlayerPeople : IPlayer
     private readonly int _playerId;
     private readonly ScorePlayerPresenter _scorePlayerPresenter;
     private readonly IMoneyProvider _moneyProvider;
+    private readonly IStoreProgressScoreProvider _storeProgressScoreProvider;
 
     public PlayerPeople(
         int playerIndex,
@@ -29,6 +30,7 @@ public class PlayerPeople : IPlayer
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         BetSystemPresenter betSystemPresenter,
         IMoneyProvider moneyProvider,
+        IStoreProgressScoreProvider storeProgressScoreProvider,
         UIGameRoot sceneRoot,
         ViewContainer viewContainer)
     {
@@ -40,6 +42,7 @@ public class PlayerPeople : IPlayer
         _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
         _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(viewContainer.GetView<PlayerPeopleInputView>());
         _moneyProvider = moneyProvider;
+        _storeProgressScoreProvider = storeProgressScoreProvider;
 
         _playerPeopleStateMachine = new PlayerPeopleStateMachine
             (playerIndex, 
@@ -241,6 +244,11 @@ public class PlayerPeople : IPlayer
     public void SendMoney(int count)
     {
         _moneyProvider.SendMoney(count);
+    }
+
+    public void SendProgressScore(int count)
+    {
+        _storeProgressScoreProvider.AddScoreProgress(count);
     }
 
     #endregion

@@ -71,6 +71,7 @@ public class ScoreEarnLeaderboardModel
         for (int i = 0; i < sortedPlayers.Count; i++)
         {
             sortedPlayers[i].SendMoney(finalRewards[i]);
+            sortedPlayers[i].SendProgressScore(sortedPlayers[i].TotalEarnedScore);
         }
 
         OnSetCoins?.Invoke(finalRewards);
