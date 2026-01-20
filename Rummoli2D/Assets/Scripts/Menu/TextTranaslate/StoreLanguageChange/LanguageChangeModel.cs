@@ -7,11 +7,13 @@ public class LanguageChangeModel
 {
     private readonly IStoreLanguageProvider _storeTextTranslateProvider;
     private readonly IStoreLanguageInfoProvider _storeTextTranslateInfoProvider;
+    private readonly ISoundProvider _soundProvider;
 
-    public LanguageChangeModel(IStoreLanguageProvider storeTextTranslateProvider, IStoreLanguageInfoProvider storeTextTranslateInfoProvider)
+    public LanguageChangeModel(IStoreLanguageProvider storeTextTranslateProvider, IStoreLanguageInfoProvider storeTextTranslateInfoProvider, ISoundProvider soundProvider)
     {
         _storeTextTranslateProvider = storeTextTranslateProvider;
         _storeTextTranslateInfoProvider = storeTextTranslateInfoProvider;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -26,6 +28,8 @@ public class LanguageChangeModel
 
     public void ChooseLanguage(Language language)
     {
+        _soundProvider.PlayOneShot("Click");
+
         _storeTextTranslateProvider.SetLanguage(language);
     }
 

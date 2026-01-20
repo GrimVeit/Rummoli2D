@@ -11,10 +11,11 @@ public class GameDifficultyVisualModel
     private readonly ITextEffectHideShowActivator _textEffectHideShowActivator;
     private readonly IStoreLanguageInfoProvider _languageInfoProvider;
     private readonly IStoreLanguageListener _languageListener;
+    private readonly ISoundProvider _soundProvider;
 
     private GameDifficulty _currentGameDifficulty;
 
-    public GameDifficultyVisualModel(IStoreGameDifficultyInfoProvider gameDifficultyInfoProvider, IStoreGameDifficultyListener gameDifficultyListener, IStoreGameDifficultyProvider gameDifficultyProvider, IStoreLanguageInfoProvider storeLanguageInfoProvider, ITextEffectHideShowActivator textEffectHideShowActivator, IStoreLanguageListener languageListener)
+    public GameDifficultyVisualModel(IStoreGameDifficultyInfoProvider gameDifficultyInfoProvider, IStoreGameDifficultyListener gameDifficultyListener, IStoreGameDifficultyProvider gameDifficultyProvider, IStoreLanguageInfoProvider storeLanguageInfoProvider, ITextEffectHideShowActivator textEffectHideShowActivator, IStoreLanguageListener languageListener, ISoundProvider soundProvider)
     {
         _gameDifficultyInfoProvider = gameDifficultyInfoProvider;
         _gameDifficultyListener = gameDifficultyListener;
@@ -22,6 +23,7 @@ public class GameDifficultyVisualModel
         _languageInfoProvider = storeLanguageInfoProvider;
         _textEffectHideShowActivator = textEffectHideShowActivator;
         _languageListener = languageListener;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -65,6 +67,11 @@ public class GameDifficultyVisualModel
 
     private void SetNew(GameDifficulty gameDifficulty)
     {
+        if (_currentGameDifficulty != gameDifficulty)
+        {
+            _soundProvider.PlayOneShot("ChooseDifficulty");
+        }
+
         _currentGameDifficulty = gameDifficulty;
         OnSelectGameDifficulty?.Invoke(_currentGameDifficulty);
         _textEffectHideShowActivator.ActivateVisual(0.2f);

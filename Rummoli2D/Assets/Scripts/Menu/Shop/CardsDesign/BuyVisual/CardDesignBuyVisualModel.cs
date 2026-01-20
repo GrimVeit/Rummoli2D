@@ -9,11 +9,12 @@ public class CardDesignBuyVisualModel
     private readonly IStoreCardDesignProvider _storeCardDesignProvider;
     private readonly IStoreCardDesignInfoProvider _storeCardDesignInfoProvider;
     private readonly IMoneyProvider _moneyProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private int _currentDesignIndex = -1;
     private int _currentPrice = 0;
 
-    public CardDesignBuyVisualModel(IStoreCardDesignEventsProvider storeCardDesignEventsProvider, IStoreCardDesignProvider storeCardDesignProvider, IStoreCardDesignInfoProvider storeCardDesignInfoProvider, IMoneyProvider moneyProvider)
+    public CardDesignBuyVisualModel(IStoreCardDesignEventsProvider storeCardDesignEventsProvider, IStoreCardDesignProvider storeCardDesignProvider, IStoreCardDesignInfoProvider storeCardDesignInfoProvider, IMoneyProvider moneyProvider, ISoundProvider soundProvider)
     {
         _storeCardDesignEventsProvider = storeCardDesignEventsProvider;
         _storeCardDesignProvider = storeCardDesignProvider;
@@ -24,6 +25,7 @@ public class CardDesignBuyVisualModel
         _storeCardDesignEventsProvider.OnCloseDesign += Close;
         _storeCardDesignEventsProvider.OnSelectDesign += Select;
         _storeCardDesignEventsProvider.OnDeselectDesign += Deselect;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -64,6 +66,8 @@ public class CardDesignBuyVisualModel
             OnActivateBuy?.Invoke();
         }
 
+        _soundProvider.PlayOneShot("ChooseCardDesign");
+
         _currentDesignIndex = id;
         OnChoose?.Invoke(_currentDesignIndex);
     }
@@ -72,6 +76,8 @@ public class CardDesignBuyVisualModel
     {
         if (_moneyProvider.CanAfford(_currentPrice))
         {
+            _soundProvider.PlayOneShot("Money");
+
             _storeCardDesignProvider.OpenDesign(_currentDesignIndex, () => _storeCardDesignProvider.SelectDesign(_currentDesignIndex));
             _moneyProvider.SendMoney(-_currentPrice);
         }

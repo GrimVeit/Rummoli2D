@@ -29,12 +29,12 @@ public class ShopScrollPresenter : IShopScrollProvider
 
     private void ActivateEvents()
     {
-
+        _view.OnClickLeftRight += _model.ClickLeftRight;
     }
 
     private void DeactivateEvents()
     {
-
+        _view.OnClickLeftRight -= _model.ClickLeftRight;
     }
 
     #region Input

@@ -425,7 +425,7 @@ public class UIMainMenuRoot : UIRoot
 
     #endregion
 
-    #region LeaderboardPanel
+    #region ResetProgressPanel
 
     public event Action OnClickToBack_ResetProgress;
     public event Action OnClickToReset_ResetProgress;
@@ -439,7 +439,7 @@ public class UIMainMenuRoot : UIRoot
 
     private void HandleClickToReset_ResetProgress()
     {
-        _soundProvider.PlayOneShot("Click");
+        _soundProvider.PlayOneShot("Reset");
 
         OnClickToReset_ResetProgress?.Invoke();
     }

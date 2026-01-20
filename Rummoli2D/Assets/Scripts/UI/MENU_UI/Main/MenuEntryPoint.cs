@@ -111,31 +111,31 @@ public class MenuEntryPoint : MonoBehaviour
                 volumeSettingsPresenter = new VolumeSettingsPresenter(new VolumeSettingsModel(soundPresenter, customSliderPresenter_Sound, customSliderPresenter_Music));
 
                 storeLanguagePresenter = new StoreLanguagePresenter(new StoreLanguageModel(PlayerPrefsKeys.LANGUAGE));
-                textTranslateChangePresenter = new LanguageChangePresenter(new LanguageChangeModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<LanguageChangeView>());
+                textTranslateChangePresenter = new LanguageChangePresenter(new LanguageChangeModel(storeLanguagePresenter, storeLanguagePresenter, soundPresenter), viewContainer.GetView<LanguageChangeView>());
                 textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<TextTranslateView>());
                 textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
                 storeProgressScorePresenter = new StoreProgressScorePresenter(new StoreProgressScoreModel(PlayerPrefsKeys.SCORE));
                 progressScoreVisualPresenter = new ProgressScoreVisualPresenter(new ProgressScoreVisualModel(storeProgressScorePresenter, storeProgressScorePresenter), viewContainer.GetView<ProgressScoreVisualView>());
-                resetProgressBarPresenter = new ResetProgressBarPresenter(new ResetProgressBarModel(), viewContainer.GetView<ResetProgressBarView>());
+                resetProgressBarPresenter = new ResetProgressBarPresenter(new ResetProgressBarModel(soundPresenter), viewContainer.GetView<ResetProgressBarView>());
 
                 storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
-                gameDifficultyVisualPresenter = new GameDifficultyVisualPresenter(new GameDifficultyVisualModel(storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeLanguagePresenter, textEffectHideShowPresenter, storeLanguagePresenter), viewContainer.GetView<GameDifficultyVisualView>());
+                gameDifficultyVisualPresenter = new GameDifficultyVisualPresenter(new GameDifficultyVisualModel(storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeGameDifficultyPresenter, storeLanguagePresenter, textEffectHideShowPresenter, storeLanguagePresenter, soundPresenter), viewContainer.GetView<GameDifficultyVisualView>());
 
                 storePlayersCountPresenter = new StorePlayersCountPresenter(new StorePlayersCountModel(PlayerPrefsKeys.PLAYERS_COUNT));
-                playersCountVisualPresenter = new PlayersCountVisualPresenter(new PlayersCountVisualModel(storePlayersCountPresenter, storePlayersCountPresenter, storePlayersCountPresenter), viewContainer.GetView<PlayersCountVisualView>());
+                playersCountVisualPresenter = new PlayersCountVisualPresenter(new PlayersCountVisualModel(storePlayersCountPresenter, storePlayersCountPresenter, storePlayersCountPresenter, soundPresenter), viewContainer.GetView<PlayersCountVisualView>());
 
                 storeRoundCountPresenter = new StoreRoundCountPresenter(new StoreRoundCountModel(PlayerPrefsKeys.ROUND_COUNT));
-                roundCountVisualPresenter = new RoundCountVisualPresenter(new RoundCountVisualModel(storeRoundCountPresenter, storeRoundCountPresenter, storeRoundCountPresenter), viewContainer.GetView<RoundCountVisualView>());
+                roundCountVisualPresenter = new RoundCountVisualPresenter(new RoundCountVisualModel(storeRoundCountPresenter, storeRoundCountPresenter, storeRoundCountPresenter, soundPresenter), viewContainer.GetView<RoundCountVisualView>());
 
-                shopScrollPresenter = new ShopScrollPresenter(new ShopScrollModel(), viewContainer.GetView<ShopScrollView>());
+                shopScrollPresenter = new ShopScrollPresenter(new ShopScrollModel(soundPresenter), viewContainer.GetView<ShopScrollView>());
 
                 storeBackgroundPresenter = new StoreBackgroundPresenter(new StoreBackgroundModel());
-                backgroundBuyVisualPresenter = new BackgroundBuyVisualPresenter(new BackgroundBuyVisualModel(storeBackgroundPresenter, storeBackgroundPresenter, storeBackgroundPresenter, bankPresenter), viewContainer.GetView<BackgroundBuyVisualView>());
+                backgroundBuyVisualPresenter = new BackgroundBuyVisualPresenter(new BackgroundBuyVisualModel(storeBackgroundPresenter, storeBackgroundPresenter, storeBackgroundPresenter, bankPresenter, soundPresenter), viewContainer.GetView<BackgroundBuyVisualView>());
                 backgroundVisualPresenter = new BackgroundVisualPresenter(new BackgroundVisualModel(storeBackgroundPresenter, storeBackgroundPresenter), viewContainer.GetView<BackgroundVisualView>());
 
                 storeCardDesignPresenter = new StoreCardDesignPresenter(new StoreCardDesignModel());
-                cardDesignBuyVisualPresenter = new CardDesignBuyVisualPresenter(new CardDesignBuyVisualModel(storeCardDesignPresenter, storeCardDesignPresenter, storeCardDesignPresenter, bankPresenter), viewContainer.GetView<CardDesignBuyVisualView>());
+                cardDesignBuyVisualPresenter = new CardDesignBuyVisualPresenter(new CardDesignBuyVisualModel(storeCardDesignPresenter, storeCardDesignPresenter, storeCardDesignPresenter, bankPresenter, soundPresenter), viewContainer.GetView<CardDesignBuyVisualView>());
 
                 stateMachine = new StateMachine_Menu
                 (sceneRoot,

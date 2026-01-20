@@ -8,12 +8,16 @@ public class RoundCountVisualModel
     private readonly IStoreRoundCountInfoProvider _roundCountInfoProvider;
     private readonly IStoreRoundCountListener _roundCountListener;
     private readonly IStoreRoundCountProvider _roundCountProvider;
+    private readonly ISoundProvider _soundProvider;
 
-    public RoundCountVisualModel(IStoreRoundCountInfoProvider roundCountInfoProvider, IStoreRoundCountListener roundCountListener, IStoreRoundCountProvider roundCountProvider)
+    private int _currentCount = -1;
+
+    public RoundCountVisualModel(IStoreRoundCountInfoProvider roundCountInfoProvider, IStoreRoundCountListener roundCountListener, IStoreRoundCountProvider roundCountProvider, ISoundProvider soundProvider)
     {
         _roundCountInfoProvider = roundCountInfoProvider;
         _roundCountListener = roundCountListener;
         _roundCountProvider = roundCountProvider;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -44,7 +48,13 @@ public class RoundCountVisualModel
 
     private void ChangeRoundsCount(int count)
     {
-        OnRoundsCountChanged?.Invoke(count);
+        if(_currentCount == count) return;
+
+        _currentCount = count;
+
+        _soundProvider.PlayOneShot("ChooseRoundPlayers");
+
+        OnRoundsCountChanged?.Invoke(_currentCount);
     }
 
     #endregion

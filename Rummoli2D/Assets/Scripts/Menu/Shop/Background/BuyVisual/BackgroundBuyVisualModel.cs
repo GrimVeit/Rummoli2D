@@ -9,11 +9,12 @@ public class BackgroundBuyVisualModel
     private readonly IStoreBackgroundProvider _storeBackgroundProvider;
     private readonly IStoreBackgroundInfoProvider _storeBackgroundInfoProvider;
     private readonly IMoneyProvider _moneyProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private int _currentBackgroundIndex = -1;
     private int _currentPrice = 0;
 
-    public BackgroundBuyVisualModel(IStoreBackgroundEventsProvider storeBackgroundEventsProvider, IStoreBackgroundProvider storeBackgroundProvider, IStoreBackgroundInfoProvider storeBackgroundInfoProvider, IMoneyProvider moneyProvider)
+    public BackgroundBuyVisualModel(IStoreBackgroundEventsProvider storeBackgroundEventsProvider, IStoreBackgroundProvider storeBackgroundProvider, IStoreBackgroundInfoProvider storeBackgroundInfoProvider, IMoneyProvider moneyProvider, ISoundProvider soundProvider)
     {
         _storeBackgroundEventsProvider = storeBackgroundEventsProvider;
         _storeBackgroundProvider = storeBackgroundProvider;
@@ -24,6 +25,7 @@ public class BackgroundBuyVisualModel
         _storeBackgroundEventsProvider.OnCloseBackground += Close;
         _storeBackgroundEventsProvider.OnSelectBackground += Select;
         _storeBackgroundEventsProvider.OnDeselectBackground += Deselect;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -64,6 +66,8 @@ public class BackgroundBuyVisualModel
             OnActivateBuy?.Invoke();
         }
 
+        _soundProvider.PlayOneShot("ChooseBackground");
+
         _currentBackgroundIndex = id;
         OnChoose?.Invoke(_currentBackgroundIndex);
     }
@@ -72,6 +76,7 @@ public class BackgroundBuyVisualModel
     {
         if (_moneyProvider.CanAfford(_currentPrice))
         {
+            _soundProvider.PlayOneShot("Money");
             _storeBackgroundProvider.OpenBackground(_currentBackgroundIndex, () => _storeBackgroundProvider.SelectBackground(_currentBackgroundIndex));
             _moneyProvider.SendMoney(-_currentPrice);
         }
