@@ -32347,8 +32347,8 @@ MonoBehaviour:
   sounds:
   - id: Background
     audioSource: {fileID: 1434129879}
-    audioClip: {fileID: 8300000, guid: 66ef2474ade1cb24289bbf6788c68f9d, type: 3}
-    volume: 0.3
+    audioClip: {fileID: 8300000, guid: 5356f6afa13c3224e89155b3ee01bb6c, type: 3}
+    volume: 1
     pitch: 1
     isLoop: 1
     isPlayAwake: 1
