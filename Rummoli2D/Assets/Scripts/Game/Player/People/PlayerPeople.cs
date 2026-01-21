@@ -37,7 +37,7 @@ public class PlayerPeople : IPlayer
         _playerId = playerIndex;
         _highlightProvider = highlightProvider;
         _nicknamePresenter = new NicknamePresenter(new NicknameModel(PlayerPrefsKeys.NICKNAME, soundProvider), viewContainer.GetView<NicknameView>());
-        _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>("Player"));
+        _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(soundProvider), viewContainer.GetView<ScorePlayerView>("Player"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
         _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(viewContainer.GetView<PlayerPeopleInputView>());
@@ -58,6 +58,7 @@ public class PlayerPeople : IPlayer
             _playerPeopleInputPresenter,
             cardPokerSelectorPlayerProvider,
             hintSystemProvider,
+            soundProvider,
             sceneRoot);
     }
 

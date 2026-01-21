@@ -21,13 +21,14 @@ public class PlayerPeopleStateMachine : IStateMachineProvider
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitActivatorProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         IHintSystemProvider hintSystemProvider,
+        ISoundProvider soundProvider,
         UIGameRoot sceneRoot)
     {
         var stateBet = new PlayerBetState_PlayerPeople(playerIndex, betSystemInteractiveActivatorProvider, scorePlayerProvider, betSystemProvider, betSystemInfoProvider, betSystemEventsProvider, sceneRoot, hintSystemProvider);
         stateBet.OnApplyBet += ApplyBet;
         states[typeof(PlayerBetState_PlayerPeople)] = stateBet;
 
-        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider, sceneRoot, hintSystemProvider);
+        var state5Cards = new Choose5CardsState_PlayerPeople(playerPeopleCardVisualInteractiveProvider, playerPeopleCardVisualEventsProvider, playerPeopleCardVisualProvider, playerPeopleSubmitEventsProvider, playerPeopleSubmitActivatorProvider, cardPokerSelectorPlayerProvider, sceneRoot, hintSystemProvider, soundProvider);
         state5Cards.OnChooseCards += Choose5Cards;
         states[typeof(Choose5CardsState_PlayerPeople)] = state5Cards;
 

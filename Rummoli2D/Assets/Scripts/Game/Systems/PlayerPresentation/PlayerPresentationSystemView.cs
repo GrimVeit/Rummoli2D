@@ -27,6 +27,7 @@ public class PlayerPresentationSystemView : View
             return;
         }
 
+        OnStartShow?.Invoke();
         playerPresentation.Show(speedScalePlayer, OnComplete);
     }
 
@@ -40,6 +41,7 @@ public class PlayerPresentationSystemView : View
             return;
         }
 
+        OnStartHide?.Invoke();
         playerPresentation.Hide(speedScalePlayer, OnComplete);
     }
 
@@ -114,6 +116,13 @@ public class PlayerPresentationSystemView : View
     {
         return playerPresentations.Find(data => data.PlayerId == playerId);
     }
+
+    #region Output
+
+    public event Action OnStartShow;
+    public event Action OnStartHide;
+
+    #endregion
 }
 
 [System.Serializable]

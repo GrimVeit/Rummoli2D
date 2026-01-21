@@ -14,6 +14,28 @@ public class PlayerPresentationSystemPresenter : IPlayerPresentationSystemProvid
         _view = view;
     }
 
+    public void Initialize()
+    {
+        ActivateEvents();
+    }
+
+    public void Dispose()
+    {
+        DeactivateEvents();
+    }
+
+    private void ActivateEvents()
+    {
+        _view.OnStartHide += _model.StartHide;
+        _view.OnStartShow += _model.StartShow;
+    }
+
+    private void DeactivateEvents()
+    {
+        _view.OnStartHide -= _model.StartHide;
+        _view.OnStartShow -= _model.StartShow;
+    }
+
     #region Input
 
     public void Show(int playerId, Action OnComplete = null) => _view.Show(playerId, OnComplete);

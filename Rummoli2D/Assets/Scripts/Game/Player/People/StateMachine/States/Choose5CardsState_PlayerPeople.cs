@@ -14,6 +14,7 @@ public class Choose5CardsState_PlayerPeople : IState
     private readonly UIGameRoot _sceneRoot;
     private readonly List<ICard> _cards = new();
     private readonly IHintSystemProvider _hintSystemProvider;
+    private readonly ISoundProvider _soundProvider;
 
     public Choose5CardsState_PlayerPeople
         (IPlayerPeopleCardVisualInteractiveActivatorProvider playerPeopleCardVisualInteractiveProvider, 
@@ -23,7 +24,8 @@ public class Choose5CardsState_PlayerPeople : IState
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
         ICardPokerSelectorPlayerProvider cardPokerSelectorPlayerProvider,
         UIGameRoot sceneRoot,
-        IHintSystemProvider hintSystemProvider)
+        IHintSystemProvider hintSystemProvider,
+        ISoundProvider soundProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -33,6 +35,7 @@ public class Choose5CardsState_PlayerPeople : IState
         _cardPokerSelectorPlayerProvider = cardPokerSelectorPlayerProvider;
         _sceneRoot = sceneRoot;
         _hintSystemProvider = hintSystemProvider;
+        _soundProvider = soundProvider;
     }
 
     public void EnterState()
@@ -69,11 +72,13 @@ public class Choose5CardsState_PlayerPeople : IState
     {
         if (_cards.Contains(card))
         {
+            _soundProvider.PlayOneShot("DeselectCard");
             _cards.Remove(card);
             _playerPeopleCardVisualProvider.Deselect(card);
         }
         else
         {
+            _soundProvider.PlayOneShot("SelectCard");
             _cards.Add(card);
             _playerPeopleCardVisualProvider.Select(card);
         }

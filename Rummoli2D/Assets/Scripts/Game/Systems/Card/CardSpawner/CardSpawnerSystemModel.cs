@@ -9,14 +9,16 @@ public class CardSpawnerSystemModel
     private readonly CardsSO _cardsSO;
     private readonly IStoreCardDesignInfoProvider _storeCardDesignInfoProvider;
     private readonly List<Theme> _themes = new() { Theme.Standard, Theme.Custom };
+    private readonly ISoundProvider _soundProvider;
 
     private readonly List<ICard> _cards = new();
 
-    public CardSpawnerSystemModel(CardThemesSO cardThemesSO, CardsSO cardsSO, IStoreCardDesignInfoProvider storeCardDesignInfoProvider)
+    public CardSpawnerSystemModel(CardThemesSO cardThemesSO, CardsSO cardsSO, IStoreCardDesignInfoProvider storeCardDesignInfoProvider, ISoundProvider soundProvider)
     {
         _cardThemesSO = cardThemesSO;
         _cardsSO = cardsSO;
         _storeCardDesignInfoProvider = storeCardDesignInfoProvider;
+        _soundProvider = soundProvider;
 
         Reset();
     }
@@ -34,6 +36,8 @@ public class CardSpawnerSystemModel
 
     public void SpawnEnd(int playerId, ICard card)
     {
+        _soundProvider.PlayOneShot("DealCard");
+
         OnSpawnCardEnd?.Invoke(playerId, card);
     }
 

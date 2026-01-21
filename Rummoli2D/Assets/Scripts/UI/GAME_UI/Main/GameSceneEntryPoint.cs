@@ -99,12 +99,12 @@ public class GameSceneEntryPoint : MonoBehaviour
         textTranslatePresenter = new TextTranslatePresenter(new TextTranslateModel(storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<TextTranslateView>());
         storeGameDifficultyPresenter = new StoreGameDifficultyPresenter(new StoreGameDifficultyModel(PlayerPrefsKeys.GAME_DIFFICULTY));
         cardPokerHandSelectorPresenter = new CardPokerHandSelectorPresenter(new CardPokerHandSelectorModel(storeGameDifficultyPresenter));
-        betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5), viewContainer.GetView<BetSystemView>());
+        betSystemPresenter = new BetSystemPresenter(new BetSystemModel(5, soundPresenter), viewContainer.GetView<BetSystemView>());
         highlightSystemPresenter = new HighlightSystemPresenter(viewContainer.GetView<HighlightSystemView>());
-        playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(), viewContainer.GetView<PlayerPresentationSystemView>());
+        playerPresentationSystemPresenter = new PlayerPresentationSystemPresenter(new PlayerPresentationSystemModel(soundPresenter), viewContainer.GetView<PlayerPresentationSystemView>());
         roundPhasePresentationSystemPresenter = new RoundPhasePresentationSystemPresenter(new RoundPhasePresentationSystemModel(), viewContainer.GetView<RoundPhasePresentationSystemView>());
         cardBankPresentationSystemPresenter = new CardBankPresentationSystemPresenter(new CardBankPresentationSystemModel(storeCardDesignPresenter), viewContainer.GetView<CardBankPresentationSystemView>());
-        cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO, storeCardDesignPresenter), viewContainer.GetView<CardSpawnerSystemView>());
+        cardSpawnerSystemPresenter = new CardSpawnerSystemPresenter(new CardSpawnerSystemModel(cardThemesSO, cardsSO, storeCardDesignPresenter, soundPresenter), viewContainer.GetView<CardSpawnerSystemView>());
         playerPokerPresenter = new PlayerPokerPresenter(new PlayerPokerModel(cardPokerHandSelectorPresenter, storeLanguagePresenter), viewContainer.GetView<PlayerPokerView>());
         sectorConditionCheckerPresenter = new SectorConditionCheckerPresenter(new SectorConditionCheckerModel());
         storeRoundCurrentNumberPresenter = new StoreRoundCurrentNumberPresenter(new StoreRoundCurrentNumberModel());
@@ -119,10 +119,10 @@ public class GameSceneEntryPoint : MonoBehaviour
         textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
 
         playerPeople = new PlayerPeople(0, highlightSystemPresenter, hintSystemPresenter, soundPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, bankPresenter, storeProgressScorePresenter, sceneRoot, viewContainer);
-        playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
-        playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
-        playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
-        playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, viewContainer);
+        playerBot_1 = new PlayerBot(1, "Bot_1", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, soundPresenter, viewContainer);
+        playerBot_2 = new PlayerBot(2, "Bot_2", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, soundPresenter, viewContainer);
+        playerBot_3 = new PlayerBot(3, "Bot_3", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, soundPresenter, viewContainer);
+        playerBot_4 = new PlayerBot(4, "Bot_4", highlightSystemPresenter, cardPokerHandSelectorPresenter, betSystemPresenter, storeGameDifficultyPresenter, soundPresenter, viewContainer);
 
         playerSetupPresenter = new PlayerSetupPresenter(new PlayerSetupModel(storePlayersCountPresenter, playerPeople, new List<PlayerBot>() { playerBot_1, playerBot_2, playerBot_3, playerBot_4 }), viewContainer.GetView<PlayerSetupView>());
 
@@ -144,6 +144,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeBackgroundPresenter.Initialize();
         backgroundVisualPresenter.Initialize();
 
+        playerPresentationSystemPresenter.Initialize();
         storeProgressScorePresenter.Initialize();
         storeLanguagePresenter.Initialize();
         textTranslatePresenter.Initialize();
@@ -252,6 +253,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         storeBackgroundPresenter?.Dispose();
         backgroundVisualPresenter?.Dispose();
 
+        playerPresentationSystemPresenter?.Dispose();
         storeProgressScorePresenter?.Dispose();
         storeCardRummoliPresenter?.Dispose();
         storeLanguagePresenter?.Dispose();

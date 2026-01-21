@@ -27,11 +27,12 @@ public class PlayerBot : IPlayer
         ICardPokerSelectorBotProvider cardPlayerPresenter,
         BetSystemPresenter betSystemPresenter,
         IStoreGameDifficultyInfoProvider storeGameDifficultyInfoProvider,
+        ISoundProvider soundProvider,
         ViewContainer viewContainer)
     {
         _playerId = playerIndex;
         _highlightProvider = highlightProvider;
-        _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(), viewContainer.GetView<ScorePlayerView>($"Bot_{_playerId}"));
+        _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(soundProvider), viewContainer.GetView<ScorePlayerView>($"Bot_{_playerId}"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
         _playerBotCardVisualPresenter = new PlayerBotCardVisualPresenter(new PlayerBotCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerBotCardVisualView>($"Bot_{_playerId}"));
         _nicknameBotPresenter = new NicknameBotPresenter(new NicknameBotModel(), viewContainer.GetView<NicknameBotView>($"Bot_{_playerId}"));

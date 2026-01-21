@@ -12,7 +12,9 @@ public class BetSystemModel
 
     private readonly int[] sectorTotals;
 
-    public BetSystemModel(int playersCount)
+    private readonly ISoundProvider _soundProvider;
+
+    public BetSystemModel(int playersCount, ISoundProvider soundProvider)
     {
         playerBets = new Dictionary<int, PlayerBetData>();
         sectorTotals = new int[SECTOR_COUNT];
@@ -21,6 +23,8 @@ public class BetSystemModel
         {
             playerBets.Add(i, new PlayerBetData(i, SECTOR_COUNT));
         }
+
+        _soundProvider = soundProvider;
     }
 
     public void Reset()
@@ -39,6 +43,8 @@ public class BetSystemModel
 
     public void StartAddBet(int playerIndex, int sectorIndex)
     {
+        _soundProvider.PlayOneShot("Coin");
+
         OnStartAddBet?.Invoke(playerIndex, sectorIndex);
     }
 
@@ -54,6 +60,8 @@ public class BetSystemModel
 
     public void ReturnBet(int playerIndex, int score)
     {
+        _soundProvider.PlayOneShot("Coin");
+
         OnReturnBet?.Invoke(playerIndex, score);
     }
 
@@ -85,7 +93,16 @@ public class BetSystemModel
 
     public void ChooseBet(int sectorIndex)
     {
-        StartAddBet(0, sectorIndex);
+        var playerData = playerBets[0];
+
+        if (playerData.CheckAvailableSector(sectorIndex))
+        {
+            StartAddBet(0, sectorIndex);
+        }
+        else
+        {
+            Debug.Log("Already have bet");
+        }
     }
 
     #endregion
