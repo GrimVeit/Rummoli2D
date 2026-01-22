@@ -39,8 +39,8 @@ public class PlayerPeople : IPlayer
         _nicknamePresenter = new NicknamePresenter(new NicknameModel(PlayerPrefsKeys.NICKNAME, soundProvider), viewContainer.GetView<NicknameView>());
         _scorePlayerPresenter = new ScorePlayerPresenter(new ScorePlayerModel(soundProvider), viewContainer.GetView<ScorePlayerView>("Player"));
         _storeCardPlayerPresenter = new StoreCardPlayerPresenter(new StoreCardPlayerModel());
-        _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter), viewContainer.GetView<PlayerPeopleCardVisualView>());
-        _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(viewContainer.GetView<PlayerPeopleInputView>());
+        _playerPeopleCardVisualPresenter = new PlayerPeopleCardVisualPresenter(new PlayerPeopleCardVisualModel(_storeCardPlayerPresenter, soundProvider), viewContainer.GetView<PlayerPeopleCardVisualView>());
+        _playerPeopleInputPresenter = new PlayerPeopleInputPresenter(new PlayerPeopleInputModel(soundProvider), viewContainer.GetView<PlayerPeopleInputView>());
         _moneyProvider = moneyProvider;
         _storeProgressScoreProvider = storeProgressScoreProvider;
 

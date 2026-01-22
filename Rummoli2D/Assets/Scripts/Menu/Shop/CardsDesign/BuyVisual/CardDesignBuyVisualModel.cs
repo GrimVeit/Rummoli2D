@@ -30,7 +30,7 @@ public class CardDesignBuyVisualModel
 
     public void Initialize()
     {
-        ChooseDesign(_storeCardDesignInfoProvider.GetCardDesignIndex(), _currentPrice);
+        ChooseDesign(_storeCardDesignInfoProvider.GetCardDesignIndex(), _currentPrice, false);
     }
 
     public void Dispose()
@@ -43,7 +43,7 @@ public class CardDesignBuyVisualModel
 
 
 
-    public void ChooseDesign(int id, int price)
+    public void ChooseDesign(int id, int price, bool isSoundActivate = true)
     {
         if (_currentDesignIndex == id) return;
 
@@ -66,7 +66,8 @@ public class CardDesignBuyVisualModel
             OnActivateBuy?.Invoke();
         }
 
-        _soundProvider.PlayOneShot("ChooseCardDesign");
+        if (isSoundActivate)
+            _soundProvider.PlayOneShot("ChooseCardDesign");
 
         _currentDesignIndex = id;
         OnChoose?.Invoke(_currentDesignIndex);

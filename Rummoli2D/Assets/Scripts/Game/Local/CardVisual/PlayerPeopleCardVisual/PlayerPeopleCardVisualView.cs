@@ -160,6 +160,8 @@ public class PlayerPeopleCardVisualView : View
         scrollIndex--;
         ClampScroll();
         UpdateHand();
+
+        OnClickToScroll?.Invoke();
     }
 
     private void ScrollRight()
@@ -167,6 +169,8 @@ public class PlayerPeopleCardVisualView : View
         scrollIndex++;
         ClampScroll();
         UpdateHand();
+
+        OnClickToScroll?.Invoke();
     }
 
     private void ClampScroll()
@@ -278,6 +282,7 @@ public class PlayerPeopleCardVisualView : View
     #region Output
 
     public event Action<ICard> OnChooseCard;
+    public event Action OnClickToScroll;
 
     private void ChooseCard(ICard card)
     {

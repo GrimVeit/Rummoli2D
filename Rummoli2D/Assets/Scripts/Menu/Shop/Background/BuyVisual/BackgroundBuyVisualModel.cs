@@ -30,7 +30,7 @@ public class BackgroundBuyVisualModel
 
     public void Initialize()
     {
-        ChooseBackground(_storeBackgroundInfoProvider.GetBackgroundIndex(), _currentPrice);
+        ChooseBackground(_storeBackgroundInfoProvider.GetBackgroundIndex(), _currentPrice, false);
     }
 
     public void Dispose()
@@ -43,7 +43,7 @@ public class BackgroundBuyVisualModel
 
 
 
-    public void ChooseBackground(int id, int price)
+    public void ChooseBackground(int id, int price, bool isSoundActivate = true)
     {
         if(_currentBackgroundIndex == id) return;
 
@@ -66,7 +66,8 @@ public class BackgroundBuyVisualModel
             OnActivateBuy?.Invoke();
         }
 
-        _soundProvider.PlayOneShot("ChooseBackground");
+        if(isSoundActivate)
+           _soundProvider.PlayOneShot("ChooseBackground");
 
         _currentBackgroundIndex = id;
         OnChoose?.Invoke(_currentBackgroundIndex);

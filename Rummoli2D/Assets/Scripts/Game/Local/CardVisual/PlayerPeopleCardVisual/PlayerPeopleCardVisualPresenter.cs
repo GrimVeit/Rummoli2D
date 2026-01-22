@@ -32,6 +32,8 @@ public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiv
 
     private void ActivateEvents()
     {
+        _view.OnClickToScroll += _model.ClickToScroll;
+
         _model.OnAddCard += _view.AddCard;
         _model.OnRemoveCard += _view.RemoveCard;
         _model.OnDeleteCards += _view.DeleteCards;
@@ -39,6 +41,8 @@ public class PlayerPeopleCardVisualPresenter : IPlayerPeopleCardVisualInteractiv
 
     private void DeactivateEvents()
     {
+        _view.OnClickToScroll -= _model.ClickToScroll;
+
         _model.OnAddCard -= _view.AddCard;
         _model.OnRemoveCard -= _view.RemoveCard;
         _model.OnDeleteCards -= _view.DeleteCards;

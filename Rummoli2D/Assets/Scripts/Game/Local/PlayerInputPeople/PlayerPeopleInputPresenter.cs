@@ -5,35 +5,53 @@ using UnityEngine;
 
 public class PlayerPeopleInputPresenter : IPlayerPeopleInputActivatorProvider, IPlayerPeopleInputEventsProvider
 {
+    private readonly PlayerPeopleInputModel _model;
     private readonly PlayerPeopleInputView _view;
 
-    public PlayerPeopleInputPresenter(PlayerPeopleInputView view)
+    public PlayerPeopleInputPresenter(PlayerPeopleInputModel model, PlayerPeopleInputView view)
     {
+        _model = model;
         _view = view;
     }
 
     public void Initialize()
     {
+        ActivateEvents();
+
         _view.Initialize();
     }
 
     public void Dispose()
     {
+        DeactivateEvents();
+
         _view.Dispose();
+    }
+
+    private void ActivateEvents()
+    {
+        _view.OnChoose += _model.Choose;
+        _view.OnPass += _model.Pass;
+    }
+
+    private void DeactivateEvents()
+    {
+        _view.OnChoose -= _model.Choose;
+        _view.OnPass -= _model.Pass;
     }
 
     #region Output
 
     public event Action OnChoose
     {
-        add => _view.OnChoose += value;
-        remove => _view.OnChoose -= value;
+        add => _model.OnChoose += value;
+        remove => _model.OnChoose -= value;
     }
 
     public event Action OnPass
     {
-        add => _view.OnPass += value;
-        remove => _view.OnPass -= value;
+        add => _model.OnPass += value;
+        remove => _model.OnPass -= value;
     }
 
     #endregion

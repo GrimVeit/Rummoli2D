@@ -46,7 +46,8 @@ public class PlayerBot : IPlayer
             cardPlayerPresenter,
             _scorePlayerPresenter,
             _storeCardPlayerPresenter,
-            storeGameDifficultyInfoProvider);
+            storeGameDifficultyInfoProvider,
+            soundProvider);
     }
 
     public void Initialize()

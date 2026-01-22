@@ -141,12 +141,12 @@ public class CardDesignBuyVisualView : View
 
     #region Output
 
-    public event Action<int, int> OnChoose;
+    public event Action<int, int, bool> OnChoose;
     public event Action OnBuy;
 
     private void Choose(int id, int price)
     {
-        OnChoose?.Invoke(id, price);
+        OnChoose?.Invoke(id, price, true);
     }
 
     private void Buy()

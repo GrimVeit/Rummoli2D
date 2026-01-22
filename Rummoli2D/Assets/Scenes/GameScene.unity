@@ -32161,6 +32161,14 @@ MonoBehaviour:
     isLoop: 0
     isPlayAwake: 0
     audioType: 0
+  - id: CardScroll
+    audioSource: {fileID: 585172011}
+    audioClip: {fileID: 8300000, guid: b7cd703bfb101f4489fce92b8bbf68e1, type: 3}
+    volume: 1
+    pitch: 0.95
+    isLoop: 0
+    isPlayAwake: 0
+    audioType: 0
 --- !u!4 &2077423530
 Transform:
   m_ObjectHideFlags: 0

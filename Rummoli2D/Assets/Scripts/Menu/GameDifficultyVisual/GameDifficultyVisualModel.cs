@@ -28,7 +28,10 @@ public class GameDifficultyVisualModel
 
     public void Initialize()
     {
-        SetNew(_gameDifficultyInfoProvider.GameDifficulty);
+        _currentGameDifficulty = _gameDifficultyInfoProvider.GameDifficulty;
+        OnSelectGameDifficulty?.Invoke(_currentGameDifficulty);
+        _textEffectHideShowActivator.ActivateVisual(0.2f);
+        OnChangeDescription?.Invoke(NameLanguageUtility.GetGameInfo_Description(_currentGameDifficulty, _languageInfoProvider.CurrentLanguage));
 
         _gameDifficultyListener.OnGameDifficultyChanged += ChangeGameDifficulty;
         _languageListener.OnChangeLanguage += ChangeLanguage;

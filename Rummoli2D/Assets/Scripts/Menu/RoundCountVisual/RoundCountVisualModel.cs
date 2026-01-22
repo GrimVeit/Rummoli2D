@@ -22,7 +22,8 @@ public class RoundCountVisualModel
 
     public void Initialize()
     {
-        ChangeRoundsCount(_roundCountInfoProvider.RoundsCount);
+        _currentCount = _roundCountInfoProvider.RoundsCount;
+        OnRoundsCountChanged?.Invoke(_currentCount);
 
         _roundCountListener.OnRoundsCountChanged += ChangeRoundsCount;
     }

@@ -22,7 +22,8 @@ public class PlayersCountVisualModel
 
     public void Initialize()
     {
-        ChangePlayersCount(_playersCountInfoProvider.PlayersCount);
+        _currentCount = _playersCountInfoProvider.PlayersCount;
+        OnPlayersCountChanged?.Invoke(_currentCount);
 
         _playersCountListener.OnPlayersCountChanged += ChangePlayersCount;
     }

@@ -6,19 +6,26 @@ using UnityEngine;
 public class PlayerPeopleCardVisualModel
 {
     private readonly IStoreCardEventsProvider _storeCardEventsProvider;
+    private readonly ISoundProvider _soundProvider;
 
-    public PlayerPeopleCardVisualModel(IStoreCardEventsProvider storeCardEventsProvider)
+    public PlayerPeopleCardVisualModel(IStoreCardEventsProvider storeCardEventsProvider, ISoundProvider soundProvider)
     {
         _storeCardEventsProvider = storeCardEventsProvider;
 
         _storeCardEventsProvider.OnAddCard += AddCard;
         _storeCardEventsProvider.OnRemoveCard += RemoveCard;
         _storeCardEventsProvider.OnDeleteCards += DeleteCards;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
     {
 
+    }
+
+    public void ClickToScroll()
+    {
+        _soundProvider.PlayOneShot("CardScroll");
     }
 
     public void Dispose()

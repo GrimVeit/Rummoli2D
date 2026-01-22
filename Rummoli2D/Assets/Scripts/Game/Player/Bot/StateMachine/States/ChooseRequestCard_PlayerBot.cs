@@ -8,6 +8,7 @@ public class ChooseRequestCard_PlayerBot : IState
 {
     private readonly IStoreCardInfoProvider _storeCardInfoProvider;
     private readonly IStoreGameDifficultyInfoProvider _difficultyProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private CardData _currentCardData;
 
@@ -18,10 +19,12 @@ public class ChooseRequestCard_PlayerBot : IState
 
     public ChooseRequestCard_PlayerBot(
         IStoreCardInfoProvider storeCardInfoProvider,
-        IStoreGameDifficultyInfoProvider difficultyProvider)
+        IStoreGameDifficultyInfoProvider difficultyProvider,
+        ISoundProvider soundProvider)
     {
         _storeCardInfoProvider = storeCardInfoProvider;
         _difficultyProvider = difficultyProvider;
+        _soundProvider = soundProvider;
     }
 
     public void EnterState()
@@ -76,6 +79,7 @@ public class ChooseRequestCard_PlayerBot : IState
             yield break;
         }
 
+        _soundProvider.PlayOneShot("DealCard");
         OnCardLaid?.Invoke(cardToPlay);
     }
 

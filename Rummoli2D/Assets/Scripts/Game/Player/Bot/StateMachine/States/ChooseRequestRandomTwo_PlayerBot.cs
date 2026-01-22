@@ -7,6 +7,7 @@ public class ChooseRequestRandomTwo_PlayerBot : IState
 {
     private readonly IStoreCardInfoProvider _storeCardInfoProvider;
     private readonly IStoreGameDifficultyInfoProvider _difficultyProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private const float DECISION_DELAY_MIN = 0.5f;
     private const float DECISION_DELAY_MAX = 1f;
@@ -15,10 +16,12 @@ public class ChooseRequestRandomTwo_PlayerBot : IState
 
     public ChooseRequestRandomTwo_PlayerBot(
         IStoreCardInfoProvider storeCardInfoProvider,
-        IStoreGameDifficultyInfoProvider difficultyProvider)
+        IStoreGameDifficultyInfoProvider difficultyProvider,
+        ISoundProvider soundProvider)
     {
         _storeCardInfoProvider = storeCardInfoProvider;
         _difficultyProvider = difficultyProvider;
+        _soundProvider = soundProvider;
     }
 
     public void EnterState()
@@ -56,6 +59,7 @@ public class ChooseRequestRandomTwo_PlayerBot : IState
         }
 
         var cardToPlay = twoCards[UnityEngine.Random.Range(0, twoCards.Count)];
+        _soundProvider.PlayOneShot("DealCard");
         OnCardLaid?.Invoke(cardToPlay);
         Debug.Log($"[Bot] Laid random two: {cardToPlay.CardSuit} {cardToPlay.CardRank}");
     }
