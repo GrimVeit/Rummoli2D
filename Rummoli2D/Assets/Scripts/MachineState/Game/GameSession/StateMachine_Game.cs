@@ -33,7 +33,8 @@ public class StateMachine_Game : IStateMachineProvider
         IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider,
         IStoreRoundCountInfoProvider storeRoundCountInfoProvider,
         IScoreEarnLeaderboardProvider scoreEarnLeaderboardProvider,
-        IScoreEarnWinnerProvider scoreEarnWinnerProvider)
+        IScoreEarnWinnerProvider scoreEarnWinnerProvider,
+        ISoundProvider soundProvider)
     {
         states[typeof(StartState_Game)] = new StartState_Game(this, scoreEarnLeaderboardProvider, players);
         states[typeof(ShowStartPlayersState_Game)] = new ShowStartPlayersState_Game(this, players, playerPresentationProvider);
@@ -46,15 +47,15 @@ public class StateMachine_Game : IStateMachineProvider
         states[typeof(MovePlayerPeopleToGameState_Game)] = new MovePlayerPeopleToGameState_Game(this, players[0], playerPresentationProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider);
         states[typeof(DealCardsState_Game)] = new DealCardsState_Game(this, players, cardSpawnerSystemProvider, cardSpawnerSystemEventsProvider, cardBankPresentationSystemProvider);
         states[typeof(ChooseCardsPokerState_Game)] = new ChooseCardsPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider);
-        states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider);
+        states[typeof(ResultPokerState_Game)] = new ResultPokerState_Game(this, players, playerPokerProvider, playerPresentationProvider, playerPokerListener, betSystemEventsProvider, betSystemProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider, soundProvider);
         states[typeof(Phase2State_Game)] = new Phase2State_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider);
         states[typeof(StartRummoliState_Game)] = new StartRummoliState_Game(this, players, playerPresentationProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider);
-        states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, betSystemEventsProvider, counterPassPlayerSystemProvider, counterPassPlayerSystemActivatorProvider, rummoliTablePresentationSystemProvider);
+        states[typeof(RummoliState_Game)] = new RummoliState_Game(this, players, storeCardRummoliProvider, cardRummoliVisualActivator, playerHighlightSystemProvider, playerPopupEffectSystemProvider, sectorConditionCheckerProvider, playerPresentationProvider, betSystemProvider, betSystemEventsProvider, counterPassPlayerSystemProvider, counterPassPlayerSystemActivatorProvider, rummoliTablePresentationSystemProvider, soundProvider);
         states[typeof(RoundCompleteState_Game)] = new RoundCompleteState_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, cardBankPresentationSystemProvider, rummoliTablePresentationSystemProvider);
         states[typeof(ReturnPlayersToStartState_Game)] = new ReturnPlayersToStartState_Game(this, players, playerPresentationProvider, storeRoundNumberInfoProvider, cardSpawnerSystemProvider, sectorConditionCheckerProvider, storeCardRummoliProvider, betSystemProvider, playerPokerProvider, rummoliTablePresentationSystemProvider, storeRoundCountInfoProvider);
 
         states[typeof(AllRoundsCompleteState_Game)] = new AllRoundsCompleteState_Game(this, players, playerPresentationProvider, roundPhasePresentationSystemProvider, storeRoundNumberProvider, rummoliTablePresentationSystemProvider);
-        states[typeof(FinishState_Game)] = new FinishState_Game(this, sceneRoot, scoreEarnWinnerProvider);
+        states[typeof(FinishState_Game)] = new FinishState_Game(this, sceneRoot, scoreEarnWinnerProvider, soundProvider);
     }
 
     public void Initialize()

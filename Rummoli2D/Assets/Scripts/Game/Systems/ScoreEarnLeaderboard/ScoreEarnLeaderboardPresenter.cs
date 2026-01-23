@@ -32,6 +32,8 @@ public class ScoreEarnLeaderboardPresenter : IScoreEarnLeaderboardProvider, ISco
 
     private void ActivateEvents()
     {
+        _view.OnSetCoin += _model.SetCoin;
+
         _model.OnClearPlayers += _view.ClearAll;
         _model.OnRegisterPlayers += _view.RegisterPlayers;
         _model.OnAddScore += _view.UpdateScore;
@@ -40,6 +42,8 @@ public class ScoreEarnLeaderboardPresenter : IScoreEarnLeaderboardProvider, ISco
 
     private void DeactivateEvents()
     {
+        _view.OnSetCoin -= _model.SetCoin;
+
         _model.OnClearPlayers -= _view.ClearAll;
         _model.OnRegisterPlayers -= _view.RegisterPlayers;
         _model.OnAddScore -= _view.UpdateScore;

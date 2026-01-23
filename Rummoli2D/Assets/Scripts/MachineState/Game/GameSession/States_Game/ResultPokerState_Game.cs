@@ -12,13 +12,14 @@ public class ResultPokerState_Game : IState
     private readonly IBetSystemProvider _betSystemProvider;
     private readonly ICardBankPresentationSystemProvider _cardBankPresentationSystemProvider;
     private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private readonly List<IPlayer> _players;
     private  int _winnerPlayerId = -1;
 
     private IEnumerator timer;
 
-    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
+    public ResultPokerState_Game(IStateMachineProvider machineProvider, List<IPlayer> players, IPlayerPokerProvider playerPokerProvider, IPlayerPresentationSystemProvider playerPresentationSystemProvider, IPlayerPokerListener playerPokerListener, IBetSystemEventsProvider betSystemEventsProvider, IBetSystemProvider betSystemProvider, ICardBankPresentationSystemProvider cardBankPresentationSystemProvider, IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider, ISoundProvider soundProvider)
     {
         _machineProvider = machineProvider;
         _players = players;
@@ -29,6 +30,7 @@ public class ResultPokerState_Game : IState
         _betSystemProvider = betSystemProvider;
         _cardBankPresentationSystemProvider = cardBankPresentationSystemProvider;
         _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
+        _soundProvider = soundProvider;
     }
 
     public void EnterState()
@@ -79,7 +81,7 @@ public class ResultPokerState_Game : IState
 
         yield return new WaitForSeconds(1);
 
-        _playerPresentationSystemProvider.Show(_winnerPlayerId);
+        _playerPresentationSystemProvider.Show(_winnerPlayerId, () => _soundProvider.PlayOneShot("SmallWin"));
 
         yield return new WaitForSeconds(0.3f);
 

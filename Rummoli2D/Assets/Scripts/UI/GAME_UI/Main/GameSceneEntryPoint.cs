@@ -113,7 +113,7 @@ public class GameSceneEntryPoint : MonoBehaviour
         roundNumberVisualPresenter = new RoundNumberVisualPresenter(new RoundNumberVisualModel(storeRoundCurrentNumberPresenter, storeRoundCurrentNumberPresenter, storeLanguagePresenter, storeLanguagePresenter), viewContainer.GetView<RoundNumberVisualView>());
         counterPassPlayerSystemPresenter = new CounterPassPlayerSystemPresenter(new CounterPassPlayerSystemModel(storeLanguagePresenter), viewContainer.GetView<CounterPassPlayerSystemView>());
         rummoliTablePresentationSystemPresenter = new RummoliTablePresentationSystemPresenter(viewContainer.GetView<RummoliTablePresentationSystemView>());
-        scoreEarnLeaderboardPresenter = new ScoreEarnLeaderboardPresenter(new ScoreEarnLeaderboardModel(storePlayersCountPresenter, storeRoundCountPresenter, storeGameDifficultyPresenter), viewContainer.GetView<ScoreEarnLeaderboardView>());
+        scoreEarnLeaderboardPresenter = new ScoreEarnLeaderboardPresenter(new ScoreEarnLeaderboardModel(storePlayersCountPresenter, storeRoundCountPresenter, storeGameDifficultyPresenter, soundPresenter), viewContainer.GetView<ScoreEarnLeaderboardView>());
         gameInfoPresenter = new GameInfoPresenter(new GameInfoModel(storeGameDifficultyPresenter, storeLanguagePresenter, storeRoundCountPresenter, storePlayersCountPresenter), viewContainer.GetView<GameInfoView>());
         hintSystemPresenter = new HintSystemPresenter(new HintSystemModel(storeLanguagePresenter), viewContainer.GetView<HintSystemView>());
         textEffectHideShowPresenter = new TextEffectHideShowPresenter(viewContainer.GetView<TextEffectHideShowView>());
@@ -197,7 +197,8 @@ public class GameSceneEntryPoint : MonoBehaviour
             rummoliTablePresentationSystemPresenter,
             storeRoundCountPresenter,
             scoreEarnLeaderboardPresenter,
-            scoreEarnLeaderboardPresenter);
+            scoreEarnLeaderboardPresenter,
+            soundPresenter);
 
         stateMachine.Initialize();
         stateMachine_GameFlow.Initialize();

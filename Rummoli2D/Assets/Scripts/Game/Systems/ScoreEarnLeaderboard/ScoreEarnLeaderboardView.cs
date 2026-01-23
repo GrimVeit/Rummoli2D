@@ -13,11 +13,13 @@ public class ScoreEarnLeaderboardView : View
     public void Initialize()
     {
         scoreEarnLeaderboardFinish.OnEndSetCoins += EndSetCoins;
+        scoreEarnLeaderboardFinish.OnSetCoin += SetCoin;
     }
 
     public void Dispose()
     {
         scoreEarnLeaderboardFinish.OnEndSetCoins -= EndSetCoins;
+        scoreEarnLeaderboardFinish.OnSetCoin -= SetCoin;
     }
 
     public void ClearAll()
@@ -46,10 +48,16 @@ public class ScoreEarnLeaderboardView : View
     #region Output
 
     public event Action OnEndSetCoins;
+    public event Action OnSetCoin;
 
     private void EndSetCoins()
     {
         OnEndSetCoins?.Invoke();
+    }
+
+    private void SetCoin()
+    {
+        OnSetCoin?.Invoke();
     }
 
     #endregion
@@ -135,6 +143,7 @@ public class ScoreEarnLeaderboardFinish
             effect.transform.localPosition = transformsEarn[i].localPosition;
             effect.transform.localScale = Vector3.zero;
             effect.transform.DOScale(1, 0.3f).SetEase(Ease.OutBack);
+            OnSetCoin?.Invoke();
 
             yield return new WaitForSeconds(0.2f);
         }
@@ -144,6 +153,7 @@ public class ScoreEarnLeaderboardFinish
 
     #region Output
 
+    public event Action OnSetCoin;
     public event Action OnEndSetCoins;
 
     #endregion

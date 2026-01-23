@@ -19,6 +19,7 @@ public class RummoliState_Game : IState
     private readonly ICounterPassPlayerSystemProvider _counterPassPlayerSystemProvider;
     private readonly ICounterPassPlayerSystemActivatorProvider _counterPassPlayerSystemActivatorProvider;
     private readonly IRummoliTablePresentationSystemProvider _rummoliTablePresentationSystemProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private int _currentPlayerIndex = 0;
     private bool _awaitingRandomTwo = false;
@@ -42,7 +43,8 @@ public class RummoliState_Game : IState
         IBetSystemEventsProvider betSystemEventsProvider,
         ICounterPassPlayerSystemProvider counterPassPlayerSystemProvider,
         ICounterPassPlayerSystemActivatorProvider counterPassPlayerSystemActivatorProvider,
-        IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider)
+        IRummoliTablePresentationSystemProvider rummoliTablePresentationSystemProvider,
+        ISoundProvider soundProvider)
     {
         _stateProvider = stateProvider;
         _players = players;
@@ -57,6 +59,7 @@ public class RummoliState_Game : IState
         _counterPassPlayerSystemProvider = counterPassPlayerSystemProvider;
         _counterPassPlayerSystemActivatorProvider = counterPassPlayerSystemActivatorProvider;
         _rummoliTablePresentationSystemProvider = rummoliTablePresentationSystemProvider;
+        _soundProvider = soundProvider;
     }
 
     #region State
@@ -372,6 +375,8 @@ public class RummoliState_Game : IState
 
             yield return new WaitForSeconds(0.1f);
         }
+
+        _soundProvider.PlayOneShot("SmallWin");
 
         _cardRummoliVisualActivator.DeactivateVisual();
 

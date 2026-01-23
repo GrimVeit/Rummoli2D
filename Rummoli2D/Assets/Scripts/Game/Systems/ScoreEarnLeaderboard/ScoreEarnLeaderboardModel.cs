@@ -11,12 +11,14 @@ public class ScoreEarnLeaderboardModel
     private readonly IStorePlayersCountInfoProvider _playersCountInfoProvider;
     private readonly IStoreRoundCountInfoProvider _roundsInfoProvider;
     private readonly IStoreGameDifficultyInfoProvider _gameDifficultyInfoProvider;
+    private readonly ISoundProvider _soundProvider;
 
-    public ScoreEarnLeaderboardModel(IStorePlayersCountInfoProvider playersCountInfoProvider, IStoreRoundCountInfoProvider roundsInfoProvider, IStoreGameDifficultyInfoProvider gameDifficultyInfoProvider)
+    public ScoreEarnLeaderboardModel(IStorePlayersCountInfoProvider playersCountInfoProvider, IStoreRoundCountInfoProvider roundsInfoProvider, IStoreGameDifficultyInfoProvider gameDifficultyInfoProvider, ISoundProvider soundProvider)
     {
         _playersCountInfoProvider = playersCountInfoProvider;
         _roundsInfoProvider = roundsInfoProvider;
         _gameDifficultyInfoProvider = gameDifficultyInfoProvider;
+        _soundProvider = soundProvider;
     }
 
     public void Initialize()
@@ -27,6 +29,11 @@ public class ScoreEarnLeaderboardModel
     public void Dispose()
     {
         ClearPlayers();
+    }
+
+    public void SetCoin()
+    {
+        _soundProvider.PlayOneShot("Coin");
     }
 
     private void ClearPlayers()
