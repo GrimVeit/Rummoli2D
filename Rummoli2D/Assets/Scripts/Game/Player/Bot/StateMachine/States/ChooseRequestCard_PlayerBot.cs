@@ -57,6 +57,7 @@ public class ChooseRequestCard_PlayerBot : IState
 
         if (_currentCardData == null)
         {
+            _soundProvider.PlayOneShot("CardNotHave");
             OnPass?.Invoke();
             yield break;
         }
@@ -68,12 +69,14 @@ public class ChooseRequestCard_PlayerBot : IState
 
         if (cardToPlay == null)
         {
+            _soundProvider.PlayOneShot("CardNotHave");
             OnPass?.Invoke();
             yield break;
         }
 
         if (ShouldMakeMistake())
         {
+            _soundProvider.PlayOneShot("CardNotHave");
             OnPass?.Invoke();
             Debug.Log($"[Bot] Has card but passed intentionally ({_difficultyProvider.GameDifficulty})");
             yield break;

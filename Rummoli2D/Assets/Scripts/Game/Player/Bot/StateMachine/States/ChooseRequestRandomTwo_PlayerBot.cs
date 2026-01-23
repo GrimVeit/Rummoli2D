@@ -53,6 +53,7 @@ public class ChooseRequestRandomTwo_PlayerBot : IState
 
         if (twoCards.Count == 0 || ShouldMakeMistake())
         {
+            _soundProvider.PlayOneShot("CardNotHave");
             OnPass?.Invoke();
             Debug.Log("[Bot] No two found or passed intentionally");
             yield break;

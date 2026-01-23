@@ -12,6 +12,7 @@ public class ChooseRequestCard_PlayerPeople : IState
     private readonly IPlayerPeopleInputActivatorProvider _playerPeopleInputProvider;
     private readonly UIGameRoot _sceneRoot;
     private readonly IHintSystemProvider _hintSystemProvider;
+    private readonly ISoundProvider _soundProvider;
 
     private ICard _currentChooseCard = null;
     private CardData _currentCardData;
@@ -23,7 +24,8 @@ public class ChooseRequestCard_PlayerPeople : IState
         IPlayerPeopleInputEventsProvider playerPeopleSubmitEventsProvider,
         IPlayerPeopleInputActivatorProvider playerPeopleSubmitProvider,
         UIGameRoot sceneRoot,
-        IHintSystemProvider hintSystemProvider)
+        IHintSystemProvider hintSystemProvider,
+        ISoundProvider soundProvider)
     {
         _playerPeopleCardVisualInteractiveProvider = playerPeopleCardVisualInteractiveProvider;
         _playerPeopleCardVisualEventsProvider = playerPeopleCardVisualEventsProvider;
@@ -32,6 +34,7 @@ public class ChooseRequestCard_PlayerPeople : IState
         _playerPeopleInputProvider = playerPeopleSubmitProvider;
         _sceneRoot = sceneRoot;
         _hintSystemProvider = hintSystemProvider;
+        _soundProvider = soundProvider;
     }
 
     public void EnterState()
@@ -81,6 +84,7 @@ public class ChooseRequestCard_PlayerPeople : IState
 
         if(_currentChooseCard == card)
         {
+            _soundProvider.PlayOneShot("DeselectCard");
             _playerPeopleCardVisualProvider.Deselect(_currentChooseCard);
             _currentChooseCard = null;
             _playerPeopleInputProvider.DeactivateChoose();
@@ -89,6 +93,7 @@ public class ChooseRequestCard_PlayerPeople : IState
 
         if (_currentCardData.Suit == card.CardSuit && _currentCardData.Rank == card.CardRank)
         {
+            _soundProvider.PlayOneShot("SelectCard");
             _currentChooseCard = card;
             _playerPeopleCardVisualProvider.Select(_currentChooseCard);
             _playerPeopleInputProvider.ActivateChoose();

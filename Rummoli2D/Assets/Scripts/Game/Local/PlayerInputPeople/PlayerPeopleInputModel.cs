@@ -14,7 +14,7 @@ public class PlayerPeopleInputModel
 
     public void Pass()
     {
-        _soundProvider.PlayOneShot("Click");
+        _soundProvider.PlayOneShot("CardNotHave");
 
         OnPass?.Invoke();
     }

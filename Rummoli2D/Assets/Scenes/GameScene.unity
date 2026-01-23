@@ -32147,7 +32147,7 @@ MonoBehaviour:
     audioType: 0
   - id: SelectCard
     audioSource: {fileID: 585172011}
-    audioClip: {fileID: 8300000, guid: 44f4c692b374e8445b0de0f7b820deb5, type: 3}
+    audioClip: {fileID: 8300000, guid: 2b0370d32d74b3543a22d364051e182b, type: 3}
     volume: 1
     pitch: 1.05
     isLoop: 0
@@ -32155,7 +32155,7 @@ MonoBehaviour:
     audioType: 0
   - id: DeselectCard
     audioSource: {fileID: 585172011}
-    audioClip: {fileID: 8300000, guid: 44f4c692b374e8445b0de0f7b820deb5, type: 3}
+    audioClip: {fileID: 8300000, guid: 2b0370d32d74b3543a22d364051e182b, type: 3}
     volume: 1
     pitch: 0.95
     isLoop: 0
@@ -32164,6 +32164,14 @@ MonoBehaviour:
   - id: CardScroll
     audioSource: {fileID: 585172011}
     audioClip: {fileID: 8300000, guid: b7cd703bfb101f4489fce92b8bbf68e1, type: 3}
+    volume: 1
+    pitch: 0.95
+    isLoop: 0
+    isPlayAwake: 0
+    audioType: 0
+  - id: CardNotHave
+    audioSource: {fileID: 585172011}
+    audioClip: {fileID: 8300000, guid: 41eacf0b3eb53384d8e8278fc904957a, type: 3}
     volume: 1
     pitch: 0.95
     isLoop: 0
