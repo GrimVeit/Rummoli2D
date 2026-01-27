@@ -115,7 +115,7 @@ public class BackgroundBuyVisualView : View
 
         if (visual == null)
         {
-            Debug.LogWarning("Not found BackgroundVisual by id - " + id);
+            //Debug.LogWarning("Not found BackgroundVisual by id - " + id);
             return;
         }
 
@@ -128,7 +128,7 @@ public class BackgroundBuyVisualView : View
 
         if (visual == null)
         {
-            Debug.LogWarning("Not found BackgroundVisual by id - " + id);
+            //Debug.LogWarning("Not found BackgroundVisual by id - " + id);
             return;
         }
 

@@ -155,40 +155,29 @@ public class MenuEntryPoint : MonoBehaviour
 
                 ActivateEvents();
 
-                Debug.Log("1");
-
                 soundPresenter.Initialize();
                 particleEffectPresenter.Initialize();
                 particleEffectMaterialPresenter.Initialize();
                 particleEffectMaterialPresenter.Activate();
-
-                Debug.Log("1");
-
                 sceneRoot.Initialize();
 
-                Debug.Log("1");
                 bankPresenter.Initialize();
                 nicknamePresenter.Initialize();
 
-                Debug.Log("1");
                 leaderboardPresenter.Initialize();
                 avatarPresenter.Initialize();
                 firebaseAuthenticationPresenter.Initialize();
                 firebaseDatabasePresenter.Initialize();
 
-                Debug.Log("1");
                 avatarVisualPresenter_Main.Initialize();
                 avatarVisualPresenter_Update.Initialize();
 
-                Debug.Log("1");
 
                 rulesVisualPresenter.Initialize();
 
                 customSliderPresenter_Music.Initialize();
                 customSliderPresenter_Sound.Initialize();
                 volumeSettingsPresenter.Initialize();
-
-                Debug.Log("1");
 
                 storeLanguagePresenter.Initialize();
                 textTranslateChangePresenter.Initialize();
@@ -208,8 +197,6 @@ public class MenuEntryPoint : MonoBehaviour
                 roundCountVisualPresenter.Initialize();
 
                 shopScrollPresenter.Initialize();
-
-                Debug.Log("1");
 
                 backgroundBuyVisualPresenter.Initialize();
                 storeBackgroundPresenter.Initialize();

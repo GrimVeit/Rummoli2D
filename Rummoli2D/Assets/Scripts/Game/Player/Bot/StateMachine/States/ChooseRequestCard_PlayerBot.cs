@@ -78,7 +78,7 @@ public class ChooseRequestCard_PlayerBot : IState
         {
             _soundProvider.PlayOneShot("CardNotHave");
             OnPass?.Invoke();
-            Debug.Log($"[Bot] Has card but passed intentionally ({_difficultyProvider.GameDifficulty})");
+            //Debug.Log($"[Bot] Has card but passed intentionally ({_difficultyProvider.GameDifficulty})");
             yield break;
         }
 

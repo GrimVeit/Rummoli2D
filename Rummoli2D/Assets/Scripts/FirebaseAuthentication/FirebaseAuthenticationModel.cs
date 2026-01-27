@@ -93,9 +93,20 @@ public class FirebaseAuthenticationModel
     {
         var task = auth.CreateUserWithEmailAndPasswordAsync(emailTextValue, passwordTextValue);
 
-        yield return new WaitUntil(predicate: () => task.IsCompleted);
-        yield return null;
+        float timeOut = 5f;
+        float startTime = Time.time;
 
+        yield return new WaitUntil(() => task.IsCompleted || (Time.time - startTime) > timeOut);
+
+        if (!task.IsCompleted)
+        {
+            OnSignUpMessage_Action?.Invoke("Network error or timeout while creating account");
+            soundProvider.PlayOneShot("SignUpError");
+            OnSignUpError_Action?.Invoke();
+            yield break;
+        }
+
+        // Проверка на исключения Firebase
         if (task.Exception != null)
         {
             FirebaseException firebaseException = task.Exception.Flatten().InnerExceptions[0] as FirebaseException;
@@ -125,12 +136,12 @@ public class FirebaseAuthenticationModel
             yield break;
         }
 
+        // Успешное создание аккаунта
         Debug.Log("Аккаунт создан");
         soundProvider.PlayOneShot("SignUpSuccess");
         OnSignUpMessage_Action?.Invoke("Success!");
         OnChangeUser?.Invoke(auth.CurrentUser.UserId);
         OnSignUp_Action?.Invoke();
-
     }
 
     private IEnumerator DeleteAuth_Coroutine()

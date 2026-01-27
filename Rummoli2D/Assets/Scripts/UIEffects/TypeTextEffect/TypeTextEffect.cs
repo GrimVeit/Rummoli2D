@@ -31,7 +31,7 @@ public class TypeTextEffect : UIEffect
     {
         ClearAllCoroutines();
         isActive = false;
-        Debug.Log("Activate clean");
+        //Debug.Log("Activate clean");
 
         cleaningText = DisplayCleaningText();
         Coroutines.Start(cleaningText);
@@ -79,7 +79,7 @@ public class TypeTextEffect : UIEffect
     {
         textComponent.text = text;
 
-        Debug.Log(textComponent.text);
+        //Debug.Log(textComponent.text);
 
         for (int i = text.Length; i >= 0; i--)
         {

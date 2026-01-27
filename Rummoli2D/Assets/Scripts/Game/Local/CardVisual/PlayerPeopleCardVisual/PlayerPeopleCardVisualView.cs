@@ -79,7 +79,7 @@ public class PlayerPeopleCardVisualView : View
 
         if(cardVisual == null)
         {
-            Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
+            //Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
             return;
         }
 
@@ -93,7 +93,7 @@ public class PlayerPeopleCardVisualView : View
 
         if (cardVisual == null)
         {
-            Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
+            //Debug.LogWarning($"Not found CardVisual with CardData: Suit - {card.CardSuit} and Rank - {card.CardRank}");
             return;
         }
 

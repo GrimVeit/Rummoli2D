@@ -108,13 +108,13 @@ public class ChooseRequestCard_PlayerPeople : IState
     private void Choose()
     {
         OnCardLaid?.Invoke(_currentChooseCard);
-        Debug.Log("CHOOSE CARD!!!");
+        //Debug.Log("CHOOSE CARD!!!");
     }
 
     private void Pass()
     {
         OnPass?.Invoke();
-        Debug.Log("PASS!!!");
+        //Debug.Log("PASS!!!");
     }
 
     #endregion
